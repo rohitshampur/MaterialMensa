@@ -1,6 +1,7 @@
 package prttstft.de.materialmensa;
 
 import android.os.Build;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +12,7 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
 
     @Override
@@ -20,12 +21,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Adding the toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        if (Build.VERSION.SDK_INT >= 21) {
-            toolbar.setElevation(25);
-        }
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+
+        NavigationDrawerFragment drawerFragment =
+                (NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        drawerFragment.setUp((DrawerLayout)findViewById(R.id.drawer_layout),toolbar);
 
     }
 
