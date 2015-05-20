@@ -79,6 +79,12 @@ public class NavigationDrawerFragment extends android.support.v4.app.Fragment {
         }
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mDrawerToggle.syncState();
+            }
+        });
     }
 
     public static void saveToPreferences(Context context, String preferenceName, String preferenceValue) {
@@ -92,6 +98,5 @@ public class NavigationDrawerFragment extends android.support.v4.app.Fragment {
         SharedPreferences sharedPreferences=context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(preferenceName,defaultValue);
     }
-
 
 }
