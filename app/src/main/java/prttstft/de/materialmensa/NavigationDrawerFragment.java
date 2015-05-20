@@ -19,18 +19,28 @@ import android.view.ViewGroup;
 public class NavigationDrawerFragment extends android.support.v4.app.Fragment {
 
     public static final String PREF_FILE_NAME="testpref";
+    public static final String KEY_USER_LEARNED_DRAWER="user_learned_drawer";
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
 
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
+    private View containerView;
 
 
     public NavigationDrawerFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mUserLearnedDrawer=Boolean.valueOf(readFromPreferences(getActivity(),KEY_USER_LEARNED_DRAWER,"false"));
+        if(savedInstanceState != null) {
+            mFromSavedInstanceState = true;
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,20 +50,33 @@ public class NavigationDrawerFragment extends android.support.v4.app.Fragment {
     }
 
 
-    public void setUp(DrawerLayout drawerLayout, Toolbar toolbar) {
-        mDrawerLayout=drawerLayout;
-        mDrawerToggle=new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close){
+    public void setUp(int fragmentId,DrawerLayout drawerLayout, Toolbar toolbar) {
+        containerView = getActivity().findViewById(fragmentId);
+
+        mDrawerLayout = drawerLayout;
+        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close){
             @Override
             public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
+                super.onDrawerClosed(drawerView);
+                if (!mUserLearnedDrawer) {
+                    mUserLearnedDrawer = true;
+                    saveToPreferences(getActivity(),KEY_USER_LEARNED_DRAWER,mUserLearnedDrawer + "");
+                }
+
+                getActivity().invalidateOptionsMenu();
+
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
+
             }
 
         };
+        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
+            mDrawerLayout.openDrawer(containerView);
+        }
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
