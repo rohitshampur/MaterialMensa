@@ -6,6 +6,7 @@
             <solid android:color="@color/highlight" />
         </shape>
     </item>
+
     <item>
         <shape>
             <solid android:color="@android:color/white" />
