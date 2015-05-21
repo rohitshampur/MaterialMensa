@@ -1,6 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="108dp"
+    android:background="@drawable/custom_bg"
+    android:clickable="true">
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/meal_name"
+        android:minLines="1"
+        android:maxLines="2"
+        android:scrollbars="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/meal_typeicon"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:text="Mandarinencreme mit GebäckGebäckGebäckGebäckGebäckGebäckGebäckGebäck"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/meal_price"
+        android:layout_below="@+id/meal_name"
+        android:minLines="1"
+        android:maxLines="1"
+        android:scrollbars="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/meal_typeicon"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:text="3,5€"
+        android:textColor="@color/primary_text"
+        android:textSize="12sp"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/meal_contents"
+        android:layout_below="@+id/meal_price"
+        android:minLines="1"
+        android:maxLines="1"
+        android:scrollbars="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/meal_typeicon"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:text="(a,f,g,h,i)"
+        android:textColor="@color/secondary_text"
+        android:textSize="12sp"
+        android:textStyle="normal" />
+
+    <ImageView
+        android:id="@+id/meal_typeicon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_meal_picture_dummy" />
+
+</RelativeLayout>
