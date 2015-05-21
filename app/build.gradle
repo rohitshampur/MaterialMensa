@@ -24,4 +24,5 @@ dependencies {
     compile files('libs/commons-io-2.4.jar')
     compile 'com.android.support:appcompat-v7:22.1.+'
     compile 'com.android.support:recyclerview-v7:+'
+    compile 'org.lucasr.dspec:dspec:0.1.+'
 }
