@@ -43,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Populating our data set
         List<data_row_meals> dataItems = new ArrayList<data_row_meals>();
-        dataItems.add(new data_row_meals(1, "Name", "Pri", "pir", "pr", "pri"));
-        dataItems.add(new data_row_meals(2, "Bla", "Tro", "Picky", "lala", "hmm"));
+        dataItems.add(new data_row_meals("Sigir eti börek - Rinderhack im orientalischen Blätterteig", "Price", "Contents"));
+        dataItems.add(new data_row_meals("Big Summer Chickenburger Menü\n" +
+                "Hähnchen | Rucola | Ananas | Mangosauce | Pommes Frites", "Price 2", "Contents 2"));
 
         // Creating new adapter Object
         data_row_meals_adapter myAdapter = new data_row_meals_adapter(dataItems);

@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="108dp"
+    android:layout_height="105dp"
     android:background="@drawable/custom_bg"
-    android:clickable="true">
+    android:clickable="true" >
 
-    <TextView
+   <TextView
         android:id="@+id/meal_name"
         android:minLines="1"
         android:maxLines="2"
@@ -19,8 +19,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/meal_typeicon"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"
         android:text="Sigir eti börek - Rinderhack im orientalischen Blätterteig"
         android:textColor="@color/primary_text"
         android:textSize="16sp"
@@ -38,8 +36,6 @@
         android:layout_marginLeft="16dp"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/meal_typeicon"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"
         android:text="Preis: 1,70 €"
         android:textColor="@color/primary_text"
         android:textSize="12sp"
@@ -58,8 +54,6 @@
         android:layout_marginBottom="10dp"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/meal_typeicon"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"
         android:text="15, A1, A3, A7, A8, A11"
         android:textColor="@color/secondary_text"
         android:textSize="12sp"

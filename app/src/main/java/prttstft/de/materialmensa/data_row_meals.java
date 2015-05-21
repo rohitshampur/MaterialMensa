@@ -5,44 +5,34 @@ package prttstft.de.materialmensa;
  */
 public class data_row_meals {
 
-    int meal_type_id;
-    String name;
-    String price_student;
-    String price_staff;
-    String price_guest;
-    String contents;
+    private String meal_name;
+    private String meal_price;
+    private String meal_contents;
+    //private String meal_typeicon;
 
-    public data_row_meals (int meal_type_id, String name, String price_student, String price_staff, String price_guest, String contents){
-        this.meal_type_id = meal_type_id;
-        this.name = name;
-        this.price_student = price_student;
-        this.price_staff = price_staff;
-        this.price_guest = price_guest;
-        this.contents = contents;
+    public data_row_meals(String meal_name, String meal_price, String meal_contents){
+        // , String meal_typeicon
+        this.meal_name = meal_name;
+        this.meal_price = meal_price;
+        this.meal_contents = meal_contents;
+      //  this.meal_typeicon = meal_typeicon;
     }
 
-    public int getMeal_type_id() {
-        return meal_type_id;
+    public String getMeal_name() {
+        return meal_name;
     }
 
-    public String getName() {
-        return name;
+    public String getMeal_price() {
+        return meal_price;
     }
 
-    public String getPrice_student() {
-        return price_student;
+    public String getMeal_contents() {
+        return meal_contents;
     }
 
-    public String getPrice_staff() {
-        return price_staff;
-    }
+    /*public String getMeal_typeicon() {
+        return meal_contents;
+    }*/
 
-    public String getPrice_guest() {
-        return price_guest;
-    }
-
-    public String getContents() {
-        return contents;
-    }
 
 }
