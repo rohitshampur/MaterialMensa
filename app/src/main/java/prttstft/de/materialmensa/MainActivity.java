@@ -5,9 +5,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -20,15 +25,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         // Adding the toolbar
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
+        // Adding the NavigationDrawer Fragment
         NavigationDrawerFragment drawerFragment =
                 (NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer,(DrawerLayout)findViewById(R.id.drawer_layout),toolbar);
+
+
+        //RecyclerView
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        // Populating our data set
+        List<data_row_meals> dataItems = new ArrayList<data_row_meals>();
+        dataItems.add(new data_row_meals(1, "Name", "Pri", "pir", "pr", "pri"));
+        dataItems.add(new data_row_meals(2, "Bla", "Tro", "Picky", "lala", "hmm"));
+
+        // Creating new adapter Object
+        data_row_meals_adapter myAdapter = new data_row_meals_adapter(dataItems);
+        recyclerView.setAdapter(myAdapter);
+
+        // Setting the layoutManager
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
