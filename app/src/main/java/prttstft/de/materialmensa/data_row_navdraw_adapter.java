@@ -12,9 +12,7 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by Max on 21.05.2015.
- */
+
 public class data_row_navdraw_adapter extends RecyclerView.Adapter<data_row_navdraw_adapter.MyViewHolder> {
 
     List<data_row_navdraw> data = Collections.emptyList();
