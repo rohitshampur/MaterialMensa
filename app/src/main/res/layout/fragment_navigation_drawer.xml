@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--  dspec to validate Material Design -->
 <!--<org.lucasr.dspec.DesignSpecFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -8,38 +9,52 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="prttstft.de.materialmensa.NavigationDrawerFragment"
+    android:layout_height="178dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#EEE"
-    tools:context="prttstft.de.materialmensa.NavigationDrawerFragment" >
+    android:orientation="vertical"
+    android:weightSum="1">
+
     <RelativeLayout
-        android:id="@+id/containerDrawerImage"
+        android:id="@+id/navDrawerHeader"
+        android:background="@drawable/ic_abstract"
+        android:orientation="vertical"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:background="@drawable/ic_abstract" >
+        android:layout_height="140dp" >
 
         <TextView
             android:id="@+id/navDrawerCategory"
             android:text="@string/navDrawerCategory"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/navDrawerLifestyle"
             android:text="@string/navDrawerLifestyle"
             android:layout_below="@+id/navDrawerCategory"
-            android:layout_width="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
 
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawerList"
-        android:layout_below="@+id/containerDrawerImage"
+        android:layout_below="@+id/navDrawerHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        >
+        android:background="#FFFFFF" >
 
     </android.support.v7.widget.RecyclerView>
 

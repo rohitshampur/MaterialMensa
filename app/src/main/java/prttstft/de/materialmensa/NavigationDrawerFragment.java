@@ -132,6 +132,5 @@ public class NavigationDrawerFragment extends android.support.v4.app.Fragment im
     @Override
     public void itemClicked(View view, int position) {
         startActivity(new Intent(getActivity(), MainActivity.class));
-
-    }
+   }
 }

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +36,7 @@ public class data_row_navdraw_adapter extends RecyclerView.Adapter<data_row_navd
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = infalter.inflate(R.layout.custom_row, parent, false);
+        View view = infalter.inflate(R.layout.navdraw_custom_row, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
