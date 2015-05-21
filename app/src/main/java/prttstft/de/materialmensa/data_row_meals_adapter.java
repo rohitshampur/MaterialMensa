@@ -11,9 +11,6 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-/**
- * Created by Max on 21.05.2015.
- */
 
 public class data_row_meals_adapter extends RecyclerView.Adapter {
     private List<data_row_meals> dataItems;
@@ -62,5 +59,3 @@ public class data_row_meals_adapter extends RecyclerView.Adapter {
         }
     }
 }
-
-

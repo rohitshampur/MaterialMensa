@@ -66,7 +66,6 @@ public class data_row_navdraw_adapter extends RecyclerView.Adapter<data_row_navd
             title = (TextView) itemView.findViewById(R.id.listText);
             icon = (ImageView) itemView.findViewById(R.id.listIcon);
 
-
         }
 
         @Override
