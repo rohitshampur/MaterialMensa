@@ -1,3 +1,10 @@
+<!--  dspec to validate Material Design -->
+<!--<org.lucasr.dspec.DesignSpecFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:designSpec="@raw/dspec">-->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -5,27 +12,36 @@
     android:layout_height="match_parent"
     android:background="#EEE"
     tools:context="prttstft.de.materialmensa.NavigationDrawerFragment" >
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/containerDrawerImage"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:background="#FB8C00" >
+        android:background="@drawable/ic_abstract" >
 
-        <ImageView
-            android:layout_width="280dp"
-            android:layout_height="140dp"
-            android:src="@drawable/ic_abstract" />
+        <TextView
+            android:id="@+id/navDrawerCategory"
+            android:text="@string/navDrawerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/navDrawerLifestyle"
+            android:text="@string/navDrawerLifestyle"
+            android:layout_below="@+id/navDrawerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawerList"
         android:layout_below="@+id/containerDrawerImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FB8C00"
+        android:background="#FFFFFF"
         >
 
     </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
+<!-- </org.lucasr.dspec.DesignSpecFrameLayout> -->

@@ -2,6 +2,7 @@ package prttstft.de.materialmensa;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -21,7 +22,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NavigationDrawerFragment extends android.support.v4.app.Fragment {
+public class NavigationDrawerFragment extends android.support.v4.app.Fragment implements data_row_navdraw_adapter.ClickListener{
 
     private RecyclerView recyclerView;
     public static final String PREF_FILE_NAME="testpref";
@@ -57,6 +58,7 @@ public class NavigationDrawerFragment extends android.support.v4.app.Fragment {
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
         adapter = new data_row_navdraw_adapter(getActivity(), getData());
+        adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return layout;
@@ -64,12 +66,15 @@ public class NavigationDrawerFragment extends android.support.v4.app.Fragment {
 
     public static List<data_row_navdraw> getData(){
         List<data_row_navdraw> data = new ArrayList<>();
-        int[] icons = {R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3, R.drawable.ic_ndrawer_icon4};
-        String[] titles={"Item 1","Item 2", "Item 3", "Item 4"};
+        int[] icons = {R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3, R.drawable.ic_ndrawer_icon4, R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3};
+        String[] titles={"Mensa Academica","Mensa Forum", "Caféte", "Grill|Café", "Mensula", "Campus Döner", "One Way Snack"};
         for(int i=0;i<titles.length && i< icons.length;i++) {
+        //for(int i=0;i<100;i++) {
             data_row_navdraw current = new data_row_navdraw();
             current.iconId = icons[i];
+            //current.iconId = icons[i%icons.length];
             current.title = titles[i];
+            //current.title = titles[i%icons.length];
             data.add(current);
         }
         return data;
@@ -113,15 +118,20 @@ public class NavigationDrawerFragment extends android.support.v4.app.Fragment {
     }
 
     public static void saveToPreferences(Context context, String preferenceName, String preferenceValue) {
-        SharedPreferences sharedPrefrences=context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=sharedPrefrences.edit();
+        SharedPreferences sharedPrefrences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPrefrences.edit();
         editor.putString(preferenceName, preferenceValue);
         editor.apply();
     }
 
     public static String readFromPreferences(Context context, String preferenceName, String defaultValue) {
-        SharedPreferences sharedPreferences=context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(preferenceName,defaultValue);
     }
 
+    @Override
+    public void itemClicked(View view, int position) {
+        startActivity(new Intent(getActivity(), MainActivity.class));
+
+    }
 }

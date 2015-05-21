@@ -3,5 +3,6 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/app/src/main/java/prttstft/de/materialmensa/MainActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/prttstft/de/materialmensa/NavigationDrawerFragment.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/prttstft/de/materialmensa/data_row_navdraw_adapter.java" charset="UTF-8" />
   </component>
 </project>
