@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/containerDrawerImage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="140dp"
         android:background="#FB8C00" >
 
         <ImageView
@@ -20,8 +20,10 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawerList"
+        android:layout_below="@+id/containerDrawerImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FB8C00"
         >
 
     </android.support.v7.widget.RecyclerView>
