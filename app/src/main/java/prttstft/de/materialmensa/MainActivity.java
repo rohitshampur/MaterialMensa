@@ -24,7 +24,7 @@ import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 
 
-public class MainActivity extends AppCompatActivity implements MaterialTabListener{
+public class MainActivity extends AppCompatActivity implements MaterialTabListener {
 
     private Toolbar toolbar;
     private MaterialTabHost tabHost;
@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
         // Adding the NavigationDrawer Fragment
         NavigationDrawerFragment drawerFragment =
-                (NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-        drawerFragment.setUp(R.id.fragment_navigation_drawer,(DrawerLayout)findViewById(R.id.drawer_layout),toolbar);
+                (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
         // Adding the Tabs
         tabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
@@ -52,13 +52,13 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-        viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+        viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 tabHost.setSelectedNavigationItem(position);
             }
         });
-        for (int i = 0;i < adapter.getCount();i++) {
+        for (int i = 0; i < adapter.getCount(); i++) {
             tabHost.addTab(
                     tabHost.newTab()
                             .setText(adapter.getPageTitle(i))
@@ -120,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
     public void onTabUnselected(MaterialTab materialTab) {
 
     }
-
 
 
     private class ViewPagerAdapter extends FragmentStatePagerAdapter {
