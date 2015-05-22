@@ -27,7 +27,7 @@ public class MyFragment extends Fragment {
 
         return myFragment;
     }
-
+//
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstaceState) {
         View layout = inflater.inflate(R.layout.fragment_my, container, false);
