@@ -36,6 +36,16 @@ public class MainActivity extends AppCompatActivity {
         drawerFragment.setUp(R.id.fragment_navigation_drawer,(DrawerLayout)findViewById(R.id.drawer_layout),toolbar);
 
 
+
+
+
+
+
+
+
+
+
+/*
         //RecyclerView
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
@@ -51,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Setting the layoutManager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        */
 
     }
 
