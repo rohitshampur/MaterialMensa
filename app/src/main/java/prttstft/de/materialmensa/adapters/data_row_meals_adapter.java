@@ -1,15 +1,15 @@
-package prttstft.de.materialmensa;
+package prttstft.de.materialmensa.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
+
+import prttstft.de.materialmensa.R;
+import prttstft.de.materialmensa.views.data_row_meals;
 
 
 public class data_row_meals_adapter extends RecyclerView.Adapter {

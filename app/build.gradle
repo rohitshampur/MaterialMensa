@@ -26,4 +26,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:+'
     compile 'org.lucasr.dspec:dspec:0.1.+'
     compile 'com.mcxiaoke.volley:library:1.0.+'
+    compile 'it.neokree:MaterialTabs:0.11'
 }

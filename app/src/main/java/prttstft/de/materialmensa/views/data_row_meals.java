@@ -1,4 +1,4 @@
-package prttstft.de.materialmensa;
+package prttstft.de.materialmensa.views;
 
 public class data_row_meals {
 
