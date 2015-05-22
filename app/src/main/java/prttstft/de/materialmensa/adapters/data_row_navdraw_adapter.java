@@ -1,4 +1,4 @@
-package prttstft.de.materialmensa;
+package prttstft.de.materialmensa.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import java.util.Collections;
 import java.util.List;
+
+import prttstft.de.materialmensa.R;
+import prttstft.de.materialmensa.activities.MainActivity;
+import prttstft.de.materialmensa.views.data_row_navdraw;
 
 
 public class data_row_navdraw_adapter extends RecyclerView.Adapter<data_row_navdraw_adapter.MyViewHolder> {

@@ -1,4 +1,4 @@
-package prttstft.de.materialmensa;
+package prttstft.de.materialmensa.fragments;
 
 
 import android.content.Context;
@@ -18,11 +18,16 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import prttstft.de.materialmensa.R;
+import prttstft.de.materialmensa.activities.MainActivity;
+import prttstft.de.materialmensa.views.data_row_navdraw;
+import prttstft.de.materialmensa.adapters.data_row_navdraw_adapter;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NavigationDrawerFragment extends android.support.v4.app.Fragment implements data_row_navdraw_adapter.ClickListener{
+public class NavigationDrawerFragment extends android.support.v4.app.Fragment implements data_row_navdraw_adapter.ClickListener {
 
     private RecyclerView recyclerView;
     public static final String PREF_FILE_NAME="testpref";
