@@ -2,6 +2,7 @@ package prttstft.de.materialmensa.activities;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +15,9 @@ import android.view.MenuItem;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
+import prttstft.de.materialmensa.fragments.FragmentDayAfterTomorrow;
+import prttstft.de.materialmensa.fragments.FragmentToday;
+import prttstft.de.materialmensa.fragments.FragmentTomorrow;
 import prttstft.de.materialmensa.fragments.MyFragment;
 import prttstft.de.materialmensa.R;
 import prttstft.de.materialmensa.fragments.NavigationDrawerFragment;
@@ -24,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
     private Toolbar toolbar;
     private MaterialTabHost tabHost;
     private ViewPager viewPager;
+    public static final int DAYS_TODAY = 0;
+    public static final int DAYS_TOMORROW = 1;
+    public static final int DAYS_DAYAFTERTOMORROW = 2;
 
 
     @Override
@@ -124,9 +131,29 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         }
 
         public Fragment getItem(int num) {
-            MyFragment myFragment = MyFragment.getInstance(num);
-            return myFragment;
+            Fragment fragment = null;
+            switch (num) {
+                case DAYS_TODAY:
+                    fragment = FragmentToday.newInstance("", "");
+                    break;
+                case DAYS_TOMORROW:
+                    fragment = FragmentTomorrow.newInstance("", "");
+                    break;
+                case DAYS_DAYAFTERTOMORROW:
+                    fragment = FragmentDayAfterTomorrow.newInstance("", "");
+                    break;
+            }
+            return fragment;
+
         }
+
+        /*public Fragment getItem(int num) {
+            MyFragment myFragment = MyFragment.getInstance(num);
+            switch (num) {
+
+            }
+            return myFragment;
+        }*/
 
         @Override
         public int getCount() {
