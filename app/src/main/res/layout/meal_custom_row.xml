@@ -61,8 +61,8 @@
 
     <ImageView
         android:id="@+id/meal_typeicon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="54dp"
+        android:layout_height="80dp"
         android:padding="8dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"

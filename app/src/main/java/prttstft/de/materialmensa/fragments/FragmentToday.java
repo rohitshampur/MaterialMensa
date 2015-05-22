@@ -60,6 +60,7 @@ public class FragmentToday extends Fragment {
     private RequestQueue requestQueue;
     public ArrayList<Meal> listMeals = new ArrayList<>();
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private RecyclerView listToday;
 
 
     /**
@@ -181,7 +182,7 @@ public class FragmentToday extends Fragment {
 
             }
 
-            L.T(getActivity(), listMeals.toString());
+            //L.T(getActivity(), listMeals.toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -195,7 +196,12 @@ public class FragmentToday extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_today, container, false);
+//        return inflater.inflate(R.layout.fragment_today, container, false);
+        View view = inflater.inflate(R.layout.fragment_today,container,false);
+        listToday = (RecyclerView) view.findViewById(R.id.listToday);
+        listToday.setLayoutManager(new LinearLayoutManager(getActivity()));
+        // sendJsonRequest();
+        return view;
     }
 
 
