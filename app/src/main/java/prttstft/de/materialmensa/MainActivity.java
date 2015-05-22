@@ -3,6 +3,7 @@ package prttstft.de.materialmensa;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -120,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
     }
 
+
+
     private class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         public ViewPagerAdapter(FragmentManager fragmentManager) {
@@ -127,7 +130,8 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         }
 
         public Fragment getItem(int num) {
-            return MyFragment.getInstance(num);
+            MyFragment myFragment = MyFragment.getInstance(num);
+            return myFragment;
         }
 
         @Override
