@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
-import prttstft.de.materialmensa.fragments.FragmentDayAfterTomorrow;
 import prttstft.de.materialmensa.fragments.FragmentToday;
 import prttstft.de.materialmensa.fragments.FragmentTomorrow;
 import prttstft.de.materialmensa.fragments.MyFragment;
@@ -30,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
     private ViewPager viewPager;
     public static final int DAYS_TODAY = 0;
     public static final int DAYS_TOMORROW = 1;
-    public static final int DAYS_DAYAFTERTOMORROW = 2;
 
 
     @Override
@@ -66,23 +64,6 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
                             .setText(adapter.getPageTitle(i))
                             .setTabListener(this));
         }
-/*
-        //RecyclerView
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
-        // Populating our data set
-        List<data_row_meals> dataItems = new ArrayList<data_row_meals>();
-        dataItems.add(new data_row_meals("Sigir eti börek - Rinderhack im orientalischen Blätterteig", "Price", "Contents"));
-        dataItems.add(new data_row_meals("Big Summer Chickenburger Menü\n" +
-                "Hähnchen | Rucola | Ananas | Mangosauce | Pommes Frites", "Price 2", "Contents 2"));
-
-        // Creating new adapter Object
-        data_row_meals_adapter myAdapter = new data_row_meals_adapter(dataItems);
-        recyclerView.setAdapter(myAdapter);
-
-        // Setting the layoutManager
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-*/
 
     }
 
@@ -139,21 +120,10 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
                 case DAYS_TOMORROW:
                     fragment = FragmentTomorrow.newInstance("", "");
                     break;
-                case DAYS_DAYAFTERTOMORROW:
-                    fragment = FragmentDayAfterTomorrow.newInstance("", "");
-                    break;
             }
             return fragment;
 
         }
-
-        /*public Fragment getItem(int num) {
-            MyFragment myFragment = MyFragment.getInstance(num);
-            switch (num) {
-
-            }
-            return myFragment;
-        }*/
 
         @Override
         public int getCount() {
