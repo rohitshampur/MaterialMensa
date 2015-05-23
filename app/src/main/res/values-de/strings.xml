@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MaterialMensa</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="drawer_close">Schließen</string>
+    <string name="drawer_open">Öffnen</string>
+    <string name="navDrawerCategory">Studierende*r</string>
+    <string name="GlutenFree">Glutenfrei</string>
+    <string name="LactoseFree">Laktosefrei</string>
+    <string name="NoPreference">Keine Präferenz</string>
+    <string name="Pescetarian">Pescetarisch</string>
+    <string name="ReducedCalories">Kalorienreduziert</string>
+    <string name="ReducedFat">Fettreduziert</string>
+    <string name="Vegetarian">Vegetarisch</string>
+    <string name="Vegan">Vegan</string>
+    <string name="action_about">Über</string>
+    <string name="Student">Studierende*r</string>
+    <string name="Staff">Mitarbeiter*in</string>
+    <string name="Guest">Gast</string>
+    <string name="today">Heute</string>
+    <string name="tomorrow">Morgen</string>
+</resources>

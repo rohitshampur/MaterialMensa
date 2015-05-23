@@ -34,7 +34,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="5dp"
-            android:text="@string/navDrawerLifestyle"
+            android:text="@string/Vegetarian"
             android:textSize="14sp"
             android:textStyle="normal" />
 

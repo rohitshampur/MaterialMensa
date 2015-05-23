@@ -14,6 +14,7 @@ import com.android.volley.toolbox.ImageLoader;
 import java.util.ArrayList;
 
 import de.prttstft.materialmensa.R;
+import de.prttstft.materialmensa.fragments.Constants;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 
@@ -50,7 +51,14 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         holder.meal_price.setText(currentMeal.getTitle());
         holder.meal_contents.setText(currentMeal.getReleaseDateTheater().toString());
         String urlThumbnail = currentMeal.getUrlThumbnail();
-        if (urlThumbnail != null) {
+        loadImages(urlThumbnail, holder);
+
+
+
+    }
+
+    private void loadImages(String urlThumbnail, final ViewHolderToday holder) {
+        if (!urlThumbnail.equals(Constants.NA)) {
             imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -63,7 +71,6 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
                 }
             });
         }
-
 
     }
 
