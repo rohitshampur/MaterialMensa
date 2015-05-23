@@ -1,7 +1,6 @@
 package prttstft.de.materialmensa.adapters;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,6 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -40,7 +37,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
     @Override
     public ViewHolderToday onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.meal_custom_row, parent, false);
+        View view = layoutInflater.inflate(R.layout.custom_today, parent, false);
         ViewHolderToday viewHolder = new ViewHolderToday(view);
         return viewHolder;
 
