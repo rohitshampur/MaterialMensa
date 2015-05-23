@@ -6,7 +6,7 @@
     <string name="navDrawerCategory">Studierende*r</string>
     <string name="navDrawerLifestyle">Vegetarisch</string>
 
-<!-- TODO: ADD EVERYSTHING AS STRING & TRANSLATE -->
+    <!-- TODO: ADD EVERYSTHING AS STRING & TRANSLATE -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>

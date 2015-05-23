@@ -7,12 +7,12 @@ public class Meals {
     private String meal_contents;
     //private String meal_typeicon;
 
-    public Meals(String meal_name, String meal_price, String meal_contents){
+    public Meals(String meal_name, String meal_price, String meal_contents) {
         // , String meal_typeicon
         this.meal_name = meal_name;
         this.meal_price = meal_price;
         this.meal_contents = meal_contents;
-      //  this.meal_typeicon = meal_typeicon;
+        //  this.meal_typeicon = meal_typeicon;
     }
 
     public String getMeal_name() {

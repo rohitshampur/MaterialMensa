@@ -19,7 +19,7 @@ import de.prttstft.materialmensa.fragments.FragmentTomorrow;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.fragments.FragmentNavDraw;
 
-//
+
 public class MainActivity extends AppCompatActivity implements MaterialTabListener {
 
     private Toolbar toolbar;

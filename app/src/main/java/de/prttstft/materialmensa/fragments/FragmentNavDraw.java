@@ -30,8 +30,8 @@ import de.prttstft.materialmensa.adapters.NavDrawAdapter;
 public class FragmentNavDraw extends android.support.v4.app.Fragment implements NavDrawAdapter.ClickListener {
 
     private RecyclerView recyclerView;
-    public static final String PREF_FILE_NAME="testpref";
-    public static final String KEY_USER_LEARNED_DRAWER="user_learned_drawer";
+    public static final String PREF_FILE_NAME = "testpref";
+    public static final String KEY_USER_LEARNED_DRAWER = "user_learned_drawer";
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -50,8 +50,8 @@ public class FragmentNavDraw extends android.support.v4.app.Fragment implements 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserLearnedDrawer=Boolean.valueOf(readFromPreferences(getActivity(),KEY_USER_LEARNED_DRAWER,"false"));
-        if(savedInstanceState != null) {
+        mUserLearnedDrawer = Boolean.valueOf(readFromPreferences(getActivity(), KEY_USER_LEARNED_DRAWER, "false"));
+        if (savedInstanceState != null) {
             mFromSavedInstanceState = true;
         }
     }
@@ -69,12 +69,12 @@ public class FragmentNavDraw extends android.support.v4.app.Fragment implements 
         return layout;
     }
 
-    public static List<NavDraw> getData(){
+    public static List<NavDraw> getData() {
         List<NavDraw> data = new ArrayList<>();
         int[] icons = {R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3, R.drawable.ic_ndrawer_icon4, R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3};
-        String[] titles={"Mensa Academica","Mensa Forum", "Caféte", "Grill|Café", "Mensula", "Campus Döner", "One Way Snack"};
-        for(int i=0;i<titles.length && i< icons.length;i++) {
-        //for(int i=0;i<100;i++) {
+        String[] titles = {"Mensa Academica", "Mensa Forum", "Caféte", "Grill|Café", "Mensula", "Campus Döner", "One Way Snack"};
+        for (int i = 0; i < titles.length && i < icons.length; i++) {
+            //for(int i=0;i<100;i++) {
             NavDraw current = new NavDraw();
             current.iconId = icons[i];
             //current.iconId = icons[i%icons.length];
@@ -85,17 +85,17 @@ public class FragmentNavDraw extends android.support.v4.app.Fragment implements 
         return data;
     }
 
-    public void setUp(int fragmentId,DrawerLayout drawerLayout, Toolbar toolbar) {
+    public void setUp(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar) {
         containerView = getActivity().findViewById(fragmentId);
 
         mDrawerLayout = drawerLayout;
-        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close){
+        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 if (!mUserLearnedDrawer) {
                     mUserLearnedDrawer = true;
-                    saveToPreferences(getActivity(),KEY_USER_LEARNED_DRAWER,mUserLearnedDrawer + "");
+                    saveToPreferences(getActivity(), KEY_USER_LEARNED_DRAWER, mUserLearnedDrawer + "");
                 }
 
                 getActivity().invalidateOptionsMenu();
@@ -131,11 +131,11 @@ public class FragmentNavDraw extends android.support.v4.app.Fragment implements 
 
     public static String readFromPreferences(Context context, String preferenceName, String defaultValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(preferenceName,defaultValue);
+        return sharedPreferences.getString(preferenceName, defaultValue);
     }
 
     @Override
     public void itemClicked(View view, int position) {
         startActivity(new Intent(getActivity(), MainActivity.class));
-   }
+    }
 }

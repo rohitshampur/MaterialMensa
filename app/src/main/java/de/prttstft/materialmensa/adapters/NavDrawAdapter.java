@@ -60,7 +60,7 @@ public class NavDrawAdapter extends RecyclerView.Adapter<NavDrawAdapter.MyViewHo
         return data.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title;
         ImageView icon;
 
@@ -75,7 +75,7 @@ public class NavDrawAdapter extends RecyclerView.Adapter<NavDrawAdapter.MyViewHo
         @Override
         public void onClick(View v) {
             context.startActivity(new Intent(context, MainActivity.class));
-            if(clickListener != null) {
+            if (clickListener != null) {
                 clickListener.itemClicked(v, getAdapterPosition());
             }
         }

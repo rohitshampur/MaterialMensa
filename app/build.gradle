@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "de.dprttstft.materialmensa"
+        applicationId "de.prttstft.materialmensa"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
