@@ -12,6 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
@@ -20,6 +23,7 @@ import prttstft.de.materialmensa.fragments.FragmentTomorrow;
 import prttstft.de.materialmensa.fragments.MyFragment;
 import prttstft.de.materialmensa.R;
 import prttstft.de.materialmensa.fragments.NavigationDrawerFragment;
+import prttstft.de.materialmensa.logging.L;
 
 
 public class MainActivity extends AppCompatActivity implements MaterialTabListener {
@@ -65,7 +69,9 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
                             .setTabListener(this));
         }
 
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
