@@ -105,7 +105,7 @@ public class FragmentToday extends Fragment {
 
     private void sendJsonRequest() {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                getRequestUrl(10),
+                getRequestUrl(30),
                 (String) null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -127,6 +127,13 @@ public class FragmentToday extends Fragment {
         ArrayList<Meal> listMeals = new ArrayList<>();
         if (response != null || response.length() > 0) {
 
+            long id = 0;
+            String title = Constants.NA;
+            int audienceScore = -1;
+            String releaseDate = Constants.NA;
+            String synopsis = Constants.NA;
+            String urlThumbnail = Constants.NA;
+
             try {
                 StringBuilder data = new StringBuilder();
                 JSONArray arrayMeals = response.getJSONArray(KEY_MOVIES);
@@ -134,54 +141,70 @@ public class FragmentToday extends Fragment {
 
                     JSONObject currentMeal = arrayMeals.getJSONObject(i);
                     // Get ID
-                    long id = currentMeal.getLong(KEY_ID);
+                    if (currentMeal.has(KEY_ID) && !currentMeal.isNull(KEY_ID)) {
+                        id = currentMeal.getLong(KEY_ID);
+                    }
+
                     // Get Title
-                    String title = currentMeal.getString(KEY_TITLE);
+                    if ((currentMeal.has(KEY_TITLE) && !currentMeal.isNull(KEY_TITLE))) {
+                        title = currentMeal.getString(KEY_TITLE);
+                    }
+
                     // Get Releasedate
-                    JSONObject objectReleaseDates = currentMeal.getJSONObject(KEY_RELEASE_DATES);
-                    String releaseDate = null;
-                    if (objectReleaseDates.has(KEY_THEATER)) {
-                        releaseDate = objectReleaseDates.getString(KEY_THEATER);
-                    } else {
-                        releaseDate = "N/A";
+                    if (currentMeal.has(KEY_RELEASE_DATES) && !currentMeal.isNull(KEY_RELEASE_DATES)) {
+                        JSONObject objectReleaseDates = currentMeal.getJSONObject(KEY_RELEASE_DATES);
+
+                        if (objectReleaseDates != null && objectReleaseDates.has(KEY_THEATER) && !objectReleaseDates.isNull(KEY_THEATER)) {
+                            releaseDate = objectReleaseDates.getString(KEY_THEATER);
+                        }
                     }
 
                     // Get Score
                     JSONObject objectRatings = currentMeal.getJSONObject(KEY_RATINGS);
-                    int audienceScore = -1;
-                    if (objectRatings.has(KEY_AUDIENCE_SCORE)) {
-                        audienceScore = objectRatings.getInt((KEY_AUDIENCE_SCORE));
+
+                    if (objectRatings.has(KEY_AUDIENCE_SCORE) && !objectRatings.isNull(KEY_RATINGS)) {
+                        if (objectRatings != null && objectRatings.has(KEY_AUDIENCE_SCORE) && !objectRatings.isNull(KEY_AUDIENCE_SCORE)) {
+                            audienceScore = objectRatings.getInt((KEY_AUDIENCE_SCORE));
+                        }
                     }
 
                     // Get Synopsis
-                    String synopsis = currentMeal.getString(KEY_SYNOPSIS);
+                    if (currentMeal.has(KEY_SYNOPSIS) && !currentMeal.isNull(KEY_SYNOPSIS)) {
+                        synopsis = currentMeal.getString(KEY_SYNOPSIS);
+                    }
 
                     // Get Thumbnail
-                    JSONObject objectPosters = currentMeal.getJSONObject(KEY_POSTERS);
-                    String urlThumbnail = null;
-                    if (objectPosters.has(KEY_POSTERS)) {
-                        urlThumbnail = objectPosters.getString(KEY_THUMBNAIL);
-                    }
+                    if (currentMeal.has(KEY_POSTERS) && !currentMeal.isNull(KEY_POSTERS)) {
+                        JSONObject objectPosters = currentMeal.getJSONObject(KEY_POSTERS);
+
+                        if (objectPosters != null && objectPosters.has(KEY_THUMBNAIL) && !objectPosters.isNull(KEY_THUMBNAIL)) {
+                            urlThumbnail = objectPosters.getString(KEY_THUMBNAIL);
+                    }}
 
 
                     Meal movie = new Meal();
                     movie.setId(id);
                     movie.setTitle(title);
-                    Date date = dateFormat.parse(releaseDate);
+                    Date date = null;
+                    try {
+                        date = dateFormat.parse(releaseDate);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     movie.setReleaseDateTheater(date);
                     movie.setAudienceScore(audienceScore);
                     movie.setSynopsis(synopsis);
                     movie.setUrlThumbnail(urlThumbnail);
 
-                    listMeals.add(movie);
+                    if (id!=-1 && !title.equals(Constants.NA)) {
+                        listMeals.add(movie);
+                    }
 
                 }
 
                 //L.T(getActivity(), listMeals.toString());
 
             } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
