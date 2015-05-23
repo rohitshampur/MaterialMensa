@@ -47,7 +47,7 @@
     <!-- NavigationDrawer -->
     <fragment
         android:id="@+id/fragment_navigation_drawer"
-        android:name="prttstft.de.materialmensa.fragments.FragmentNavDraw"
+        android:name="de.prttstft.materialmensa.fragments.FragmentNavDraw"
         android:layout_width="@dimen/nav_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"

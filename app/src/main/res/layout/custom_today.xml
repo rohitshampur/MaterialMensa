@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/meal_typeicon"
-        android:text="Sigir eti börek - Rinderhack im orientalischen Blätterteig"
+        android:text="Meal"
         android:textColor="@color/primary_text"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -36,7 +36,7 @@
         android:layout_marginLeft="16dp"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/meal_typeicon"
-        android:text="Preis: 1,70 €"
+        android:text="Price: 1,70 €"
         android:textColor="@color/primary_text"
         android:textSize="12sp"
         android:textStyle="normal" />
@@ -54,7 +54,7 @@
         android:layout_marginBottom="10dp"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/meal_typeicon"
-        android:text="15, A1, A3, A7, A8, A11"
+        android:text="Contents"
         android:textColor="@color/secondary_text"
         android:textSize="12sp"
         android:textStyle="normal" />
