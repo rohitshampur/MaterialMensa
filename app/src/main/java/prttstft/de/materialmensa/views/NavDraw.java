@@ -1,6 +1,6 @@
 package prttstft.de.materialmensa.views;
 
-public class data_row_navdraw {
+public class NavDraw {
     public int iconId;
     public String title;
 }

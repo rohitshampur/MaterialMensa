@@ -1,7 +1,6 @@
 package prttstft.de.materialmensa.fragments;
 
 
-import android.graphics.Movie;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,17 +25,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import prttstft.de.materialmensa.R;
 import prttstft.de.materialmensa.adapters.AdapterToday;
-import prttstft.de.materialmensa.adapters.data_row_meals_adapter;
-import prttstft.de.materialmensa.extras.Keys;
-import prttstft.de.materialmensa.logging.L;
 import prttstft.de.materialmensa.materialmensa.MyApplication;
 import prttstft.de.materialmensa.network.VolleySingleton;
 import prttstft.de.materialmensa.pojo.Meal;
-import prttstft.de.materialmensa.views.data_row_meals;
 
 import static prttstft.de.materialmensa.extras.Keys.EndpointToday.*;
 

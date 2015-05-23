@@ -2,7 +2,6 @@ package prttstft.de.materialmensa.activities;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -12,18 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 import prttstft.de.materialmensa.fragments.FragmentToday;
 import prttstft.de.materialmensa.fragments.FragmentTomorrow;
-import prttstft.de.materialmensa.fragments.MyFragment;
 import prttstft.de.materialmensa.R;
-import prttstft.de.materialmensa.fragments.NavigationDrawerFragment;
-import prttstft.de.materialmensa.logging.L;
+import prttstft.de.materialmensa.fragments.FragmentNavDraw;
 
 
 public class MainActivity extends AppCompatActivity implements MaterialTabListener {
@@ -46,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Adding the NavigationDrawer Fragment
-        NavigationDrawerFragment drawerFragment =
-                (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        FragmentNavDraw drawerFragment =
+                (FragmentNavDraw) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
         // Adding the Tabs

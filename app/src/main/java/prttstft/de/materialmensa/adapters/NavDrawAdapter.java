@@ -14,18 +14,18 @@ import java.util.List;
 
 import prttstft.de.materialmensa.R;
 import prttstft.de.materialmensa.activities.MainActivity;
-import prttstft.de.materialmensa.views.data_row_navdraw;
+import prttstft.de.materialmensa.views.NavDraw;
 
 
-public class data_row_navdraw_adapter extends RecyclerView.Adapter<data_row_navdraw_adapter.MyViewHolder> {
+public class NavDrawAdapter extends RecyclerView.Adapter<NavDrawAdapter.MyViewHolder> {
 
-    List<data_row_navdraw> data = Collections.emptyList();
+    List<NavDraw> data = Collections.emptyList();
     private Context context;
     private ClickListener clickListener;
     private final LayoutInflater infalter;
 
 
-    public data_row_navdraw_adapter(Context context, List<data_row_navdraw> data) {
+    public NavDrawAdapter(Context context, List<NavDraw> data) {
         this.context = context;
         infalter = LayoutInflater.from(context);
         this.data = data;
@@ -45,7 +45,7 @@ public class data_row_navdraw_adapter extends RecyclerView.Adapter<data_row_navd
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        data_row_navdraw current = data.get(position);
+        NavDraw current = data.get(position);
         holder.title.setText(current.title);
         holder.icon.setImageResource(current.iconId);
 

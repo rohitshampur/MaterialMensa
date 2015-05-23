@@ -20,14 +20,14 @@ import java.util.List;
 
 import prttstft.de.materialmensa.R;
 import prttstft.de.materialmensa.activities.MainActivity;
-import prttstft.de.materialmensa.views.data_row_navdraw;
-import prttstft.de.materialmensa.adapters.data_row_navdraw_adapter;
+import prttstft.de.materialmensa.views.NavDraw;
+import prttstft.de.materialmensa.adapters.NavDrawAdapter;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NavigationDrawerFragment extends android.support.v4.app.Fragment implements data_row_navdraw_adapter.ClickListener {
+public class FragmentNavDraw extends android.support.v4.app.Fragment implements NavDrawAdapter.ClickListener {
 
     private RecyclerView recyclerView;
     public static final String PREF_FILE_NAME="testpref";
@@ -36,14 +36,14 @@ public class NavigationDrawerFragment extends android.support.v4.app.Fragment im
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
 
-    private data_row_navdraw_adapter adapter;
+    private NavDrawAdapter adapter;
 
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
     private View containerView;
 
 
-    public NavigationDrawerFragment() {
+    public FragmentNavDraw() {
         // Required empty public constructor
     }
 
@@ -62,20 +62,20 @@ public class NavigationDrawerFragment extends android.support.v4.app.Fragment im
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
-        adapter = new data_row_navdraw_adapter(getActivity(), getData());
+        adapter = new NavDrawAdapter(getActivity(), getData());
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return layout;
     }
 
-    public static List<data_row_navdraw> getData(){
-        List<data_row_navdraw> data = new ArrayList<>();
+    public static List<NavDraw> getData(){
+        List<NavDraw> data = new ArrayList<>();
         int[] icons = {R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3, R.drawable.ic_ndrawer_icon4, R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3};
         String[] titles={"Mensa Academica","Mensa Forum", "Caféte", "Grill|Café", "Mensula", "Campus Döner", "One Way Snack"};
         for(int i=0;i<titles.length && i< icons.length;i++) {
         //for(int i=0;i<100;i++) {
-            data_row_navdraw current = new data_row_navdraw();
+            NavDraw current = new NavDraw();
             current.iconId = icons[i];
             //current.iconId = icons[i%icons.length];
             current.title = titles[i];
