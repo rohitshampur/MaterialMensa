@@ -12,8 +12,8 @@
     <string name="drawer_close">Close</string>
 
     <string-array name="tabs">
-        <item>Tab 1</item>
-        <item>Tab 2</item>
-        <item>Tab 3</item>
+        <item>Today</item>
+        <item>Tomorrow</item>
+        <item>The Day After Tomorrow</item>
     </string-array>
 </resources>

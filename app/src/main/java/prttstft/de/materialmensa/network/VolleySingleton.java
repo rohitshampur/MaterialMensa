@@ -7,7 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
-import prttstft.de.materialmensa.MyApplication;
+import prttstft.de.materialmensa.materialmensa.MyApplication;
 
 /**
  * Created by Max on 22.05.2015.

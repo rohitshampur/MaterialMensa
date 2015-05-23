@@ -2,6 +2,7 @@ package prttstft.de.materialmensa.activities;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -11,12 +12,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
+import prttstft.de.materialmensa.fragments.FragmentToday;
+import prttstft.de.materialmensa.fragments.FragmentTomorrow;
 import prttstft.de.materialmensa.fragments.MyFragment;
 import prttstft.de.materialmensa.R;
 import prttstft.de.materialmensa.fragments.NavigationDrawerFragment;
+import prttstft.de.materialmensa.logging.L;
 
 
 public class MainActivity extends AppCompatActivity implements MaterialTabListener {
@@ -24,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
     private Toolbar toolbar;
     private MaterialTabHost tabHost;
     private ViewPager viewPager;
+    public static final int DAYS_TODAY = 0;
+    public static final int DAYS_TOMORROW = 1;
 
 
     @Override
@@ -59,25 +68,10 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
                             .setText(adapter.getPageTitle(i))
                             .setTabListener(this));
         }
-/*
-        //RecyclerView
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-        // Populating our data set
-        List<data_row_meals> dataItems = new ArrayList<data_row_meals>();
-        dataItems.add(new data_row_meals("Sigir eti börek - Rinderhack im orientalischen Blätterteig", "Price", "Contents"));
-        dataItems.add(new data_row_meals("Big Summer Chickenburger Menü\n" +
-                "Hähnchen | Rucola | Ananas | Mangosauce | Pommes Frites", "Price 2", "Contents 2"));
-
-        // Creating new adapter Object
-        data_row_meals_adapter myAdapter = new data_row_meals_adapter(dataItems);
-        recyclerView.setAdapter(myAdapter);
-
-        // Setting the layoutManager
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-*/
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -124,13 +118,22 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         }
 
         public Fragment getItem(int num) {
-            MyFragment myFragment = MyFragment.getInstance(num);
-            return myFragment;
+            Fragment fragment = null;
+            switch (num) {
+                case DAYS_TODAY:
+                    fragment = FragmentToday.newInstance("", "");
+                    break;
+                case DAYS_TOMORROW:
+                    fragment = FragmentTomorrow.newInstance("", "");
+                    break;
+            }
+            return fragment;
+
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
 
         @Override
