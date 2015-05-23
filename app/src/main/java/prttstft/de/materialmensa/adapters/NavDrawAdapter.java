@@ -35,7 +35,7 @@ public class NavDrawAdapter extends RecyclerView.Adapter<NavDrawAdapter.MyViewHo
         data.remove(position);
         notifyItemRemoved(position);
     }
-
+//
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = infalter.inflate(R.layout.custom_navdraw, parent, false);
