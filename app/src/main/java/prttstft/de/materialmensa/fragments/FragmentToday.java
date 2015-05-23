@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.List;
 
 import prttstft.de.materialmensa.R;
+import prttstft.de.materialmensa.adapters.AdapterToday;
 import prttstft.de.materialmensa.adapters.data_row_meals_adapter;
 import prttstft.de.materialmensa.extras.Keys;
 import prttstft.de.materialmensa.logging.L;
@@ -60,6 +61,7 @@ public class FragmentToday extends Fragment {
     private RequestQueue requestQueue;
     public ArrayList<Meal> listMeals = new ArrayList<>();
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private AdapterToday adapterToday;
     private RecyclerView listToday;
 
 
@@ -114,7 +116,8 @@ public class FragmentToday extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        parseJSONResponse(response);
+                        listMeals = parseJSONResponse(response);
+                        adapterToday.setMealList(listMeals);
 
                     }
                 }, new Response.ErrorListener() {
@@ -126,69 +129,69 @@ public class FragmentToday extends Fragment {
         requestQueue.add(request);
     }
 
-    private void parseJSONResponse(JSONObject response) {
-        if (response == null || response.length() == 0) {
-            return;
-        }
+    private ArrayList<Meal> parseJSONResponse(JSONObject response) {
+        ArrayList<Meal> listMeals = new ArrayList<>();
+        if (response != null || response.length() > 0) {
 
-        try {
-            StringBuilder data = new StringBuilder();
-            JSONArray arrayMeals = response.getJSONArray(KEY_MOVIES);
-            for (int i = 0; i < arrayMeals.length(); i++) {
+            try {
+                StringBuilder data = new StringBuilder();
+                JSONArray arrayMeals = response.getJSONArray(KEY_MOVIES);
+                for (int i = 0; i < arrayMeals.length(); i++) {
 
-                JSONObject currentMeal = arrayMeals.getJSONObject(i);
-                // Get ID
-                long id = currentMeal.getLong(KEY_ID);
-                // Get Title
-                String title = currentMeal.getString(KEY_TITLE);
-                // Get Releasedate
-                JSONObject objectReleaseDates = currentMeal.getJSONObject(KEY_RELEASE_DATES);
-                String  releaseDate = null;
-                if (objectReleaseDates.has(KEY_THEATER)) {
-                    releaseDate = objectReleaseDates.getString(KEY_THEATER);
-                } else {
-                    releaseDate = "N/A";
+                    JSONObject currentMeal = arrayMeals.getJSONObject(i);
+                    // Get ID
+                    long id = currentMeal.getLong(KEY_ID);
+                    // Get Title
+                    String title = currentMeal.getString(KEY_TITLE);
+                    // Get Releasedate
+                    JSONObject objectReleaseDates = currentMeal.getJSONObject(KEY_RELEASE_DATES);
+                    String releaseDate = null;
+                    if (objectReleaseDates.has(KEY_THEATER)) {
+                        releaseDate = objectReleaseDates.getString(KEY_THEATER);
+                    } else {
+                        releaseDate = "N/A";
+                    }
+
+                    // Get Score
+                    JSONObject objectRatings = currentMeal.getJSONObject(KEY_RATINGS);
+                    int audienceScore = -1;
+                    if (objectRatings.has(KEY_AUDIENCE_SCORE)) {
+                        audienceScore = objectRatings.getInt((KEY_AUDIENCE_SCORE));
+                    }
+
+                    // Get Synopsis
+                    String synopsis = currentMeal.getString(KEY_SYNOPSIS);
+
+                    // Get Thumbnail
+                    JSONObject objectPosters = currentMeal.getJSONObject(KEY_POSTERS);
+                    String urlThumbnail = null;
+                    if (objectPosters.has(KEY_POSTERS)) {
+                        urlThumbnail = objectPosters.getString(KEY_THUMBNAIL);
+                    }
+
+
+                    Meal movie = new Meal();
+                    movie.setId(id);
+                    movie.setTitle(title);
+                    Date date = dateFormat.parse(releaseDate);
+                    movie.setReleaseDateTheater(date);
+                    movie.setAudienceScore(audienceScore);
+                    movie.setSynopsis(synopsis);
+                    movie.setUrlThumbnail(urlThumbnail);
+
+                    listMeals.add(movie);
+
                 }
 
-                // Get Score
-                JSONObject objectRatings = currentMeal.getJSONObject(KEY_RATINGS);
-                int audienceScore = -1;
-                if (objectRatings.has(KEY_AUDIENCE_SCORE)) {
-                    audienceScore = objectRatings.getInt((KEY_AUDIENCE_SCORE));
-                }
+                //L.T(getActivity(), listMeals.toString());
 
-                // Get Synopsis
-                String synopsis = currentMeal.getString(KEY_SYNOPSIS);
-
-                // Get Thumbnail
-                JSONObject objectPosters = currentMeal.getJSONObject(KEY_POSTERS);
-                String urlThumbnail = null;
-                if (objectPosters.has(KEY_POSTERS)) {
-                    urlThumbnail = objectPosters.getString(KEY_THUMBNAIL);
-                }
-
-
-
-                Meal movie = new Meal();
-                movie.setId(id);
-                movie.setTitle(title);
-                Date date = dateFormat.parse(releaseDate);
-                movie.setReleaseDateTheater(date);
-                movie.setAudienceScore(audienceScore);
-                movie.setSynopsis(synopsis);
-                movie.setUrlThumbnail(urlThumbnail);
-
-                listMeals.add(movie);
-
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-
-            //L.T(getActivity(), listMeals.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
+        return listMeals;
     }
 
 
@@ -197,10 +200,12 @@ public class FragmentToday extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_today, container, false);
-        View view = inflater.inflate(R.layout.fragment_today,container,false);
+        View view = inflater.inflate(R.layout.fragment_today, container, false);
         listToday = (RecyclerView) view.findViewById(R.id.listToday);
         listToday.setLayoutManager(new LinearLayoutManager(getActivity()));
-        // sendJsonRequest();
+        adapterToday = new AdapterToday(getActivity());
+        listToday.setAdapter(adapterToday);
+        sendJsonRequest();
         return view;
     }
 
