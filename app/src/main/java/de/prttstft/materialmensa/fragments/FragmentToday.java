@@ -8,17 +8,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.software.shell.fab.ActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -57,6 +66,8 @@ public class FragmentToday extends Fragment {
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private AdapterToday adapterToday;
     private RecyclerView listToday;
+    private TextView textVolleyError;
+
 
 
     /**
@@ -110,6 +121,7 @@ public class FragmentToday extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        textVolleyError.setVisibility(View.GONE);
                         listMeals = parseJSONResponse(response);
                         adapterToday.setMealList(listMeals);
 
@@ -117,10 +129,29 @@ public class FragmentToday extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                handleVolleyError(error);
             }
         });
         requestQueue.add(request);
+    }
+
+    private void handleVolleyError(VolleyError error) {
+        textVolleyError.setVisibility(View.VISIBLE);
+        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+            textVolleyError.setText(R.string.error_timeout);
+        } else if (error instanceof AuthFailureError) {
+            textVolleyError.setText(R.string.error_auth_failure);
+
+        } else if (error instanceof ServerError) {
+            textVolleyError.setText(R.string.error_server);
+
+        } else if (error instanceof NetworkError) {
+            textVolleyError.setText(R.string.error_network);
+
+        } else if (error instanceof ParseError) {
+            textVolleyError.setText(R.string.error_parse);
+        }
+
     }
 
     private ArrayList<Meal> parseJSONResponse(JSONObject response) {
@@ -179,7 +210,8 @@ public class FragmentToday extends Fragment {
 
                         if (objectPosters != null && objectPosters.has(KEY_THUMBNAIL) && !objectPosters.isNull(KEY_THUMBNAIL)) {
                             urlThumbnail = objectPosters.getString(KEY_THUMBNAIL);
-                    }}
+                        }
+                    }
 
 
                     Meal movie = new Meal();
@@ -196,7 +228,7 @@ public class FragmentToday extends Fragment {
                     movie.setSynopsis(synopsis);
                     movie.setUrlThumbnail(urlThumbnail);
 
-                    if (id!=-1 && !title.equals(Constants.NA)) {
+                    if (id != -1 && !title.equals(Constants.NA)) {
                         listMeals.add(movie);
                     }
 
@@ -218,11 +250,13 @@ public class FragmentToday extends Fragment {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_today, container, false);
         View view = inflater.inflate(R.layout.fragment_today, container, false);
+        textVolleyError = (TextView) view.findViewById(R.id.textVolleyError);
         listToday = (RecyclerView) view.findViewById(R.id.listToday);
         listToday.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapterToday = new AdapterToday(getActivity());
         listToday.setAdapter(adapterToday);
         sendJsonRequest();
+
         return view;
     }
 

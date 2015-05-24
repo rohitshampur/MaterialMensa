@@ -43,6 +43,14 @@
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
 
+    // Volley Errors
+    <!-- TODO Improve Volley Error Messages -->
+    <string name="error_timeout">A connection could not be established</string>
+    <string name="error_auth_failure">Authentification error</string>
+    <string name="error_server">Server Error</string>
+    <string name="error_network">Network Error</string>
+    <string name="error_parse">parse error</string>
+
     <string-array name="tabs">
         <item>@string/today</item>
         <item>@string/tomorrow</item>

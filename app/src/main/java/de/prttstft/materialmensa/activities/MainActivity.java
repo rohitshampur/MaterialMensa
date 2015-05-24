@@ -1,15 +1,19 @@
 package de.prttstft.materialmensa.activities;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.software.shell.fab.ActionButton;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
     private Toolbar toolbar;
     private MaterialTabHost tabHost;
     private ViewPager viewPager;
+    private ActionButton actionButton;
     public static final int DAYS_TODAY = 0;
     public static final int DAYS_TOMORROW = 1;
 
@@ -38,6 +43,10 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
+        // Adding the Floating Action Button
+        initActionButton();
 
         // Adding the NavigationDrawer Fragment
         FragmentDrawer drawerFragment =
@@ -66,6 +75,11 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
     }
 
+    public void initActionButton() {
+        actionButton = (ActionButton) findViewById(R.id.action_button);
+        actionButton.show();
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
