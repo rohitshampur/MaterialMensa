@@ -19,4 +19,6 @@
     <string name="Guest">Gast</string>
     <string name="today">Heute</string>
     <string name="tomorrow">Morgen</string>
+    <string name="DefaultLifestyle">Stelle deinen Lifestyle in den Einstellungen ein</string>
+    <string name="DefaultPersonCategory">Stelle deine Personengruppe in den Einstellungen ein</string>
 </resources>
