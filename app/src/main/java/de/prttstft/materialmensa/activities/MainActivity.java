@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
         // Adding the Floating Action Button
         initActionButton();
+        actionButton.show();
 
         // Adding the NavigationDrawer Fragment
         FragmentDrawer drawerFragment =
@@ -75,10 +76,23 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
     }
 
+    // This initiates the Floating Action Button
     public void initActionButton() {
         actionButton = (ActionButton) findViewById(R.id.action_button);
-        actionButton.show();
+    }
 
+    // This hides the Floating Action Button
+    public void hideActionButton() {
+        if (actionButton.isShown()) {
+            actionButton.hide();
+        }
+    }
+
+    // This shows the Floating Action Button
+    public void showActionButton() {
+        if (!actionButton.isShown()) {
+            actionButton.show();
+        }
     }
 
     @Override

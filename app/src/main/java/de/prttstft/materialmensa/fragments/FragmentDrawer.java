@@ -95,6 +95,7 @@ public class FragmentDrawer extends android.support.v4.app.Fragment implements A
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerClosed(drawerView);
+                ((MainActivity)getActivity()).hideActionButton();
 
                 if (!mUserLearnedDrawer) {
                     mUserLearnedDrawer = true;
@@ -108,6 +109,7 @@ public class FragmentDrawer extends android.support.v4.app.Fragment implements A
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
+                ((MainActivity)getActivity()).showActionButton();
 
             }
 
