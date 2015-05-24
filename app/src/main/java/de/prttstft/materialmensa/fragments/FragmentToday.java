@@ -127,17 +127,17 @@ public class FragmentToday extends Fragment {
         ArrayList<Meal> listMeals = new ArrayList<>();
         if (response != null || response.length() > 0) {
 
-            long id = 0;
-            String title = Constants.NA;
-            int audienceScore = -1;
-            String releaseDate = Constants.NA;
-            String synopsis = Constants.NA;
-            String urlThumbnail = Constants.NA;
-
             try {
                 StringBuilder data = new StringBuilder();
                 JSONArray arrayMeals = response.getJSONArray(KEY_MOVIES);
                 for (int i = 0; i < arrayMeals.length(); i++) {
+
+                    long id = 0;
+                    String title = Constants.NA;
+                    int audienceScore = -1;
+                    String releaseDate = Constants.NA;
+                    String synopsis = Constants.NA;
+                    String urlThumbnail = Constants.NA;
 
                     JSONObject currentMeal = arrayMeals.getJSONObject(i);
                     // Get ID
