@@ -36,11 +36,11 @@
     <!-- NavigationDrawer -->
     <fragment
         android:id="@+id/fragment_navigation_drawer"
-        android:name="de.prttstft.materialmensa.fragments.FragmentNavDraw"
+        android:name="de.prttstft.materialmensa.fragments.FragmentDrawer"
         android:layout_width="@dimen/nav_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:layout="@layout/fragment_navdraw"
-        tools:layout="@layout/fragment_navdraw" />
+        app:layout="@layout/fragment_drawer"
+        tools:layout="@layout/fragment_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

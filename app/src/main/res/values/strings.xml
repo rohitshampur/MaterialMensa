@@ -25,8 +25,8 @@
         </string-array>
 
         // Person Category and Lifestyles
-        <string name="DefaultPersonCategory">Set your person group in the prefrences</string>
-        <string name="DefaultLifestyle">Set your lifestyle in the prefrences</string>
+        <string name="DefaultPersonCategory">Set your person group in the preferences</string>
+        <string name="DefaultLifestyle">Set your lifestyle in the preferences</string>
         <string name="Student">Student</string>
         <string name="Staff">Staff</string>
         <string name="Guest">Guest</string>

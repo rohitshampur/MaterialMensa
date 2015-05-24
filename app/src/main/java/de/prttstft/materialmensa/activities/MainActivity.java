@@ -17,7 +17,7 @@ import it.neokree.materialtabs.MaterialTabListener;
 import de.prttstft.materialmensa.fragments.FragmentToday;
 import de.prttstft.materialmensa.fragments.FragmentTomorrow;
 import de.prttstft.materialmensa.R;
-import de.prttstft.materialmensa.fragments.FragmentNavDraw;
+import de.prttstft.materialmensa.fragments.FragmentDrawer;
 
 
 public class MainActivity extends AppCompatActivity implements MaterialTabListener {
@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Adding the NavigationDrawer Fragment
-        FragmentNavDraw drawerFragment =
-                (FragmentNavDraw) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        FragmentDrawer drawerFragment =
+                (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
         // Adding the Tabs

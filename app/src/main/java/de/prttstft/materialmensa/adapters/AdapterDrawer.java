@@ -17,7 +17,7 @@ import de.prttstft.materialmensa.activities.MainActivity;
 import de.prttstft.materialmensa.views.NavDraw;
 
 
-public class AdapterNavDraw extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapterDrawer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     List<NavDraw> data = Collections.emptyList();
     private static final int TYPE_HEADER=0;
@@ -27,7 +27,7 @@ public class AdapterNavDraw extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final LayoutInflater infalter;
 
 
-    public AdapterNavDraw(Context context, List<NavDraw> data) {
+    public AdapterDrawer(Context context, List<NavDraw> data) {
         this.context = context;
         infalter = LayoutInflater.from(context);
         this.data = data;
@@ -41,13 +41,13 @@ public class AdapterNavDraw extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER){
-            View view = infalter.inflate(R.layout.drawer_header, parent, false);
+            View view = infalter.inflate(R.layout.fragment_drawer_header, parent, false);
             HeaderHolder holder = new HeaderHolder(view);
             return holder;
 
 
         } else {
-            View view = infalter.inflate(R.layout.custom_navdraw, parent, false);
+            View view = infalter.inflate(R.layout.fragment_drawer_items, parent, false);
             ItemHolder holder = new ItemHolder(view);
             return holder;
 
