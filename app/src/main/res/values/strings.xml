@@ -34,4 +34,16 @@
         <item>@string/today</item>
         <item>@string/tomorrow</item>
     </string-array>
+
+    // Navigation Drawer
+    <string-array name="drawer_tabs">
+        <item>Mensa Academica</item>
+        <item>Mensa Forum</item>
+        <item>Caféte</item>
+        <item>Grill|Café</item>
+        <item>Mensula</item>
+        <item>Campus Döner</item>
+        <item>One Way Snack</item>
+     </string-array>
+
 </resources>

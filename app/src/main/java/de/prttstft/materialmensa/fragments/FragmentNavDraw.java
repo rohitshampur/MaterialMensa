@@ -66,15 +66,16 @@ public class FragmentNavDraw extends android.support.v4.app.Fragment implements 
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         return layout;
     }
 
-    public static List<NavDraw> getData() {
+    public List<NavDraw> getData() {
         List<NavDraw> data = new ArrayList<>();
         int[] icons = {R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3, R.drawable.ic_ndrawer_icon4, R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3};
-        String[] titles = {"Mensa Academica", "Mensa Forum", "Caféte", "Grill|Café", "Mensula", "Campus Döner", "One Way Snack"};
-        for (int i = 0; i < titles.length && i < icons.length; i++) {
-            //for(int i=0;i<100;i++) {
+        String[] titles = getResources().getStringArray(R.array.drawer_tabs);
+        for (int i = 0; i < titles.length; i++) {
+            // && i < icons.length
             NavDraw current = new NavDraw();
             current.iconId = icons[i];
             //current.iconId = icons[i%icons.length];
