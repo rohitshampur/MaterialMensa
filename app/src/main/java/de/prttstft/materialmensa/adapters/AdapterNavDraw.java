@@ -72,7 +72,7 @@ public class AdapterNavDraw extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         } else {
             ItemHolder itemHolder = (ItemHolder) holder;
-            NavDraw current = data.get(position);
+            NavDraw current = data.get(position-1);
             itemHolder.title.setText(current.title);
             itemHolder.icon.setImageResource(current.iconId);
         }
@@ -85,7 +85,7 @@ public class AdapterNavDraw extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return data.size()+1;
     }
 
     class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

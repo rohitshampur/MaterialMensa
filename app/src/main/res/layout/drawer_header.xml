@@ -1,13 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:orientation="horizontal">
 
-    <TextView
+    <com.pkmmte.view.CircularImageView
+        android:id="@+id/image_profile"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:src="@mipmap/ic_launcher"
+        app:border="false"
+        app:shadow="false" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Header"
-        style="@style/TextAppearance.AppCompat.Large"
-        android:padding="16dp"/>
+        android:layout_below="@+id/image_profile"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:paddingLeft="16dp">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/person_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="@string/DefaultPersonCategory"
+            android:textColor="@color/primary_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+
+            />
+
+        <TextView
+            android:id="@+id/lifestyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="8dp"
+            android:text="@string/DefaultLifestyle"
+            android:textColor="@color/secondary_text"
+            android:textSize="14sp"
+            android:textStyle="normal"
+
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
