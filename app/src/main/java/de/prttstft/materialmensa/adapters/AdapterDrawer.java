@@ -33,11 +33,6 @@ public class AdapterDrawer extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.data = data;
     }
 
-    public void delete(int position) {
-        data.remove(position);
-        notifyItemRemoved(position);
-    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER){
@@ -102,7 +97,7 @@ public class AdapterDrawer extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         @Override
         public void onClick(View v) {
-            context.startActivity(new Intent(context, MainActivity.class));
+           // context.startActivity(new Intent(context, MainActivity.class));
             if (clickListener != null) {
                 clickListener.itemClicked(v, getAdapterPosition());
             }

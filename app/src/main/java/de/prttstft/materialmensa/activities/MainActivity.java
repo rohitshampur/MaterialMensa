@@ -1,17 +1,18 @@
 package de.prttstft.materialmensa.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.software.shell.fab.ActionButton;
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
     public static final int DAYS_TOMORROW = 1;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         // Adding the Floating Action Button
         initActionButton();
         actionButton.show();
+
+
 
         // Adding the NavigationDrawer Fragment
         FragmentDrawer drawerFragment =
@@ -79,6 +83,21 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
     // This initiates the Floating Action Button
     public void initActionButton() {
         actionButton = (ActionButton) findViewById(R.id.action_button);
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               shareIntent();
+            }
+        });
+    }
+
+    private void shareIntent() {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        // Build String to Share
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Willst du mit mir Mensen? Heute gibt es ");
+        shareIntent.setType("text/plain");
+        startActivity(Intent.createChooser(shareIntent, "Share"));
     }
 
     // This hides the Floating Action Button
@@ -93,6 +112,13 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         if (!actionButton.isShown()) {
             actionButton.show();
         }
+    }
+
+    // This Hides the Floating Action Button on the first start of the Application
+    public void hideActionButtonOnFirstStart() {
+        actionButton.removeHideAnimation();
+        actionButton.hide();
+        actionButton.setHideAnimation(ActionButton.Animations.FADE_OUT);
     }
 
     @Override

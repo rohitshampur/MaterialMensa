@@ -28,4 +28,5 @@ dependencies {
     compile 'it.neokree:MaterialTabs:0.11'
     compile 'com.pkmmte.view:circularimageview:1.1'
     compile 'com.github.shell-software:fab:1.1.0'
+    compile 'com.bignerdranch.android:recyclerview-multiselect:+'
 }

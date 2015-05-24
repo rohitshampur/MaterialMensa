@@ -2,6 +2,7 @@ package de.prttstft.materialmensa.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.fragments.Constants;
@@ -25,6 +27,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
     private VolleySingleton volleySingleton;
     private ImageLoader imageLoader;
 
+
     public AdapterToday(Context context) {
         layoutInflater = LayoutInflater.from(context);
         volleySingleton = VolleySingleton.getInstance();
@@ -34,6 +37,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
     public void setMealList(ArrayList<Meal> listMeals) {
         this.listMeals = listMeals;
         notifyItemRangeChanged(0, listMeals.size());
+
     }
 
     @Override
@@ -44,6 +48,9 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
     }
 
+
+
+
     @Override
     public void onBindViewHolder(final ViewHolderToday holder, int position) {
         Meal currentMeal = listMeals.get(position);
@@ -53,9 +60,8 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         String urlThumbnail = currentMeal.getUrlThumbnail();
         loadImages(urlThumbnail, holder);
 
-
-
     }
+
 
     private void loadImages(String urlThumbnail, final ViewHolderToday holder) {
         if (!urlThumbnail.equals(Constants.NA)) {

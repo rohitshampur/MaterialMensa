@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -22,6 +23,8 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.bignerdranch.android.multiselector.MultiSelector;
+import com.bignerdranch.android.multiselector.SwappingHolder;
 import com.software.shell.fab.ActionButton;
 
 import org.json.JSONArray;
@@ -37,6 +40,7 @@ import java.util.Date;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.adapters.AdapterToday;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.materialmensa.MyApplication;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
@@ -67,7 +71,6 @@ public class FragmentToday extends Fragment {
     private AdapterToday adapterToday;
     private RecyclerView listToday;
     private TextView textVolleyError;
-
 
 
     /**
@@ -244,6 +247,7 @@ public class FragmentToday extends Fragment {
     }
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -259,6 +263,9 @@ public class FragmentToday extends Fragment {
 
         return view;
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 }

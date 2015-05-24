@@ -115,7 +115,9 @@ public class FragmentDrawer extends android.support.v4.app.Fragment implements A
 
         };
         if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
+            ((MainActivity)getActivity()).hideActionButtonOnFirstStart();
             mDrawerLayout.openDrawer(containerView);
+
         }
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -142,5 +144,31 @@ public class FragmentDrawer extends android.support.v4.app.Fragment implements A
     @Override
     public void itemClicked(View view, int position) {
         startActivity(new Intent(getActivity(), MainActivity.class));
+        /*
+         if(position==0){
+            Log.d("something","did something");
+            startActivity(new Intent(getActivity(), FirstActivity.class));
+        }else{
+            Log.d("nothing", "do nothing");
+        }
+        if(position==1){
+            Log.d("something","did something");
+            startActivity(new Intent(getActivity(), SecondActivity.class));
+        }else{
+            Log.d("nothing", "do nothing");
+        }
+        if(position==2){
+            Log.d("something","did something");
+            startActivity(new Intent(getActivity(), ThirdActivity.class));
+        }else{
+            Log.d("nothing", "do nothing");
+        }
+        if(position==3){
+            Log.d("something","did something");
+            startActivity(new Intent(getActivity(), FourthActivity.class));
+        }else{
+            Log.d("nothing", "do nothing");
+        }
+         */
     }
 }
