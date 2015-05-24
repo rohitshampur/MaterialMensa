@@ -17,15 +17,17 @@ import de.prttstft.materialmensa.activities.MainActivity;
 import de.prttstft.materialmensa.views.NavDraw;
 
 
-public class NavDrawAdapter extends RecyclerView.Adapter<NavDrawAdapter.MyViewHolder> {
+public class AdapterNavDraw extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     List<NavDraw> data = Collections.emptyList();
+    private static final int TYPE_HEADER=0;
+    private static final int TYPE_ITEM=1;
     private Context context;
     private ClickListener clickListener;
     private final LayoutInflater infalter;
 
 
-    public NavDrawAdapter(Context context, List<NavDraw> data) {
+    public AdapterNavDraw(Context context, List<NavDraw> data) {
         this.context = context;
         infalter = LayoutInflater.from(context);
         this.data = data;
@@ -37,17 +39,43 @@ public class NavDrawAdapter extends RecyclerView.Adapter<NavDrawAdapter.MyViewHo
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = infalter.inflate(R.layout.custom_navdraw, parent, false);
-        MyViewHolder holder = new MyViewHolder(view);
-        return holder;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_HEADER){
+            View view = infalter.inflate(R.layout.drawer_header, parent, false);
+            HeaderHolder holder = new HeaderHolder(view);
+            return holder;
+
+
+        } else {
+            View view = infalter.inflate(R.layout.custom_navdraw, parent, false);
+            ItemHolder holder = new ItemHolder(view);
+            return holder;
+
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        NavDraw current = data.get(position);
-        holder.title.setText(current.title);
-        holder.icon.setImageResource(current.iconId);
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return TYPE_HEADER;
+
+        } else {
+            return TYPE_ITEM;
+
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof HeaderHolder) {
+
+        } else {
+            ItemHolder itemHolder = (ItemHolder) holder;
+            NavDraw current = data.get(position);
+            itemHolder.title.setText(current.title);
+            itemHolder.icon.setImageResource(current.iconId);
+        }
 
     }
 
@@ -60,11 +88,11 @@ public class NavDrawAdapter extends RecyclerView.Adapter<NavDrawAdapter.MyViewHo
         return data.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title;
         ImageView icon;
 
-        public MyViewHolder(View itemView) {
+        public ItemHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             title = (TextView) itemView.findViewById(R.id.listText);
@@ -79,6 +107,20 @@ public class NavDrawAdapter extends RecyclerView.Adapter<NavDrawAdapter.MyViewHo
                 clickListener.itemClicked(v, getAdapterPosition());
             }
         }
+    }
+
+    class HeaderHolder extends RecyclerView.ViewHolder {
+        TextView title;
+        ImageView icon;
+
+        public HeaderHolder(View itemView) {
+            super(itemView);
+
+
+
+        }
+
+
     }
 
     public interface ClickListener {

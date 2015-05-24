@@ -21,13 +21,13 @@ import java.util.List;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.MainActivity;
 import de.prttstft.materialmensa.views.NavDraw;
-import de.prttstft.materialmensa.adapters.NavDrawAdapter;
+import de.prttstft.materialmensa.adapters.AdapterNavDraw;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentNavDraw extends android.support.v4.app.Fragment implements NavDrawAdapter.ClickListener {
+public class FragmentNavDraw extends android.support.v4.app.Fragment implements AdapterNavDraw.ClickListener {
 
     private RecyclerView recyclerView;
     public static final String PREF_FILE_NAME = "testpref";
@@ -36,7 +36,7 @@ public class FragmentNavDraw extends android.support.v4.app.Fragment implements 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
 
-    private NavDrawAdapter adapter;
+    private AdapterNavDraw adapter;
 
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
@@ -62,7 +62,7 @@ public class FragmentNavDraw extends android.support.v4.app.Fragment implements 
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_navdraw, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
-        adapter = new NavDrawAdapter(getActivity(), getData());
+        adapter = new AdapterNavDraw(getActivity(), getData());
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
