@@ -1,7 +1,9 @@
 package de.prttstft.materialmensa.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -12,9 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-
-import com.software.shell.fab.ActionButton;
 
 import de.prttstft.materialmensa.logging.L;
 import it.neokree.materialtabs.MaterialTab;
@@ -109,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, PreferencesActivity.class);
+            startActivity(i);
             return true;
         }
 
@@ -117,6 +118,14 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
     public void onDrawerItemClicked(int index) {
         //mPager.setCurrentItem(index);
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+
+        String lifestyleChoice = SP.getString("prefLifestyle","0");
+        if (lifestyleChoice.equals("1")) {
+            L.t(this, "YOU HAVE NO PREFERENCE");
+        }
+
         if (index == 0 && mensaID != 0) {
             mensaID = 0;
             Intent refresh = new Intent(this, MainActivity.class);

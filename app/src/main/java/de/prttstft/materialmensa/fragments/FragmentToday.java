@@ -23,16 +23,10 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.bignerdranch.android.multiselector.MultiSelector;
-import com.bignerdranch.android.multiselector.SwappingHolder;
-import com.software.shell.fab.ActionButton;
-
-import junit.framework.Test;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -44,7 +38,6 @@ import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.MainActivity;
 import de.prttstft.materialmensa.adapters.AdapterToday;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
-import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.materialmensa.MyApplication;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
@@ -105,7 +98,7 @@ public class FragmentToday extends Fragment {
     }
 
     public static String getRequestUrl(int limit) {
-        if( MainActivity.mensaID == 1) {
+        if (MainActivity.mensaID == 1) {
             return UrlEndpoints.URL_UPCOMING
                     + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_QUESTION
                     + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_API_KEY + MyApplication.API_KEY_KOTTEN_TOMATOES
@@ -261,7 +254,6 @@ public class FragmentToday extends Fragment {
                     }
 
                 }
-
 
 
             } catch (JSONException e) {

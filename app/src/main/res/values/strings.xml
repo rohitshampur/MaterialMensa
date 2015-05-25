@@ -5,8 +5,8 @@
     <string name="app_name">MaterialMensa</string>
 
     // Menu
-    <string name="action_settings">Settings</string>
     <string name="action_about">About</string>
+    <string name="action_settings">Settings</string>
 
     // Navigation Drawer
     <string name="drawer_open">Open</string>
@@ -24,9 +24,33 @@
             <item>One Way Snack</item>
         </string-array>
 
-        // Person Category and Lifestyles
-        <string name="DefaultPersonCategory">Set your person group in the preferences</string>
-        <string name="DefaultLifestyle">Set your lifestyle in the preferences</string>
+        // Tabs
+        <string name="today">Today</string>
+        <string name="tomorrow">Tomorrow</string>
+
+        <string-array name="tabs">
+            <item>@string/today</item>
+            <item>@string/tomorrow</item>
+        </string-array>
+
+    // Errors
+        // Volley
+        <string name="error_timeout">A network connection could not be established</string>
+        <string name="error_auth_failure">A network connection could not be established</string>
+        <string name="error_server">A network connection could not be established</string>
+        <string name="error_network">A network connection could not be established</string>
+        <string name="error_parse">Could not parse data</string>
+
+
+    // Preferences
+        // Strings
+        <string name="PersonCategory">Person Category</string>
+        <string name="Lifestyle">Lifestyle</string>
+        <string name="DefaultPersonCategory">Set your person category in the preferences</string>
+        <string name="DefaultLifestyle">Set your Lifestyle in the preferences</string>
+        <string name="PersonCategorySummary">You can select your person category here to only display the relevant price.</string>
+        <string name="LifestyleSummary">Select your lifestyle preference here.</string>
+        <string name="DontSet">Not set</string>
         <string name="Student">Student</string>
         <string name="Staff">Staff</string>
         <string name="Guest">Guest</string>
@@ -39,24 +63,50 @@
         <string name="ReducedFat">Reduced Fat</string>
         <string name="ReducedCalories">Reduced Calories</string>
 
-    // Tabs
-    <string name="today">Today</string>
-    <string name="tomorrow">Tomorrow</string>
+        // Arrays
+        <string-array name="listPersonCategory">
+            <item>@string/DontSet</item>
+            <item>@string/Student</item>
+            <item>@string/Staff</item>
+            <item>@string/Guest</item>
+        </string-array>
 
-    // Volley Errors
-    <!-- TODO Improve Volley Error Messages -->
-    <string name="error_timeout">A network connection could not be established</string>
-    <string name="error_auth_failure">A network connection could not be established</string>
-    <string name="error_server">A network connection could not be established</string>
-    <string name="error_network">A network connection could not be established</string>
-    <string name="error_parse">Could not parse data</string>
+        <string-array name="listPersonCategoryValues">
+            <item>1</item>
+            <item>2</item>
+            <item>3</item>
+        </string-array>
 
-    <string-array name="tabs">
-        <item>@string/today</item>
-        <item>@string/tomorrow</item>
-    </string-array>
+        <string-array name="listLifestyle">
+            <item>@string/NoPreference</item>
+            <item>@string/Pescetarian</item>
+            <item>@string/Vegetarian</item>
+            <item>@string/Vegan</item>
+        </string-array>
 
-    // Navigation Drawer
+        <string-array name="listLifestyleValues">
+            <item>1</item>
+            <item>2</item>
+            <item>3</item>
+            <item>4</item>
+        </string-array>
 
+        <string-array name="listLifestyleExtras">
+            <item>@string/LactoseFree</item>
+            <item>@string/ReducedFat</item>
+            <item>@string/ReducedCalories</item>
+        </string-array>
+
+        <string-array name="listLifestyleExtrasValues">
+            <item>1</item>
+            <item>2</item>
+            <item>3</item>
+        </string-array>
+
+        <string-array name="listLifestyleExtrasDefaultValues">
+            <item>0</item>
+            <item>0</item>
+            <item>0</item>
+        </string-array>
 
 </resources>
