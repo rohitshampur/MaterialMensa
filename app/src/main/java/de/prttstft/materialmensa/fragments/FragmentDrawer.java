@@ -2,6 +2,7 @@ package de.prttstft.materialmensa.fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -11,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -148,21 +150,9 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
         });
     }
 
-    public static void saveToPreferences(Context context, String preferenceName, String preferenceValue) {
-        SharedPreferences sharedPrefrences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPrefrences.edit();
-        editor.putString(preferenceName, preferenceValue);
-        editor.apply();
-    }
-
-    public static String readFromPreferences(Context context, String preferenceName, String defaultValue) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(preferenceName, defaultValue);
-    }
-
-    ///////////////////////////////////////////////////////////////
     public static interface ClickListener {
         public void onClick(View view, int position);
+
 
         public void onLongClick(View view, int position);
     }
@@ -203,45 +193,20 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
         @Override
         public void onTouchEvent(RecyclerView rv, MotionEvent e) {
         }
+
+
     }
-    /////////////////////////////////////////////
 
-   /* @Override
-    public void itemClicked(View view, int position) {
+    public static void saveToPreferences(Context context, String preferenceName, String preferenceValue) {
+        SharedPreferences sharedPrefrences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPrefrences.edit();
+        editor.putString(preferenceName, preferenceValue);
+        editor.apply();
+    }
 
-    }*/
+    public static String readFromPreferences(Context context, String preferenceName, String defaultValue) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(preferenceName, defaultValue);
+    }
 
-
-
-
-    /*@Override
-    public void itemClicked(View view, int position) {
-        startActivity(new Intent(getActivity(), MainActivity.class));
-
-         if(position==0){
-            Log.d("something","did something");
-            startActivity(new Intent(getActivity(), FirstActivity.class));
-        }else{
-            Log.d("nothing", "do nothing");
-        }
-        if(position==1){
-            Log.d("something","did something");
-            startActivity(new Intent(getActivity(), SecondActivity.class));
-        }else{
-            Log.d("nothing", "do nothing");
-        }
-        if(position==2){
-            Log.d("something","did something");
-            startActivity(new Intent(getActivity(), ThirdActivity.class));
-        }else{
-            Log.d("nothing", "do nothing");
-        }
-        if(position==3){
-            Log.d("something","did something");
-            startActivity(new Intent(getActivity(), FourthActivity.class));
-        }else{
-            Log.d("nothing", "do nothing");
-        }
-
-    }*/
 }

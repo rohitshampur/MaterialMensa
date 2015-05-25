@@ -21,4 +21,9 @@
     <string name="tomorrow">Morgen</string>
     <string name="DefaultLifestyle">Stelle deinen Lifestyle in den Einstellungen ein</string>
     <string name="DefaultPersonCategory">Stelle deine Personengruppe in den Einstellungen ein</string>
+    <string name="error_auth_failure">Eine Verbindung konnte nicht hergestellt werden</string>
+    <string name="error_network">Eine Verbindung konnte nicht hergestellt werden</string>
+    <string name="error_parse">Daten konnten nicht geparst werden</string>
+    <string name="error_server">Eine Verbindung konnte nicht hergestellt werden</string>
+    <string name="error_timeout">Eine Verbindung konnte nicht hergestellt werden</string>
 </resources>

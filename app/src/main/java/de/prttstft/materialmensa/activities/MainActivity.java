@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.software.shell.fab.ActionButton;
 
+import de.prttstft.materialmensa.logging.L;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
     private ViewPager mPager;
     public static final int DAYS_TODAY = 0;
     public static final int DAYS_TOMORROW = 1;
+    public static int mensaID = 0;
 
 
     @Override
@@ -42,16 +44,11 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
         // Adding the Toolbar
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-        /*if (Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= 21) {
             toolbar.setElevation(4);
-        }*/
+        }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
-        // Adding the Floating Action Button
-        //initActionButton();
-        //actionButton.show();
 
 
         // Adding the NavigationDrawer Fragment
@@ -63,9 +60,9 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         // Adding the Tabs
         tabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
         mPager = (ViewPager) findViewById(R.id.viewPager);
-        /*if (Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= 21) {
             tabHost.setElevation(4);
-        }*/
+        }
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(adapter);
@@ -95,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
     }
 
 
-
     // Options
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -120,7 +116,45 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
     }
 
     public void onDrawerItemClicked(int index) {
-        mPager.setCurrentItem(index);
+        //mPager.setCurrentItem(index);
+        if (index == 0 && mensaID != 0) {
+            mensaID = 0;
+            Intent refresh = new Intent(this, MainActivity.class);
+            startActivity(refresh);//Start the same Activity
+            finish(); //finish Activity.
+        } else if (index == 1 && mensaID != 1) {
+            mensaID = 1;
+            Intent refresh = new Intent(this, MainActivity.class);
+            startActivity(refresh);//Start the same Activity
+            finish(); //finish Activity.
+        } else if (index == 2 && mensaID != 2) {
+            mensaID = 2;
+            Intent refresh = new Intent(this, MainActivity.class);
+            startActivity(refresh);//Start the same Activity
+            finish(); //finish Activity.
+        }else if (index == 3 && mensaID != 3) {
+            mensaID = 3;
+            Intent refresh = new Intent(this, MainActivity.class);
+            startActivity(refresh);//Start the same Activity
+            finish(); //finish Activity.
+        }else if (index == 4 && mensaID != 4) {
+            mensaID = 4;
+            Intent refresh = new Intent(this, MainActivity.class);
+            startActivity(refresh);//Start the same Activity
+            finish(); //finish Activity.
+        }else if (index == 5 && mensaID != 5) {
+            mensaID = 5;
+            Intent refresh = new Intent(this, MainActivity.class);
+            startActivity(refresh);//Start the same Activity
+            finish(); //finish Activity.
+        }else if (index == 6 && mensaID != 6) {
+            mensaID = 6;
+            Intent refresh = new Intent(this, MainActivity.class);
+            startActivity(refresh);//Start the same Activity
+            finish(); //finish Activity.
+        }
+
+
     }
 
     // Tabs Stuff
@@ -138,11 +172,11 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
     public void onTabUnselected(MaterialTab materialTab) {
 
     }
-////////////////////////////
+
     public void onDrawerSlide(float slideOffset) {
-        //toggleTranslateFAB(slideOffset);
+
     }
-    //////////////////////////////
+
 
     private class ViewPagerAdapter extends FragmentStatePagerAdapter {
 

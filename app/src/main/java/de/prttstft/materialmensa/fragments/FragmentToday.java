@@ -27,6 +27,8 @@ import com.bignerdranch.android.multiselector.MultiSelector;
 import com.bignerdranch.android.multiselector.SwappingHolder;
 import com.software.shell.fab.ActionButton;
 
+import junit.framework.Test;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +41,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import de.prttstft.materialmensa.R;
+import de.prttstft.materialmensa.activities.MainActivity;
 import de.prttstft.materialmensa.adapters.AdapterToday;
+import de.prttstft.materialmensa.extras.UrlEndpoints;
 import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.materialmensa.MyApplication;
 import de.prttstft.materialmensa.network.VolleySingleton;
@@ -84,6 +88,7 @@ public class FragmentToday extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static FragmentToday newInstance(String param1, String param2) {
+
         FragmentToday fragment = new FragmentToday();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -100,11 +105,19 @@ public class FragmentToday extends Fragment {
     }
 
     public static String getRequestUrl(int limit) {
-        return de.prttstft.materialmensa.extras.UrlEndpoints.URL_BOX_OFFICE
-                + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_QUESTION
-                + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_API_KEY + MyApplication.API_KEY_KOTTEN_TOMATOES
-                + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_AMEPERSAND
-                + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_LIMIT + limit;
+        if( MainActivity.mensaID == 1) {
+            return UrlEndpoints.URL_UPCOMING
+                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_QUESTION
+                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_API_KEY + MyApplication.API_KEY_KOTTEN_TOMATOES
+                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_LIMIT + limit;
+        } else {
+            return de.prttstft.materialmensa.extras.UrlEndpoints.URL_BOX_OFFICE
+                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_QUESTION
+                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_API_KEY + MyApplication.API_KEY_KOTTEN_TOMATOES
+                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_LIMIT + limit;
+        }
     }
 
     public FragmentToday() {
@@ -144,6 +157,10 @@ public class FragmentToday extends Fragment {
             }
         });
         requestQueue.add(request);
+    }
+
+    public void refreshJson() {
+        sendJsonRequest();
     }
 
     private void handleVolleyError(VolleyError error) {
@@ -245,7 +262,7 @@ public class FragmentToday extends Fragment {
 
                 }
 
-                //L.T(getActivity(), listMeals.toString());
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -259,7 +276,7 @@ public class FragmentToday extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_today, container, false);
+
         View view = inflater.inflate(R.layout.fragment_today, container, false);
         textVolleyError = (TextView) view.findViewById(R.id.textVolleyError);
         listToday = (RecyclerView) view.findViewById(R.id.listToday);
@@ -276,8 +293,5 @@ public class FragmentToday extends Fragment {
 
         return view;
     }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////
-
 
 }

@@ -45,11 +45,11 @@
 
     // Volley Errors
     <!-- TODO Improve Volley Error Messages -->
-    <string name="error_timeout">A connection could not be established</string>
-    <string name="error_auth_failure">Authentification error</string>
-    <string name="error_server">Server Error</string>
-    <string name="error_network">Network Error</string>
-    <string name="error_parse">parse error</string>
+    <string name="error_timeout">A network connection could not be established</string>
+    <string name="error_auth_failure">A network connection could not be established</string>
+    <string name="error_server">A network connection could not be established</string>
+    <string name="error_network">A network connection could not be established</string>
+    <string name="error_parse">Could not parse data</string>
 
     <string-array name="tabs">
         <item>@string/today</item>
