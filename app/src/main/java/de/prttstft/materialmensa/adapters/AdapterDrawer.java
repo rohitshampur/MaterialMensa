@@ -1,6 +1,8 @@
 package de.prttstft.materialmensa.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,8 @@ import java.util.Collections;
 import java.util.List;
 
 import de.prttstft.materialmensa.R;
+import de.prttstft.materialmensa.activities.ActivityAbout;
+import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.views.Drawer;
 
 
@@ -71,6 +75,10 @@ public class AdapterDrawer extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Drawer current = data.get(position - 1);
             itemHolder.title.setText(current.title);
             itemHolder.icon.setImageResource(current.iconId);
+
+
+
+
         }
 
     }
@@ -89,6 +97,15 @@ public class AdapterDrawer extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             title = (TextView) itemView.findViewById(R.id.listText);
             icon = (ImageView) itemView.findViewById(R.id.listIcon);
 
+            // Maybe someday
+            /*if (ActivityMain.testt == 0 & ActivityMain.mensaID == 0) {
+                //index == 0 && mensaID != 0
+                if (Build.VERSION.SDK_INT >= 21) {
+                    Drawable background = context.getDrawable(R.drawable.custom_drawer_item_bg);
+                   current.title.get
+                           //setBackground(background);
+                }
+            }*/
         }
 
     }

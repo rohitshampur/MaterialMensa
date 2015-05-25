@@ -36,6 +36,7 @@ import java.util.Date;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapters.AdapterToday;
+import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
 import de.prttstft.materialmensa.materialmensa.MyApplication;
 import de.prttstft.materialmensa.network.VolleySingleton;

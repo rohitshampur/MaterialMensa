@@ -3,6 +3,8 @@ package de.prttstft.materialmensa.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -56,6 +58,7 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
             current.iconId = icons[i];
             current.title = titles[i];
             data.add(current);
+
         }
         return data;
     }

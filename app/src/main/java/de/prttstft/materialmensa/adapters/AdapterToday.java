@@ -2,7 +2,6 @@ package de.prttstft.materialmensa.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.prttstft.materialmensa.R;
-import de.prttstft.materialmensa.fragments.Constants;
+import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 

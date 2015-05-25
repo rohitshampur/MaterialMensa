@@ -26,9 +26,12 @@ public class ActivityAbout extends AppCompatActivity {
             toolbar.setElevation(4);
         }
         setSupportActionBar(toolbar);
+
         if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
     }
 
     // Options

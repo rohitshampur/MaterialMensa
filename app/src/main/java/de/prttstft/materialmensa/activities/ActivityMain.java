@@ -33,6 +33,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
     public static final int DAYS_TODAY = 0;
     public static final int DAYS_TOMORROW = 1;
     public static int mensaID = 0;
+    public static int testt;
 
 
     @Override
@@ -47,9 +48,6 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
             toolbar.setElevation(4);
         }
         setSupportActionBar(toolbar);
-        /*if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }*/
 
         // Adding the NavigationDrawer Fragment
         FragmentDrawer drawerFragment =
@@ -131,6 +129,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
 
         if (index == 0 && mensaID != 0) {
             mensaID = 0;
+            testt = index;
             Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
             finish(); //finish Activity.
@@ -144,22 +143,22 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
             Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
             finish(); //finish Activity.
-        }else if (index == 3 && mensaID != 3) {
+        } else if (index == 3 && mensaID != 3) {
             mensaID = 3;
             Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
             finish(); //finish Activity.
-        }else if (index == 4 && mensaID != 4) {
+        } else if (index == 4 && mensaID != 4) {
             mensaID = 4;
             Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
             finish(); //finish Activity.
-        }else if (index == 5 && mensaID != 5) {
+        } else if (index == 5 && mensaID != 5) {
             mensaID = 5;
             Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
             finish(); //finish Activity.
-        }else if (index == 6 && mensaID != 6) {
+        } else if (index == 6 && mensaID != 6) {
             mensaID = 6;
             Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
