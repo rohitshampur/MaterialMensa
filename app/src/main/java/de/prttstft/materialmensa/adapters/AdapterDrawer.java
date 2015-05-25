@@ -14,12 +14,12 @@ import java.util.List;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.MainActivity;
-import de.prttstft.materialmensa.views.NavDraw;
+import de.prttstft.materialmensa.views.Drawer;
 
 
 public class AdapterDrawer extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    List<NavDraw> data = Collections.emptyList();
+    List<Drawer> data = Collections.emptyList();
     private static final int TYPE_HEADER=0;
     private static final int TYPE_ITEM=1;
     private Context context;
@@ -27,7 +27,7 @@ public class AdapterDrawer extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final LayoutInflater infalter;
 
 
-    public AdapterDrawer(Context context, List<NavDraw> data) {
+    public AdapterDrawer(Context context, List<Drawer> data) {
         this.context = context;
         infalter = LayoutInflater.from(context);
         this.data = data;
@@ -67,7 +67,7 @@ public class AdapterDrawer extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         } else {
             ItemHolder itemHolder = (ItemHolder) holder;
-            NavDraw current = data.get(position-1);
+            Drawer current = data.get(position-1);
             itemHolder.title.setText(current.title);
             itemHolder.icon.setImageResource(current.iconId);
         }
@@ -97,7 +97,7 @@ public class AdapterDrawer extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         @Override
         public void onClick(View v) {
-           // context.startActivity(new Intent(context, MainActivity.class));
+           context.startActivity(new Intent(context, MainActivity.class));
             if (clickListener != null) {
                 clickListener.itemClicked(v, getAdapterPosition());
             }

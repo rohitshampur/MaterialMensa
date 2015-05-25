@@ -1,9 +1,12 @@
 package de.prttstft.materialmensa.pojo;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
-public class Meal {
+public class Meal implements Parcelable {
     private long id;
     private String title;
     private Date releaseDateTheater;
@@ -16,6 +19,20 @@ public class Meal {
     private String urlSimilar;
 
     public Meal() {
+
+    }
+
+    public Meal(Parcel input) {
+        id = input.readLong();
+        title = input.readString();
+        releaseDateTheater = new Date (input.readLong());
+        audienceScore = input.readInt();
+        synopsis = input.readString();
+        urlThumbnail = input.readString();
+        urlSelf = input.readString();
+        urlCast = input.readString();
+        urlReviews = input.readString();
+        urlSimilar = input.readString();
 
     }
 
@@ -136,5 +153,32 @@ public class Meal {
                 "\n";
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(title);
+        dest.writeLong(releaseDateTheater.getTime());
+        dest.writeInt(audienceScore);
+        dest.writeString(synopsis);
+        dest.writeString(urlThumbnail);
+        dest.writeString(urlSelf);
+        dest.writeString(urlCast);
+        dest.writeString(urlReviews);
+        dest.writeString(urlSimilar);
+    }
+
+    public static final Parcelable.Creator<Meal> CREATOR = new Parcelable.Creator<Meal>() {
+        public Meal createFromParcel(Parcel in) {
+            return new Meal(in);
+        }
+
+        public Meal[] newArray (int size) {
+            return new Meal[size];
+        }
+    };
 }

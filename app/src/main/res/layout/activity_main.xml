@@ -41,6 +41,7 @@
         android:id="@+id/fragment_navigation_drawer"
         android:name="de.prttstft.materialmensa.fragments.FragmentDrawer"
         android:layout_width="@dimen/nav_drawer_width"
+        android:elevation="7sp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:layout="@layout/fragment_drawer"

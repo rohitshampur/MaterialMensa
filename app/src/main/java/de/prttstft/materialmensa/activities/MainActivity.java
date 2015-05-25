@@ -2,6 +2,7 @@ package de.prttstft.materialmensa.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
         // Adding the toolbar
         toolbar = (Toolbar) findViewById(R.id.app_bar);
+       if (Build.VERSION.SDK_INT >= 21) {
+            toolbar.setElevation(4);
+        }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -58,9 +62,14 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
                 (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
+
+
         // Adding the Tabs
         tabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
+        if (Build.VERSION.SDK_INT >= 21) {
+            tabHost.setElevation(4);
+        }
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);

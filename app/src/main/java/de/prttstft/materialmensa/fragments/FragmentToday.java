@@ -59,6 +59,7 @@ public class FragmentToday extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     public static final String URL_ROTTEN_TOMATOES_BOX_OFFICE = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json";
+    private static final String STATE_MEAL = "state_meal";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -89,6 +90,13 @@ public class FragmentToday extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(STATE_MEAL, listMeals);
+
     }
 
     public static String getRequestUrl(int limit) {
@@ -247,7 +255,6 @@ public class FragmentToday extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -259,13 +266,18 @@ public class FragmentToday extends Fragment {
         listToday.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapterToday = new AdapterToday(getActivity());
         listToday.setAdapter(adapterToday);
-        sendJsonRequest();
+        if (savedInstanceState != null) {
+            listMeals = savedInstanceState.getParcelableArrayList(STATE_MEAL);
+            adapterToday.setMealList(listMeals);
+        } else {
+            sendJsonRequest();
+        }
+
 
         return view;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 }

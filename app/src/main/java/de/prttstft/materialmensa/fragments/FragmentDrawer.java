@@ -15,14 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.software.shell.fab.ActionButton;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.MainActivity;
-import de.prttstft.materialmensa.views.NavDraw;
+import de.prttstft.materialmensa.views.Drawer;
 import de.prttstft.materialmensa.adapters.AdapterDrawer;
 
 
@@ -56,6 +54,7 @@ public class FragmentDrawer extends android.support.v4.app.Fragment implements A
         if (savedInstanceState != null) {
             mFromSavedInstanceState = true;
         }
+
     }
 
     @Override
@@ -72,13 +71,13 @@ public class FragmentDrawer extends android.support.v4.app.Fragment implements A
         return layout;
     }
 
-    public List<NavDraw> getData() {
-        List<NavDraw> data = new ArrayList<>();
+    public List<Drawer> getData() {
+        List<Drawer> data = new ArrayList<>();
         int[] icons = {R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3, R.drawable.ic_ndrawer_icon4, R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3};
         String[] titles = getResources().getStringArray(R.array.drawer_tabs);
         for (int i = 0; i < titles.length; i++) {
             // && i < icons.length
-            NavDraw current = new NavDraw();
+            Drawer current = new Drawer();
             current.iconId = icons[i];
             //current.iconId = icons[i%icons.length];
             current.title = titles[i];

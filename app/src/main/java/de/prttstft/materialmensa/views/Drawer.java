@@ -1,6 +1,6 @@
 package de.prttstft.materialmensa.views;
 
-public class NavDraw {
+public class Drawer {
     public int iconId;
     public String title;
 }
