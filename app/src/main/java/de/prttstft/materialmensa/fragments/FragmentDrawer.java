@@ -2,16 +2,18 @@ package de.prttstft.materialmensa.fragments;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -27,24 +29,35 @@ import de.prttstft.materialmensa.adapters.AdapterDrawer;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentDrawer extends android.support.v4.app.Fragment implements AdapterDrawer.ClickListener {
-
-    private RecyclerView recyclerView;
+public class FragmentDrawer extends android.support.v4.app.Fragment {
+    private RecyclerView mRecyclerDrawer;
     public static final String PREF_FILE_NAME = "testpref";
     public static final String KEY_USER_LEARNED_DRAWER = "user_learned_drawer";
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-
-    private AdapterDrawer adapter;
-
+    private AdapterDrawer mAdapter;
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
     private View containerView;
 
 
+
     public FragmentDrawer() {
         // Required empty public constructor
+    }
+
+    public List<Drawer> getData() {
+        List<Drawer> data = new ArrayList<>();
+        int[] icons = {R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3, R.drawable.ic_ndrawer_icon4, R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3};
+        String[] titles = getResources().getStringArray(R.array.drawer_tabs);
+        for (int i = 0; i < titles.length; i++) {
+            Drawer current = new Drawer();
+            current.iconId = icons[i];
+            current.title = titles[i];
+            data.add(current);
+        }
+        return data;
     }
 
     @Override
@@ -61,40 +74,40 @@ public class FragmentDrawer extends android.support.v4.app.Fragment implements A
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View layout = inflater.inflate(R.layout.fragment_drawer, container, false);
-        recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
-        adapter = new AdapterDrawer(getActivity(), getData());
-        adapter.setClickListener(this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        return layout;
+        return inflater.inflate(R.layout.fragment_drawer, container, false);
     }
 
-    public List<Drawer> getData() {
-        List<Drawer> data = new ArrayList<>();
-        int[] icons = {R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3, R.drawable.ic_ndrawer_icon4, R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3};
-        String[] titles = getResources().getStringArray(R.array.drawer_tabs);
-        for (int i = 0; i < titles.length; i++) {
-            // && i < icons.length
-            Drawer current = new Drawer();
-            current.iconId = icons[i];
-            //current.iconId = icons[i%icons.length];
-            current.title = titles[i];
-            //current.title = titles[i%icons.length];
-            data.add(current);
-        }
-        return data;
+    @Override
+    public void onViewCreated(View view, Bundle savedInstaceState) {
+        mRecyclerDrawer = (RecyclerView) view.findViewById(R.id.drawerList);
+        mAdapter = new AdapterDrawer(getActivity(), getData());
+        mRecyclerDrawer.setAdapter(mAdapter);
+        mRecyclerDrawer.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mRecyclerDrawer.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mRecyclerDrawer, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                ((MainActivity) getActivity()).onDrawerItemClicked(position - 1);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
     }
 
-    public void setUp(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar) {
+
+
+    public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolbar) {
         containerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
         mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                ((MainActivity)getActivity()).hideActionButton();
 
                 if (!mUserLearnedDrawer) {
                     mUserLearnedDrawer = true;
@@ -108,22 +121,29 @@ public class FragmentDrawer extends android.support.v4.app.Fragment implements A
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                ((MainActivity)getActivity()).showActionButton();
+                getActivity().supportInvalidateOptionsMenu();
 
             }
 
-        };
-        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
-            ((MainActivity)getActivity()).hideActionButtonOnFirstStart();
-            mDrawerLayout.openDrawer(containerView);
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+                /*((MainActivity) getActivity()).onDrawerSlide(slideOffset);
+                toolbar.setAlpha(1 - slideOffset / 2);*/
+            }
 
-        }
+        };
+
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerLayout.post(new Runnable() {
             @Override
             public void run() {
                 mDrawerToggle.syncState();
+                if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
+                    //((MainActivity)getActivity()).hideActionButtonOnFirstStart();
+                    mDrawerLayout.openDrawer(containerView);
+                }
             }
         });
     }
@@ -140,10 +160,64 @@ public class FragmentDrawer extends android.support.v4.app.Fragment implements A
         return sharedPreferences.getString(preferenceName, defaultValue);
     }
 
-    @Override
+    ///////////////////////////////////////////////////////////////
+    public static interface ClickListener {
+        public void onClick(View view, int position);
+
+        public void onLongClick(View view, int position);
+    }
+
+    static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+
+        private GestureDetector gestureDetector;
+        private ClickListener clickListener;
+
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
+            this.clickListener = clickListener;
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && clickListener != null) {
+                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
+                    }
+                }
+            });
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
+                clickListener.onClick(child, rv.getChildPosition(child));
+            }
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+        }
+    }
+    /////////////////////////////////////////////
+
+   /* @Override
+    public void itemClicked(View view, int position) {
+
+    }*/
+
+
+
+
+    /*@Override
     public void itemClicked(View view, int position) {
         startActivity(new Intent(getActivity(), MainActivity.class));
-        /*
+
          if(position==0){
             Log.d("something","did something");
             startActivity(new Intent(getActivity(), FirstActivity.class));
@@ -168,6 +242,6 @@ public class FragmentDrawer extends android.support.v4.app.Fragment implements A
         }else{
             Log.d("nothing", "do nothing");
         }
-         */
-    }
+
+    }*/
 }

@@ -1,6 +1,5 @@
 package de.prttstft.materialmensa.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.Fragment;
@@ -30,11 +29,9 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
     private Toolbar toolbar;
     private MaterialTabHost tabHost;
-    private ViewPager viewPager;
-    private ActionButton actionButton;
+    private ViewPager mPager;
     public static final int DAYS_TODAY = 0;
     public static final int DAYS_TOMORROW = 1;
-
 
 
     @Override
@@ -42,19 +39,19 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Adding the toolbar
+
+        // Adding the Toolbar
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-       if (Build.VERSION.SDK_INT >= 21) {
+        /*if (Build.VERSION.SDK_INT >= 21) {
             toolbar.setElevation(4);
-        }
+        }*/
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
         // Adding the Floating Action Button
-        initActionButton();
-        actionButton.show();
-
+        //initActionButton();
+        //actionButton.show();
 
 
         // Adding the NavigationDrawer Fragment
@@ -63,17 +60,16 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
 
-
         // Adding the Tabs
         tabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        if (Build.VERSION.SDK_INT >= 21) {
+        mPager = (ViewPager) findViewById(R.id.viewPager);
+        /*if (Build.VERSION.SDK_INT >= 21) {
             tabHost.setElevation(4);
-        }
+        }*/
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(adapter);
-        viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        mPager.setAdapter(adapter);
+        mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 tabHost.setSelectedNavigationItem(position);
@@ -86,20 +82,9 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
                             .setTabListener(this));
         }
 
-
     }
 
-    // This initiates the Floating Action Button
-    public void initActionButton() {
-        actionButton = (ActionButton) findViewById(R.id.action_button);
-        actionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               shareIntent();
-            }
-        });
-    }
-
+    // Share Intent
     private void shareIntent() {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
@@ -109,27 +94,9 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         startActivity(Intent.createChooser(shareIntent, "Share"));
     }
 
-    // This hides the Floating Action Button
-    public void hideActionButton() {
-        if (actionButton.isShown()) {
-            actionButton.hide();
-        }
-    }
 
-    // This shows the Floating Action Button
-    public void showActionButton() {
-        if (!actionButton.isShown()) {
-            actionButton.show();
-        }
-    }
 
-    // This Hides the Floating Action Button on the first start of the Application
-    public void hideActionButtonOnFirstStart() {
-        actionButton.removeHideAnimation();
-        actionButton.hide();
-        actionButton.setHideAnimation(ActionButton.Animations.FADE_OUT);
-    }
-
+    // Options
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -152,21 +119,30 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         return super.onOptionsItemSelected(item);
     }
 
+    public void onDrawerItemClicked(int index) {
+        mPager.setCurrentItem(index);
+    }
+
+    // Tabs Stuff
     @Override
     public void onTabSelected(MaterialTab materialTab) {
-        viewPager.setCurrentItem(materialTab.getPosition());
+        mPager.setCurrentItem(materialTab.getPosition());
     }
 
     @Override
     public void onTabReselected(MaterialTab materialTab) {
-        viewPager.setCurrentItem(materialTab.getPosition());
+        mPager.setCurrentItem(materialTab.getPosition());
     }
 
     @Override
     public void onTabUnselected(MaterialTab materialTab) {
 
     }
-
+////////////////////////////
+    public void onDrawerSlide(float slideOffset) {
+        //toggleTranslateFAB(slideOffset);
+    }
+    //////////////////////////////
 
     private class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
