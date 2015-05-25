@@ -2,21 +2,18 @@ package de.prttstft.materialmensa.extras;
 
 public interface Keys {
     public interface EndpointToday {
-        public static final String KEY_MOVIES = "movies";
+        public static final String KEY_MENU = "menu";
         public static final String KEY_ID = "id";
-        public static final String KEY_TITLE = "title";
-        public static final String KEY_RELEASE_DATES = "release_dates";
-        public static final String KEY_THEATER = "theater";
-        public static final String KEY_RATINGS = "ratings";
-        public static final String KEY_AUDIENCE_SCORE = "audience_score";
-        public static final String KEY_SYNOPSIS = "synopsis";
-        public static final String KEY_POSTERS = "posters";
-        public static final String KEY_THUMBNAIL = "thumbnail";
-        public static final String KEY_LINKS = "links";
-        public static final String KEY_SELF = "self";
-        public static final String KEY_CAST = "cast";
-        public static final String KEY_REVIEWS = "reviews";
-        public static final String KEY_SIMILAR = "similar";
+        public static final String KEY_NAME = "name";
+        public static final String KEY_CATEGORY = "category";
+        public static final String KEY_TYPE = "type";
+        public static final String KEY_PRICES = "prices";
+        public static final String KEY_STUDENTS = "students";
+        public static final String KEY_STAFF = "staff";
+        public static final String KEY_GUESTS = "guests";
+        public static final String KEY_ALLERGENS= "allergens_raw";
+        public static final String KEY_BADGE = "badges_raw";
+
 
     }
 }

@@ -28,10 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
@@ -181,37 +179,51 @@ public class FragmentToday extends Fragment {
 
             try {
                 StringBuilder data = new StringBuilder();
-                JSONArray arrayMeals = response.getJSONArray(KEY_MOVIES);
+                JSONArray arrayMeals = response.getJSONArray(KEY_MENU);
                 for (int i = 0; i < arrayMeals.length(); i++) {
 
-                    long id = 0;
-                    String title = Constants.NA;
-                    int audienceScore = -1;
-                    String releaseDate = Constants.NA;
-                    String synopsis = Constants.NA;
-                    String urlThumbnail = Constants.NA;
+                    String name = Constants.NA;
+                    String price_students = Constants.NA;
+                    String price_staff = Constants.NA;
+                    String price_guests = Constants.NA;
+                    String allergens = Constants.NA;
+                    int badge;
 
                     JSONObject currentMeal = arrayMeals.getJSONObject(i);
-                    // Get ID
-                    if (currentMeal.has(KEY_ID) && !currentMeal.isNull(KEY_ID)) {
-                        id = currentMeal.getLong(KEY_ID);
+                    // Get Name
+                    if (currentMeal.has(KEY_NAME) && !currentMeal.isNull(KEY_NAME)) {
+                        name = currentMeal.getString(KEY_NAME);
                     }
 
-                    // Get Title
-                    if ((currentMeal.has(KEY_TITLE) && !currentMeal.isNull(KEY_TITLE))) {
-                        title = currentMeal.getString(KEY_TITLE);
-                    }
+                    // Get Price for Students
+                    if (currentMeal.has(KEY_PRICES) && !currentMeal.isNull(KEY_PRICES)) {
+                        JSONObject objectPrices = currentMeal.getJSONObject(KEY_PRICES);
 
-                    // Get Releasedate
-                    if (currentMeal.has(KEY_RELEASE_DATES) && !currentMeal.isNull(KEY_RELEASE_DATES)) {
-                        JSONObject objectReleaseDates = currentMeal.getJSONObject(KEY_RELEASE_DATES);
-
-                        if (objectReleaseDates != null && objectReleaseDates.has(KEY_THEATER) && !objectReleaseDates.isNull(KEY_THEATER)) {
-                            releaseDate = objectReleaseDates.getString(KEY_THEATER);
+                        if (objectPrices != null && objectPrices.has(KEY_STUDENTS) && !objectPrices.isNull(KEY_STUDENTS)) {
+                            price_students = objectPrices.getString(KEY_STUDENTS);
                         }
                     }
 
-                    // Get Score
+
+                        // Get Price for Staff
+                    if (currentMeal.has(KEY_PRICES) && !currentMeal.isNull(KEY_PRICES)) {
+                        JSONObject objectPrices = currentMeal.getJSONObject(KEY_PRICES);
+
+                        if (objectPrices != null && objectPrices.has(KEY_STAFF) && !objectPrices.isNull(KEY_STAFF)) {
+                            price_staff = objectPrices.getString(KEY_STAFF);
+                        }
+                    }
+
+                    // Get Price for Guests
+                    if (currentMeal.has(KEY_PRICES) && !currentMeal.isNull(KEY_PRICES)) {
+                        JSONObject objectPrices = currentMeal.getJSONObject(KEY_PRICES);
+
+                        if (objectPrices != null && objectPrices.has(KEY_GUESTS) && !objectPrices.isNull(KEY_GUESTS)) {
+                            price_guests = objectPrices.getString(KEY_GUESTS);
+                        }
+                    }
+
+                    /*// Get Allergens
                     JSONObject objectRatings = currentMeal.getJSONObject(KEY_RATINGS);
 
                     if (objectRatings.has(KEY_AUDIENCE_SCORE) && !objectRatings.isNull(KEY_RATINGS)) {
@@ -223,34 +235,22 @@ public class FragmentToday extends Fragment {
                     // Get Synopsis
                     if (currentMeal.has(KEY_SYNOPSIS) && !currentMeal.isNull(KEY_SYNOPSIS)) {
                         synopsis = currentMeal.getString(KEY_SYNOPSIS);
+                    }*/
+
+                    // Get Badge
+                    if (currentMeal.has(KEY_BADGE) && !currentMeal.isNull(KEY_BADGE)) {
+                        name = currentMeal.getString(KEY_BADGE);
                     }
 
-                    // Get Thumbnail
-                    if (currentMeal.has(KEY_POSTERS) && !currentMeal.isNull(KEY_POSTERS)) {
-                        JSONObject objectPosters = currentMeal.getJSONObject(KEY_POSTERS);
+                    Meal meal = new Meal();
+                    meal.setName(name);
+                    meal.setPriceStudents(price_students);
+                    meal.setPriceStaff(price_staff);
+                    meal.setPriceGuests(price_guests);
+                    meal.setBadge(badge);
 
-                        if (objectPosters != null && objectPosters.has(KEY_THUMBNAIL) && !objectPosters.isNull(KEY_THUMBNAIL)) {
-                            urlThumbnail = objectPosters.getString(KEY_THUMBNAIL);
-                        }
-                    }
-
-
-                    Meal movie = new Meal();
-                    movie.setId(id);
-                    movie.setTitle(title);
-                    Date date = null;
-                    try {
-                        date = dateFormat.parse(releaseDate);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    movie.setReleaseDateTheater(date);
-                    movie.setAudienceScore(audienceScore);
-                    movie.setSynopsis(synopsis);
-                    movie.setUrlThumbnail(urlThumbnail);
-
-                    if (id != -1 && !title.equals(Constants.NA)) {
-                        listMeals.add(movie);
+                    if (!name.equals(Constants.NA)) {
+                        listMeals.add(meal);
                     }
 
                 }

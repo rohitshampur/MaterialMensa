@@ -7,149 +7,84 @@ import android.os.Parcelable;
 import java.util.Date;
 
 public class Meal implements Parcelable {
-    private long id;
-    private String title;
-    private Date releaseDateTheater;
-    private int audienceScore;
-    private String synopsis;
-    private String urlThumbnail;
-    private String urlSelf;
-    private String urlCast;
-    private String urlReviews;
-    private String urlSimilar;
+    private String name;
+    private String price_students;
+    private String price_staff;
+    private String price_guests;
+    private int badge;
 
     public Meal() {
 
     }
 
     public Meal(Parcel input) {
-        id = input.readLong();
-        title = input.readString();
-        releaseDateTheater = new Date (input.readLong());
-        audienceScore = input.readInt();
-        synopsis = input.readString();
-        urlThumbnail = input.readString();
-        urlSelf = input.readString();
-        urlCast = input.readString();
-        urlReviews = input.readString();
-        urlSimilar = input.readString();
+        name = input.readString();
+        price_students = input.readString();
+        price_staff = input.readString();
+        price_guests = input.readString();
+        badge = input.readInt();
 
     }
 
-    public Meal(long id,
-                String title,
-                Date releaseDateTheater,
-                int audienceScore,
-                String synopsis,
-                String urlThumbnail,
-                String urlSelf,
-                String urlCast,
-                String urlReviews,
-                String urlSimilar) {
-        this.id = id;
-        this.title = title;
-        this.releaseDateTheater = releaseDateTheater;
-        this.audienceScore = audienceScore;
-        this.synopsis = synopsis;
-        this.urlThumbnail = urlThumbnail;
-        this.urlSelf = urlSelf;
-        this.urlCast = urlCast;
-        this.urlReviews = urlReviews;
-        this.urlSimilar = urlSimilar;
+    public Meal(String name,
+                String price_students,
+                String price_staff,
+                String price_guests,
+                int badge) {
+        this.name = name;
+        this.price_students = price_students;
+        this.price_staff = price_staff;
+        this.price_guests = price_guests;
+        this.badge = badge;
     }
 
-    public long getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTitle() {
-        return title;
+    public String getPriceStudents() {
+        return price_students;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setPriceStudents(String price_students) {
+        this.price_students = price_students;
     }
 
-    public Date getReleaseDateTheater() {
-        return releaseDateTheater;
+    public String getPriceStaff() {
+        return price_staff;
     }
 
-    public void setReleaseDateTheater(Date releaseDateTheater) {
-        this.releaseDateTheater = releaseDateTheater;
+    public void setPriceStaff(String price_staff) {
+        this.price_staff = price_staff;
     }
 
-    public int getAudienceScore() {
-        return audienceScore;
+    public String getPriceGuests() {
+        return price_guests;
     }
 
-    public void setAudienceScore(int audienceScore) {
-        this.audienceScore = audienceScore;
+    public void setPriceGuests(String price_guests) {
+        this.price_guests = price_guests;
     }
 
-    public String getSynopsis() {
-        return synopsis;
+    public int getBadge() {
+        return badge;
     }
 
-    public void setSynopsis(String synopsis) {
-        this.synopsis = synopsis;
-    }
-
-    public String getUrlThumbnail() {
-        return urlThumbnail;
-    }
-
-    public void setUrlThumbnail(String urlThumbnail) {
-        this.urlThumbnail = urlThumbnail;
-    }
-
-    public String getUrlSelf() {
-        return urlSelf;
-    }
-
-    public void setUrlSelf(String urlSelf) {
-        this.urlSelf = urlSelf;
-    }
-
-    public String getUrlCast() {
-        return urlCast;
-    }
-
-    public void setUrlCast(String urlCast) {
-        this.urlCast = urlCast;
-    }
-
-    public String getUrlReviews() {
-        return urlReviews;
-    }
-
-    public void setUrlReviews(String urlReviews) {
-        this.urlReviews = urlReviews;
-    }
-
-    public String getUrlSimilar() {
-        return urlSimilar;
-    }
-
-    public void setUrlSimilar(String urlSimilar) {
-        this.urlSimilar = urlSimilar;
+    public void setBadge(int badge) {
+        this.badge = badge;
     }
 
     @Override
     public String toString() {
-        return "\nID: " + id +
-                "\nTitle " + title +
-                "\nDate " + releaseDateTheater +
-                "\nSynopsis " + synopsis +
-                "\nScore " + audienceScore +
-                "\nurlThumbnail " + urlThumbnail +
-                "\nurlSelf " + urlSelf +
-                "\nurlCast " + urlCast +
-                "\nurlReviews " + urlReviews +
-                "\nurlSimilar " + urlSimilar +
+        return "\nName: " + name +
+                "\nPrice Students " + price_students +
+                "\nPrice Staff " + price_staff +
+                "\nPrice Guests " + price_guests +
+                "\nBadge " + badge +
                 "\n";
     }
 
@@ -160,16 +95,11 @@ public class Meal implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeString(title);
-        dest.writeLong(releaseDateTheater.getTime());
-        dest.writeInt(audienceScore);
-        dest.writeString(synopsis);
-        dest.writeString(urlThumbnail);
-        dest.writeString(urlSelf);
-        dest.writeString(urlCast);
-        dest.writeString(urlReviews);
-        dest.writeString(urlSimilar);
+        dest.writeString(name);
+        dest.writeString(price_students);
+        dest.writeString(price_staff);
+        dest.writeString(price_guests);
+        dest.writeInt(badge);
     }
 
     public static final Parcelable.Creator<Meal> CREATOR = new Parcelable.Creator<Meal>() {
