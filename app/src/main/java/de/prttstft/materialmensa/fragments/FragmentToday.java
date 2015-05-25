@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -35,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import de.prttstft.materialmensa.R;
-import de.prttstft.materialmensa.activities.MainActivity;
+import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapters.AdapterToday;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
 import de.prttstft.materialmensa.materialmensa.MyApplication;
@@ -98,7 +97,7 @@ public class FragmentToday extends Fragment {
     }
 
     public static String getRequestUrl(int limit) {
-        if (MainActivity.mensaID == 1) {
+        if (ActivityMain.mensaID == 1) {
             return UrlEndpoints.URL_UPCOMING
                     + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_QUESTION
                     + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_API_KEY + MyApplication.API_KEY_KOTTEN_TOMATOES

@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import de.prttstft.materialmensa.R;
 
 
-public class PreferencesActivity extends PreferenceActivity {
+public class ActivityPreferences extends PreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

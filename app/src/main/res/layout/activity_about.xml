@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical">
+
+    <!-- Toolbar -->
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+    <!-- Scrollable TextView -->
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ultrices tempor elit, sed lacinia nibh vestibulum at. In eget sodales purus, id rutrum felis. Quisque eu ligula vitae ipsum mattis hendrerit eu vel orci. Nunc feugiat arcu vel ligula sollicitudin bibendum. Nulla vitae lacinia quam. Duis aliquet, ligula vitae pharetra tincidunt, massa dolor malesuada ante, vitae pretium felis nisl non elit. Nunc metus mi, ullamcorper et nulla id, rhoncus ultricies ligula. Mauris ut dui fringilla, finibus eros ac, pharetra erat. Curabitur ut mi id nulla pretium cursus. Sed facilisis nibh varius commodo faucibus. Pellentesque ac sem sit amet velit euismod ullamcorper. Sed eget nibh nec elit efficitur rutrum. Etiam ullamcorper vitae augue at laoreet. Aliquam mattis tortor eu vestibulum euismod. Quisque in est ac sapien consectetur laoreet.
+
+Aliquam erat volutpat. Quisque vel laoreet massa. Maecenas ipsum magna, pharetra sit amet tempor vitae, blandit in felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum sodales posuere nisi efficitur iaculis. Vestibulum semper ultricies neque, eget efficitur ligula ullamcorper id. Nam posuere iaculis magna sit amet condimentum. Aliquam urna libero, varius ac vehicula ut, maximus nec arcu." />
+    </ScrollView>
+
+</RelativeLayout>

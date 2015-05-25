@@ -25,7 +25,7 @@ import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.fragments.FragmentDrawer;
 
 
-public class MainActivity extends AppCompatActivity implements MaterialTabListener {
+public class ActivityMain extends AppCompatActivity implements MaterialTabListener {
 
     private Toolbar toolbar;
     private MaterialTabHost tabHost;
@@ -47,8 +47,9 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
             toolbar.setElevation(4);
         }
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        /*if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }*/
 
         // Adding the NavigationDrawer Fragment
         FragmentDrawer drawerFragment =
@@ -101,14 +102,16 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent i = new Intent(this, PreferencesActivity.class);
+            Intent i = new Intent(this, ActivityPreferences.class);
+            startActivity(i);
+            return true;
+        }
+
+        if (id == R.id.action_about) {
+            Intent i = new Intent(this, ActivityAbout.class);
             startActivity(i);
             return true;
         }
@@ -121,44 +124,44 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
 
-        String lifestyleChoice = SP.getString("prefLifestyle","0");
+        /*String lifestyleChoice = SP.getString("prefLifestyle","0");
         if (lifestyleChoice.equals("1")) {
             L.t(this, "YOU HAVE NO PREFERENCE");
-        }
+        }*/
 
         if (index == 0 && mensaID != 0) {
             mensaID = 0;
-            Intent refresh = new Intent(this, MainActivity.class);
+            Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
             finish(); //finish Activity.
         } else if (index == 1 && mensaID != 1) {
             mensaID = 1;
-            Intent refresh = new Intent(this, MainActivity.class);
+            Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
             finish(); //finish Activity.
         } else if (index == 2 && mensaID != 2) {
             mensaID = 2;
-            Intent refresh = new Intent(this, MainActivity.class);
+            Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
             finish(); //finish Activity.
         }else if (index == 3 && mensaID != 3) {
             mensaID = 3;
-            Intent refresh = new Intent(this, MainActivity.class);
+            Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
             finish(); //finish Activity.
         }else if (index == 4 && mensaID != 4) {
             mensaID = 4;
-            Intent refresh = new Intent(this, MainActivity.class);
+            Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
             finish(); //finish Activity.
         }else if (index == 5 && mensaID != 5) {
             mensaID = 5;
-            Intent refresh = new Intent(this, MainActivity.class);
+            Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
             finish(); //finish Activity.
         }else if (index == 6 && mensaID != 6) {
             mensaID = 6;
-            Intent refresh = new Intent(this, MainActivity.class);
+            Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
             finish(); //finish Activity.
         }

@@ -2,7 +2,6 @@ package de.prttstft.materialmensa.fragments;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -12,7 +11,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.prttstft.materialmensa.R;
-import de.prttstft.materialmensa.activities.MainActivity;
+import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.views.Drawer;
 import de.prttstft.materialmensa.adapters.AdapterDrawer;
 
@@ -90,7 +88,7 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View view, int position) {
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                ((MainActivity) getActivity()).onDrawerItemClicked(position - 1);
+                ((ActivityMain) getActivity()).onDrawerItemClicked(position - 1);
             }
 
             @Override
@@ -130,8 +128,6 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
-                /*((MainActivity) getActivity()).onDrawerSlide(slideOffset);
-                toolbar.setAlpha(1 - slideOffset / 2);*/
             }
 
         };
@@ -143,7 +139,6 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
             public void run() {
                 mDrawerToggle.syncState();
                 if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
-                    //((MainActivity)getActivity()).hideActionButtonOnFirstStart();
                     mDrawerLayout.openDrawer(containerView);
                 }
             }
