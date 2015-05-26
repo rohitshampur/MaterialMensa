@@ -62,7 +62,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         String personCategory = SP.getString("prefPersonCategory", "1");
         String lifeStyle = SP.getString("prefLifestyle", "1");
 
-       if (personCategory != null) {
+        if (personCategory != null) {
             if (personCategory.equals("2")) {
                 holder.meal_price.setText(currentMeal.getPriceStudents());
             } else {
@@ -76,7 +76,9 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         }
 
         if (currentMeal.getBadge().equals("vegetarian")) {
-            holder.meal_typeicon.setImageResource(R.drawable.ic_ndrawer_icon2);
+            holder.meal_typeicon.setImageResource(R.drawable.ic_vegeterian);
+        } else if (currentMeal.getBadge().equals("vegan")) {
+            holder.meal_typeicon.setImageResource(R.drawable.ic_vegan);
         }
 
     }
