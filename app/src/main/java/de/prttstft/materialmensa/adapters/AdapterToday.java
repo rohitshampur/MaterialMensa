@@ -31,6 +31,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
     private Context context;
 
 
+
     public AdapterToday(Context context) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
@@ -58,6 +59,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         Meal currentMeal = listMeals.get(position);
         holder.meal_name.setText(currentMeal.getName());
 
+
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
         String personCategory = SP.getString("prefPersonCategory", "1");
         String lifeStyle = SP.getString("prefLifestyle", "1");
@@ -69,49 +71,47 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
                 holder.meal_price.setText(currentMeal.getPrices());
             }
         }
+
+
+
         if (!currentMeal.getAllergens().equals("[]")) {
             holder.meal_contents.setText(currentMeal.getAllergens());
         } else {
             holder.meal_contents.setText("Keine Allergene");
         }
 
-        if (currentMeal.getBadge().equals("vegetarian")) {
-            holder.meal_typeicon.setImageResource(R.drawable.ic_vegeterian);
-        } else if (currentMeal.getBadge().equals("vegan")) {
-            holder.meal_typeicon.setImageResource(R.drawable.ic_vegan);
+        switch (currentMeal.getBadge()) {
+            case "vegetarian":
+                holder.meal_typeicon.setImageResource(R.drawable.ic_vegeterian);
+                break;
+            case "vegan":
+                holder.meal_typeicon.setImageResource(R.drawable.ic_vegan);
+                break;
+            case "lactose-free":
+                holder.meal_typeicon.setImageResource(R.drawable.ic_lactose_free);
+                break;
+            case "low-calorie":
+                holder.meal_typeicon.setImageResource(R.drawable.ic_low_calorie);
+                break;
+            case "vital-food":
+                holder.meal_typeicon.setImageResource(R.drawable.ic_vital_food);
+                break;
+            case "nonfat":
+                holder.meal_typeicon.setImageResource(R.drawable.ic_nonfat);
+                break;
+            default:
+                holder.meal_typeicon.setVisibility(View.GONE);
+                break;
         }
 
     }
-
-
-    /*private void loadImages(String typeIcon, final ViewHolderToday holder) {
-        if (!typeIcon.equals(Constants.NA)) {
-
-            if (current)
-
-            holder.meal_typeicon.setImageResource(R.drawable.ic_ndrawer_icon2);
-        }*/
-            /*imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
-                @Override
-                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                    holder.meal_typeicon.setImageBitmap(response.getBitmap());
-                }
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-//                    holder.meal_typeicon.setImageBitmap();
-                }
-            });
-        }
-
-    }*/
 
     @Override
     public int getItemCount() {
         return listMeals.size();
     }
 
-    static class ViewHolderToday extends RecyclerView.ViewHolder {
+    static class ViewHolderToday extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView meal_typeicon;
         private TextView meal_name;
         private TextView meal_price;
@@ -119,11 +119,23 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
         public ViewHolderToday(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
+            //meal_contents.setOnClickListener(this);
             meal_typeicon = (ImageView) itemView.findViewById(R.id.meal_typeicon);
             meal_name = (TextView) itemView.findViewById(R.id.meal_name);
             meal_price = (TextView) itemView.findViewById(R.id.meal_price);
             meal_contents = (TextView) itemView.findViewById(R.id.meal_contents);
 
         }
+
+        @Override
+        public void onClick(View view) {
+            L.t(view.getContext(), "Hi!");
+        }
     }
+
+    /*public void sendToast(View view) {
+
+    }*/
+
 }
