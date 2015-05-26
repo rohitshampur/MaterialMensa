@@ -4,14 +4,14 @@ import de.prttstft.materialmensa.BuildConfig;
 import de.prttstft.materialmensa.activities.ActivityMain;
 
 public class UrlEndpoints {
-    String today = ActivityMain.today;
-    String tomorrow = ActivityMain.tomorrow;
+    static String today = ActivityMain.today;
+    static String tomorrow = ActivityMain.tomorrow;
 
     public static final String URL_CHAR_AMEPERSAND = "&";
     public static final String URL_API = BuildConfig.API_URL;
     public static final String URL_PARAM_RESTAURANT = "restaurant=";
     public static final String URL_PARAM_DATE = "date=";
-    public static final String URL_PARAM_TODAY ="" ;
+    public static final String URL_PARAM_TODAY = today ;
     public static final String URL_RESTAURANT_ACADEMICA = "mensa-academica-paderborn";
     public static final String URL_RESTAURANT_FORUM = "mensa-forum-forum";
     public static final String URL_RESTAURANT_CAFETE = "cafete";
