@@ -100,7 +100,11 @@ public class FragmentToday extends Fragment {
 
     public static String getRequestUrl() {
         //if (ActivityMain.mensaID == 1) {
-        return UrlEndpoints.URL_MENSA_ACADEMICA;
+        return UrlEndpoints.URL_API
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_RESTAURANT_ACADEMICA
+                    + UrlEndpoints.URL_PARAM_DATE
+                    ;
                     /*+ de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_QUESTION
                     + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_API_KEY + MyApplication.API_KEY_KOTTEN_TOMATOES
                     + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_AMEPERSAND
