@@ -217,12 +217,7 @@ public class FragmentToday extends Fragment {
                         if (arrayBadge.length() != 0) {
                             badge = arrayBadge.getString(0);
                         }
-
                     }
-
-                   /* if (currentMeal.has(KEY_ORDER_INFO) && !currentMeal.isNull(KEY_ORDER_INFO)) {
-                        order_info = currentMeal.getInt(KEY_ORDER_INFO);
-                    }*/
 
                     Meal meal = new Meal();
                     meal.setName(name);
@@ -247,8 +242,6 @@ public class FragmentToday extends Fragment {
         mSorter.sortMealsByOrderInfo(listMeals);
         return listMeals;
     }
-
-
 
 
     private void handleVolleyError(VolleyError error) {

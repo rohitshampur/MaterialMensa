@@ -3,6 +3,7 @@ package de.prttstft.materialmensa.adapters;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.DrawableRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,14 +74,22 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         } else {
             holder.meal_contents.setText("Keine Allergene");
         }
-        //String urlThumbnail = currentMeal.getUrlThumbnail();
-        //loadImages(urlThumbnail, holder);
+
+        if (currentMeal.getBadge().equals("vegetarian")) {
+            holder.meal_typeicon.setImageResource(R.drawable.ic_ndrawer_icon2);
+        }
+
     }
 
 
-    private void loadImages(String urlThumbnail, final ViewHolderToday holder) {
-        if (!urlThumbnail.equals(Constants.NA)) {
-            imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
+    /*private void loadImages(String typeIcon, final ViewHolderToday holder) {
+        if (!typeIcon.equals(Constants.NA)) {
+
+            if (current)
+
+            holder.meal_typeicon.setImageResource(R.drawable.ic_ndrawer_icon2);
+        }*/
+            /*imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                     holder.meal_typeicon.setImageBitmap(response.getBitmap());
@@ -93,7 +102,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
             });
         }
 
-    }
+    }*/
 
     @Override
     public int getItemCount() {
