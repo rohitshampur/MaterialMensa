@@ -13,7 +13,7 @@ public class UrlEndpoints {
     public static final String URL_PARAM_DATE = "date=";
     public static final String URL_PARAM_TODAY = today ;
     public static final String URL_RESTAURANT_ACADEMICA = "mensa-academica-paderborn";
-    public static final String URL_RESTAURANT_FORUM = "mensa-forum-forum";
+    public static final String URL_RESTAURANT_FORUM = "mensa-forum-paderborn";
     public static final String URL_RESTAURANT_CAFETE = "cafete";
     public static final String URL_RESTAURANT_MENSULA = "mensula";
     public static final String URL_RESTAURANT_ONEWAYSNACK = "one-way-snack";

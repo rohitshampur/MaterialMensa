@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 import de.prttstft.materialmensa.R;
+import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapters.AdapterToday;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
@@ -88,26 +89,71 @@ public class FragmentToday extends Fragment {
     }
 
     public static String getRequestUrl() {
-        //if (ActivityMain.mensaID == 1) {
-        return UrlEndpoints.URL_API
-                + UrlEndpoints.URL_CHAR_AMEPERSAND
-                + UrlEndpoints.URL_PARAM_RESTAURANT
-                + UrlEndpoints.URL_RESTAURANT_ACADEMICA
-                + UrlEndpoints.URL_CHAR_AMEPERSAND
-                + UrlEndpoints.URL_PARAM_DATE
-                + UrlEndpoints.URL_PARAM_TODAY
-                ;
-                    /*+ de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_QUESTION
-                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_API_KEY + MyApplication.API_KEY_KOTTEN_TOMATOES
-                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_LIMIT + limit;*/
-        /*} else {
-            return de.prttstft.materialmensa.extras.UrlEndpoints.URL_BOX_OFFICE
-                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_QUESTION
-                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_API_KEY + MyApplication.API_KEY_KOTTEN_TOMATOES
-                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_LIMIT + limit;
-        }*/
+        if (ActivityMain.mensaID == 1) {
+            return UrlEndpoints.URL_API
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_PARAM_RESTAURANT
+                    + UrlEndpoints.URL_RESTAURANT_FORUM
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_PARAM_DATE
+                    + UrlEndpoints.URL_PARAM_TODAY
+                    ;
+
+        } else if (ActivityMain.mensaID == 2) {
+            return UrlEndpoints.URL_API
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_PARAM_RESTAURANT
+                    + UrlEndpoints.URL_RESTAURANT_CAFETE
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_PARAM_DATE
+                    + UrlEndpoints.URL_PARAM_TODAY
+                    ;
+        } else if (ActivityMain.mensaID == 3) {
+            return UrlEndpoints.URL_API
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_PARAM_RESTAURANT
+                    + UrlEndpoints.URL_RESTAURANT_GRILLCAFE
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_PARAM_DATE
+                    + UrlEndpoints.URL_PARAM_TODAY
+                    ;
+        } else if (ActivityMain.mensaID == 4) {
+            return UrlEndpoints.URL_API
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_PARAM_RESTAURANT
+                    + UrlEndpoints.URL_RESTAURANT_CAMPUSDOENER
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_PARAM_DATE
+                    + UrlEndpoints.URL_PARAM_TODAY
+                    ;
+        } else if (ActivityMain.mensaID == 5) {
+            return UrlEndpoints.URL_API
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_PARAM_RESTAURANT
+                    + UrlEndpoints.URL_RESTAURANT_ONEWAYSNACK
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_PARAM_DATE
+                    + UrlEndpoints.URL_PARAM_TODAY
+                    ;
+        } else if (ActivityMain.mensaID == 6) {
+            return UrlEndpoints.URL_API
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_PARAM_RESTAURANT
+                    + UrlEndpoints.URL_RESTAURANT_MENSULA
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_PARAM_DATE
+                    + UrlEndpoints.URL_PARAM_TODAY
+                    ;
+        } else {
+            return UrlEndpoints.URL_API
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_PARAM_RESTAURANT
+                    + UrlEndpoints.URL_RESTAURANT_ACADEMICA
+                    + UrlEndpoints.URL_CHAR_AMEPERSAND
+                    + UrlEndpoints.URL_PARAM_DATE
+                    + UrlEndpoints.URL_PARAM_TODAY
+                    ;
+        }
     }
 
     public FragmentToday() {
@@ -212,6 +258,12 @@ public class FragmentToday extends Fragment {
                         }
                     }
 
+                    if (currentMeal.has(KEY_TARA) && !currentMeal.isNull(KEY_TARA)) {
+                        if (currentMeal.getString(KEY_TARA).equals("weighted")) {
+                            tara = true;
+                        }
+                    }
+
                     Meal meal = new Meal();
                     meal.setName(name);
                     meal.setCategory(category);
@@ -221,6 +273,7 @@ public class FragmentToday extends Fragment {
                     meal.setAllergens(allergens);
                     meal.setBadge(badge);
                     meal.setOrderInfo(order_info);
+                    meal.setTara(tara);
 
 
                     if (!name.equals(Constants.NA)) {
@@ -277,7 +330,6 @@ public class FragmentToday extends Fragment {
 
         return view;
     }
-
 
 
 }

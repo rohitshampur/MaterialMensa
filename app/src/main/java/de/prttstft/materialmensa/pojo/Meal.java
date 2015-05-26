@@ -17,6 +17,7 @@ public class Meal implements Parcelable {
     List<String> allergens = new ArrayList<String>();
     private String badge;
     private int order_info;
+    private boolean tara;
 
     public Meal() {
 
@@ -30,6 +31,11 @@ public class Meal implements Parcelable {
         price_guests = input.readString();
         badge = input.readString();
         order_info = input.readInt();
+        if (input.readInt() == 1) {
+            tara = true;
+        } else {
+            tara = false;
+        }
     }
 
     public Meal(String name,
@@ -38,7 +44,8 @@ public class Meal implements Parcelable {
                 String price_staff,
                 String price_guests,
                 String badge,
-                int order_info) {
+                int order_info,
+                boolean tara) {
         this.name = name;
         this.category = category;
         this.price_students = price_students;
@@ -46,6 +53,7 @@ public class Meal implements Parcelable {
         this.price_guests = price_guests;
         this.badge = badge;
         this.order_info = order_info;
+        this.tara = tara;
     }
 
     public String getName() {
@@ -65,11 +73,29 @@ public class Meal implements Parcelable {
     }
 
     public String getPrices() {
-        return "Studierende: " + price_students + "€" + " // " + "Bedienstete: " + price_staff + "€" + " // " + "Gäste: " + price_guests + "€";
+        if (tara) {
+            return "Per 100gr: " + "Students: " + price_students + "€" + " // " + "Staff: " + price_staff + "€" + " // " + "Guests: " + price_guests + "€";
+        } else {
+            return "Students: " + price_students + "€" + " // " + "Staff: " + price_staff + "€" + " // " + "Guests: " + price_guests + "€";
+        }
+
+    }
+
+    public String getPricesDe() {
+        if (tara) {
+            return "Pro 100gr: " + "Studierende: " + price_students + "€" + " // " + "Bedienstete: " + price_staff + "€" + " // " + "Gäste: " + price_guests + "€";
+        } else {
+            return "Studierende: " + price_students + "€" + " // " + "Bedienstete: " + price_staff + "€" + " // " + "Gäste: " + price_guests + "€";
+        }
+
     }
 
     public String getPriceStudents() {
-        return price_students + "€";
+        if (tara) {
+            return price_students + "€" + "/100gr";
+        } else {
+            return price_students + "€";
+        }
     }
 
     public void setPriceStudents(String price_students) {
@@ -77,7 +103,12 @@ public class Meal implements Parcelable {
     }
 
     public String getPriceStaff() {
-        return price_staff + "€";
+        if (tara) {
+            return price_staff + "€" + "/100gr";
+        } else {
+            return price_staff + "€";
+        }
+
     }
 
     public void setPriceStaff(String price_staff) {
@@ -85,7 +116,11 @@ public class Meal implements Parcelable {
     }
 
     public String getPriceGuests() {
-        return price_guests + "€";
+        if (tara) {
+            return price_guests + "€" + "/100gr";
+        } else {
+            return price_guests + "€";
+        }
     }
 
     public void setPriceGuests(String price_guests) {
@@ -116,10 +151,18 @@ public class Meal implements Parcelable {
         this.order_info = order_info;
     }
 
+    public boolean getTara() {
+        return tara;
+    }
+
+    public void setTara(boolean tara) {
+        this.tara = tara;
+    }
+
     @Override
     public String toString() {
         return "\nName: " + name +
-                "\nCategory " + category+
+                "\nCategory " + category +
                 "\nPrice Students " + price_students +
                 "\nPrice Staff " + price_staff +
                 "\nPrice Guests " + price_guests +
@@ -142,6 +185,12 @@ public class Meal implements Parcelable {
         dest.writeString(price_guests);
         dest.writeString(badge);
         dest.writeInt(order_info);
+        if (tara) {
+            dest.writeInt(1);
+        } else {
+            dest.writeInt(0);
+        }
+
     }
 
     public static final Parcelable.Creator<Meal> CREATOR = new Parcelable.Creator<Meal>() {
@@ -149,7 +198,7 @@ public class Meal implements Parcelable {
             return new Meal(in);
         }
 
-        public Meal[] newArray (int size) {
+        public Meal[] newArray(int size) {
             return new Meal[size];
         }
     };

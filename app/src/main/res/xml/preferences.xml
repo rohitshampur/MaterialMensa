@@ -17,12 +17,9 @@
         android:summary="@string/DefaultLifestyle"
         android:title="@string/LifestyleSummary" />
 
-    <MultiSelectListPreference
-        android:defaultValue="@array/listLifestyleExtrasDefaultValues"
-        android:entries="@array/listLifestyleExtras"
-        android:entryValues="@array/listLifestyleExtrasValues"
-        android:key="prefLifestyleExtras"
-        android:summary="@string/LifestyleSummary"
-        android:title="@string/Lifestyle" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="prefLactoseFree"
+        android:title="@string/LactoseFree" />
 
 </PreferenceScreen>

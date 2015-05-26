@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.extras.Constants;
@@ -29,7 +30,6 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
     private VolleySingleton volleySingleton;
     private ImageLoader imageLoader;
     private Context context;
-
 
 
     public AdapterToday(Context context) {
@@ -56,29 +56,49 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
     @Override
     public void onBindViewHolder(final ViewHolderToday holder, int position) {
-        Meal currentMeal = listMeals.get(position);
-        holder.meal_name.setText(currentMeal.getName());
-
-
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
         String personCategory = SP.getString("prefPersonCategory", "1");
         String lifeStyle = SP.getString("prefLifestyle", "1");
+        Boolean lactoseFree = SP.getBoolean("prefLactoseFree", false);
+
+        Meal currentMeal = listMeals.get(position);
+
+
+        holder.meal_name.setText(currentMeal.getName());
+
 
         if (personCategory != null) {
-            if (personCategory.equals("2")) {
-                holder.meal_price.setText(currentMeal.getPriceStudents());
-            } else {
-                holder.meal_price.setText(currentMeal.getPrices());
+            switch (personCategory) {
+                case "2":
+                    holder.meal_price.setText(currentMeal.getPriceStudents());
+                    break;
+                case "3":
+                    holder.meal_price.setText(currentMeal.getPriceStaff());
+                    break;
+                case "4":
+                    holder.meal_price.setText(currentMeal.getPriceGuests());
+                    break;
+                default:
+                    if (Locale.getDefault().getISO3Language().equals("deu")) {
+                        holder.meal_price.setText(currentMeal.getPricesDe());
+                    } else {
+                        holder.meal_price.setText(currentMeal.getPrices());
+                    }
+                    break;
             }
         }
-
 
 
         if (!currentMeal.getAllergens().equals("[]")) {
             holder.meal_contents.setText(currentMeal.getAllergens());
         } else {
-            holder.meal_contents.setText("Keine Allergene");
+            if (Locale.getDefault().getISO3Language().equals("deu")) {
+                holder.meal_contents.setText("Keine Allergene");
+            } else {
+                holder.meal_contents.setText("No Allergens");
+            }
         }
+
 
         switch (currentMeal.getBadge()) {
             case "vegetarian":
@@ -120,7 +140,6 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         public ViewHolderToday(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            //meal_contents.setOnClickListener(this);
             meal_typeicon = (ImageView) itemView.findViewById(R.id.meal_typeicon);
             meal_name = (TextView) itemView.findViewById(R.id.meal_name);
             meal_price = (TextView) itemView.findViewById(R.id.meal_price);
@@ -130,12 +149,8 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
         @Override
         public void onClick(View view) {
-            L.t(view.getContext(), "Hi!");
+            //L.t(view.getContext(), "Hi!");
         }
     }
-
-    /*public void sendToast(View view) {
-
-    }*/
 
 }
