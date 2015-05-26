@@ -21,6 +21,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
@@ -30,12 +31,14 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapters.AdapterToday;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.materialmensa.MyApplication;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
@@ -53,7 +56,7 @@ public class FragmentToday extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    public static final String URL_ROTTEN_TOMATOES_BOX_OFFICE = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json";
+    //public static final String URL_ROTTEN_TOMATOES_BOX_OFFICE = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json";
     private static final String STATE_MEAL = "state_meal";
 
     // TODO: Rename and change types of parameters
@@ -95,20 +98,20 @@ public class FragmentToday extends Fragment {
 
     }
 
-    public static String getRequestUrl(int limit) {
-        if (ActivityMain.mensaID == 1) {
-            return UrlEndpoints.URL_UPCOMING
-                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_QUESTION
+    public static String getRequestUrl() {
+        //if (ActivityMain.mensaID == 1) {
+        return UrlEndpoints.URL_MENSA_ACADEMICA;
+                    /*+ de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_QUESTION
                     + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_API_KEY + MyApplication.API_KEY_KOTTEN_TOMATOES
                     + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_LIMIT + limit;
-        } else {
+                    + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_LIMIT + limit;*/
+        /*} else {
             return de.prttstft.materialmensa.extras.UrlEndpoints.URL_BOX_OFFICE
                     + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_QUESTION
                     + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_API_KEY + MyApplication.API_KEY_KOTTEN_TOMATOES
                     + de.prttstft.materialmensa.extras.UrlEndpoints.URL_CHAR_AMEPERSAND
                     + de.prttstft.materialmensa.extras.UrlEndpoints.URL_PARAM_LIMIT + limit;
-        }
+        }*/
     }
 
     public FragmentToday() {
@@ -118,28 +121,26 @@ public class FragmentToday extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        /*if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        }*/
 
         volleySingleton = VolleySingleton.getInstance();
         requestQueue = volleySingleton.getRequestQueue();
         sendJsonRequest();
-
     }
 
     private void sendJsonRequest() {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                getRequestUrl(30),
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
+                getRequestUrl(),
                 (String) null,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONArray response) {
                         textVolleyError.setVisibility(View.GONE);
                         listMeals = parseJSONResponse(response);
                         adapterToday.setMealList(listMeals);
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -150,8 +151,111 @@ public class FragmentToday extends Fragment {
         requestQueue.add(request);
     }
 
-    public void refreshJson() {
-        sendJsonRequest();
+    private ArrayList<Meal> parseJSONResponse(JSONArray response) {
+
+        ArrayList<Meal> listMeals = new ArrayList<>();
+        if (response != null || response.length() > 0) {
+
+            try {
+                StringBuilder data = new StringBuilder();
+
+                for (int i = 0; i < response.length(); i++) {
+                    String menu = "Ficken";
+                    String name = Constants.NA;
+                    String category = Constants.NA;
+                    String type = Constants.NA;
+                    Boolean tara = false;
+                    String price_students = Constants.NA;
+                    String price_staff = Constants.NA;
+                    String price_guests = Constants.NA;
+                    List<String> allergens = new ArrayList<String>();
+                    int badge = 0;
+
+                    //L.t(getActivity(), String.valueOf(i));
+
+                    JSONObject objectMeals = response.getJSONObject(i);
+
+                    //L.t(getActivity(), objectMeals.toString());
+
+                    // Get Name
+                    if (objectMeals.has(KEY_MENU) && !objectMeals.isNull(KEY_MENU)) {
+
+                        JSONObject currentMeal = objectMeals.getJSONObject(KEY_MENU);
+
+                        if (currentMeal.has(KEY_NAME) && !currentMeal.isNull(KEY_NAME)) {
+                            name = currentMeal.getString(KEY_NAME);
+                        }
+
+                        if (currentMeal.has(KEY_CATEGORY) && !currentMeal.isNull(KEY_CATEGORY)) {
+                            category = currentMeal.getString(KEY_CATEGORY);
+                        }
+
+                        if (currentMeal.has(KEY_TYPE) && !currentMeal.isNull(KEY_TYPE)) {
+                            type = currentMeal.getString(KEY_TYPE);
+                        }
+
+                        if (currentMeal.has(KEY_PRICES) && !currentMeal.isNull(KEY_PRICES)) {
+                            JSONObject objectPrices = currentMeal.getJSONObject(KEY_PRICES);
+
+                            if (objectPrices.has(KEY_TARA) && !objectPrices.isNull(KEY_TARA)) {
+                                tara = objectPrices.getBoolean(KEY_TARA);
+                            }
+
+                            if (objectPrices.has(KEY_STUDENTS) && !objectPrices.isNull(KEY_STUDENTS)) {
+                                price_students = objectPrices.getString(KEY_STUDENTS);
+                            }
+
+                            if (objectPrices.has(KEY_STAFF) && !objectPrices.isNull(KEY_STAFF)) {
+                                price_staff = objectPrices.getString(KEY_STAFF);
+
+                            }
+
+                            if (objectPrices.has(KEY_GUESTS) && !objectPrices.isNull(KEY_GUESTS)) {
+                                price_guests = objectPrices.getString(KEY_GUESTS);
+                            }
+
+                        }
+
+                        if (currentMeal.has(KEY_ALLERGENS) && !currentMeal.isNull(KEY_ALLERGENS)) {
+                            JSONArray arrayAllergens = currentMeal.getJSONArray(KEY_ALLERGENS);
+
+                            for (int j = 0; j < arrayAllergens.length(); j++) {
+                                allergens.add(arrayAllergens.getString(j));
+                            }
+                        }
+
+                        if (currentMeal.has(KEY_BADGE) && !currentMeal.isNull(KEY_BADGE)) {
+                            JSONArray arrayBadge = currentMeal.getJSONArray(KEY_BADGE);
+                            if (arrayBadge.length() != 0) {
+                                badge = arrayBadge.getInt(0);
+                           }
+
+                        }
+
+
+                    }
+
+                    Meal meal = new Meal();
+                    meal.setName(name);
+                    meal.setPriceStudents(price_students);
+                    meal.setPriceStaff(price_staff);
+                    meal.setPriceGuests(price_guests);
+                    meal.setAllergens(allergens);
+                    meal.setBadge(badge);
+
+
+                    if (!name.equals(Constants.NA)) {
+
+                        listMeals.add(meal);
+                    }
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return listMeals;
     }
 
     private void handleVolleyError(VolleyError error) {
@@ -173,102 +277,11 @@ public class FragmentToday extends Fragment {
 
     }
 
-    private ArrayList<Meal> parseJSONResponse(JSONObject response) {
-        ArrayList<Meal> listMeals = new ArrayList<>();
-        if (response != null || response.length() > 0) {
-
-            try {
-                StringBuilder data = new StringBuilder();
-                JSONArray arrayMeals = response.getJSONArray(KEY_MENU);
-                for (int i = 0; i < arrayMeals.length(); i++) {
-
-                    String name = Constants.NA;
-                    String price_students = Constants.NA;
-                    String price_staff = Constants.NA;
-                    String price_guests = Constants.NA;
-                    String allergens = Constants.NA;
-                    int badge;
-
-                    JSONObject currentMeal = arrayMeals.getJSONObject(i);
-                    // Get Name
-                    if (currentMeal.has(KEY_NAME) && !currentMeal.isNull(KEY_NAME)) {
-                        name = currentMeal.getString(KEY_NAME);
-                    }
-
-                    // Get Price for Students
-                    if (currentMeal.has(KEY_PRICES) && !currentMeal.isNull(KEY_PRICES)) {
-                        JSONObject objectPrices = currentMeal.getJSONObject(KEY_PRICES);
-
-                        if (objectPrices != null && objectPrices.has(KEY_STUDENTS) && !objectPrices.isNull(KEY_STUDENTS)) {
-                            price_students = objectPrices.getString(KEY_STUDENTS);
-                        }
-                    }
-
-
-                        // Get Price for Staff
-                    if (currentMeal.has(KEY_PRICES) && !currentMeal.isNull(KEY_PRICES)) {
-                        JSONObject objectPrices = currentMeal.getJSONObject(KEY_PRICES);
-
-                        if (objectPrices != null && objectPrices.has(KEY_STAFF) && !objectPrices.isNull(KEY_STAFF)) {
-                            price_staff = objectPrices.getString(KEY_STAFF);
-                        }
-                    }
-
-                    // Get Price for Guests
-                    if (currentMeal.has(KEY_PRICES) && !currentMeal.isNull(KEY_PRICES)) {
-                        JSONObject objectPrices = currentMeal.getJSONObject(KEY_PRICES);
-
-                        if (objectPrices != null && objectPrices.has(KEY_GUESTS) && !objectPrices.isNull(KEY_GUESTS)) {
-                            price_guests = objectPrices.getString(KEY_GUESTS);
-                        }
-                    }
-
-                    /*// Get Allergens
-                    JSONObject objectRatings = currentMeal.getJSONObject(KEY_RATINGS);
-
-                    if (objectRatings.has(KEY_AUDIENCE_SCORE) && !objectRatings.isNull(KEY_RATINGS)) {
-                        if (objectRatings != null && objectRatings.has(KEY_AUDIENCE_SCORE) && !objectRatings.isNull(KEY_AUDIENCE_SCORE)) {
-                            audienceScore = objectRatings.getInt((KEY_AUDIENCE_SCORE));
-                        }
-                    }
-
-                    // Get Synopsis
-                    if (currentMeal.has(KEY_SYNOPSIS) && !currentMeal.isNull(KEY_SYNOPSIS)) {
-                        synopsis = currentMeal.getString(KEY_SYNOPSIS);
-                    }*/
-
-                    // Get Badge
-                    if (currentMeal.has(KEY_BADGE) && !currentMeal.isNull(KEY_BADGE)) {
-                        name = currentMeal.getString(KEY_BADGE);
-                    }
-
-                    Meal meal = new Meal();
-                    meal.setName(name);
-                    meal.setPriceStudents(price_students);
-                    meal.setPriceStaff(price_staff);
-                    meal.setPriceGuests(price_guests);
-                    meal.setBadge(badge);
-
-                    if (!name.equals(Constants.NA)) {
-                        listMeals.add(meal);
-                    }
-
-                }
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return listMeals;
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_today, container, false);
         textVolleyError = (TextView) view.findViewById(R.id.textVolleyError);
         listToday = (RecyclerView) view.findViewById(R.id.listToday);

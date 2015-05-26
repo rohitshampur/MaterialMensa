@@ -4,13 +4,16 @@ package de.prttstft.materialmensa.pojo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Meal implements Parcelable {
     private String name;
     private String price_students;
     private String price_staff;
     private String price_guests;
+    List<String> allergens = new ArrayList<String>();
     private int badge;
 
     public Meal() {
@@ -46,8 +49,12 @@ public class Meal implements Parcelable {
         this.name = name;
     }
 
+    public String getPrices() {
+        return "Studierende: " + price_students + "€" + " // " + "Bedienstete: " + price_staff + "€" + " // " + "Gäste: " + price_guests + "€";
+    }
+
     public String getPriceStudents() {
-        return price_students;
+        return price_students + "€";
     }
 
     public void setPriceStudents(String price_students) {
@@ -55,7 +62,7 @@ public class Meal implements Parcelable {
     }
 
     public String getPriceStaff() {
-        return price_staff;
+        return price_staff + "€";
     }
 
     public void setPriceStaff(String price_staff) {
@@ -63,11 +70,19 @@ public class Meal implements Parcelable {
     }
 
     public String getPriceGuests() {
-        return price_guests;
+        return price_guests + "€";
     }
 
     public void setPriceGuests(String price_guests) {
         this.price_guests = price_guests;
+    }
+
+    public String getAllergens() {
+        return allergens.toString();
+    }
+
+    public void setAllergens(List<String> allergens) {
+        this.allergens = allergens;
     }
 
     public int getBadge() {
@@ -84,6 +99,7 @@ public class Meal implements Parcelable {
                 "\nPrice Students " + price_students +
                 "\nPrice Staff " + price_staff +
                 "\nPrice Guests " + price_guests +
+                "\nAllergens " + allergens +
                 "\nBadge " + badge +
                 "\n";
     }

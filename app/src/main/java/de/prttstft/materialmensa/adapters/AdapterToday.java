@@ -1,6 +1,8 @@
 package de.prttstft.materialmensa.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.extras.Constants;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 
@@ -24,9 +27,11 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
     private LayoutInflater layoutInflater;
     private VolleySingleton volleySingleton;
     private ImageLoader imageLoader;
+    private Context context;
 
 
     public AdapterToday(Context context) {
+        this.context = context;
         layoutInflater = LayoutInflater.from(context);
         volleySingleton = VolleySingleton.getInstance();
         imageLoader = volleySingleton.getImageLoader();
@@ -47,17 +52,29 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
     }
 
 
-
-
     @Override
     public void onBindViewHolder(final ViewHolderToday holder, int position) {
         Meal currentMeal = listMeals.get(position);
-        holder.meal_name.setText(currentMeal.getTitle());
-        holder.meal_price.setText(currentMeal.getTitle());
-        holder.meal_contents.setText(currentMeal.getReleaseDateTheater().toString());
-        String urlThumbnail = currentMeal.getUrlThumbnail();
-        loadImages(urlThumbnail, holder);
+        holder.meal_name.setText(currentMeal.getName());
 
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
+        String personCategory = SP.getString("prefPersonCategory", "1");
+        String lifeStyle = SP.getString("prefLifestyle", "1");
+
+       if (personCategory != null) {
+            if (personCategory.equals("2")) {
+                holder.meal_price.setText(currentMeal.getPriceStudents());
+            } else {
+                holder.meal_price.setText(currentMeal.getPrices());
+            }
+        }
+        if (!currentMeal.getAllergens().equals("[]")) {
+            holder.meal_contents.setText(currentMeal.getAllergens());
+        } else {
+            holder.meal_contents.setText("Keine Allergene");
+        }
+        //String urlThumbnail = currentMeal.getUrlThumbnail();
+        //loadImages(urlThumbnail, holder);
     }
 
 
