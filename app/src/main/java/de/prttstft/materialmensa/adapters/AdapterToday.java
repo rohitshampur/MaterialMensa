@@ -2,9 +2,11 @@ package de.prttstft.materialmensa.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.DrawableRes;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,10 @@ import com.android.volley.toolbox.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import android.os.Handler;
+
+import java.util.logging.LogRecord;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.extras.Constants;
@@ -41,6 +47,8 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
     public void setMealList(ArrayList<Meal> listMeals) {
         this.listMeals = listMeals;
+
+        notifyDataSetChanged();
         notifyItemRangeChanged(0, listMeals.size());
 
     }
@@ -53,6 +61,11 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
     }
 
+    public void removeItem(int position) {
+        listMeals.remove(position);
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public void onBindViewHolder(final ViewHolderToday holder, int position) {
@@ -60,12 +73,35 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         String personCategory = SP.getString("prefPersonCategory", "1");
         String lifeStyle = SP.getString("prefLifestyle", "1");
         Boolean lactoseFree = SP.getBoolean("prefLactoseFree", false);
-
         Meal currentMeal = listMeals.get(position);
 
+        //if (lactoseFree && listMeals.get(position).getBadge().equals("lactose-free")) {
 
         holder.meal_name.setText(currentMeal.getName());
 
+        switch (currentMeal.getBadge()) {
+            case "vegetarian":
+                holder.meal_typeicon.setImageResource(R.drawable.ic_vegeterian);
+                break;
+            case "vegan":
+                holder.meal_typeicon.setImageResource(R.drawable.ic_vegan);
+                break;
+            case "lactose-free":
+                holder.meal_typeicon.setImageResource(R.drawable.ic_lactose_free);
+                break;
+            case "low-calorie":
+                holder.meal_typeicon.setImageResource(R.drawable.ic_low_calorie);
+                break;
+            case "vital-food":
+                holder.meal_typeicon.setImageResource(R.drawable.ic_vital_food);
+                break;
+            case "nonfat":
+                holder.meal_typeicon.setImageResource(R.drawable.ic_nonfat);
+                break;
+            default:
+                holder.meal_typeicon.setVisibility(View.GONE);
+                break;
+        }
 
         if (personCategory != null) {
             switch (personCategory) {
@@ -99,30 +135,6 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
             }
         }
 
-
-        switch (currentMeal.getBadge()) {
-            case "vegetarian":
-                holder.meal_typeicon.setImageResource(R.drawable.ic_vegeterian);
-                break;
-            case "vegan":
-                holder.meal_typeicon.setImageResource(R.drawable.ic_vegan);
-                break;
-            case "lactose-free":
-                holder.meal_typeicon.setImageResource(R.drawable.ic_lactose_free);
-                break;
-            case "low-calorie":
-                holder.meal_typeicon.setImageResource(R.drawable.ic_low_calorie);
-                break;
-            case "vital-food":
-                holder.meal_typeicon.setImageResource(R.drawable.ic_vital_food);
-                break;
-            case "nonfat":
-                holder.meal_typeicon.setImageResource(R.drawable.ic_nonfat);
-                break;
-            default:
-                holder.meal_typeicon.setVisibility(View.GONE);
-                break;
-        }
 
     }
 
