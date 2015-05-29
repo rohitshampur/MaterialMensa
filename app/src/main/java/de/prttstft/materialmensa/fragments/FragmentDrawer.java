@@ -44,7 +44,6 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
     private View containerView;
 
 
-
     public FragmentDrawer() {
         // Required empty public constructor
     }
@@ -103,7 +102,6 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
     }
 
 
-
     public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolbar) {
         containerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
@@ -147,7 +145,7 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
             }
         });
     }
-
+//
     public static interface ClickListener {
         public void onClick(View view, int position);
 
