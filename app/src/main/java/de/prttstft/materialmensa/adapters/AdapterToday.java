@@ -126,9 +126,9 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
             holder.meal_contents.setText(currentMeal.getAllergens());
         } else {
             if (Locale.getDefault().getISO3Language().equals("deu")) {
-                holder.meal_contents.setText("Keine Allergene");
+                holder.meal_contents.setText("Keine Allergene oder Zusatzstoffe");
             } else {
-                holder.meal_contents.setText("No Allergens");
+                holder.meal_contents.setText("No Allergens or Additives");
             }
         }
 

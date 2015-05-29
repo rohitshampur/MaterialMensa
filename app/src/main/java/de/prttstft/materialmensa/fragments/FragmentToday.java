@@ -40,9 +40,9 @@ import java.util.regex.Pattern;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapters.AdapterToday;
+import de.prttstft.materialmensa.extras.AllergensAdditives;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
-import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 
@@ -210,6 +210,7 @@ public class FragmentToday extends Fragment {
                     String price_staff = Constants.NA;
                     String price_guests = Constants.NA;
                     List<String> allergens = new ArrayList<String>();
+                    List<String> allergens_spelledout = new ArrayList<String>();
                     String badge = "";
                     int order_info = 0;
                     SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -255,11 +256,12 @@ public class FragmentToday extends Fragment {
                         JSONArray arrayAllergens = currentMeal.getJSONArray(KEY_ALLERGENS);
 
                         for (int j = 0; j < arrayAllergens.length(); j++) {
-
                             Pattern pattern = Pattern.compile("(^)(\\d+)");
                             Matcher matcher = pattern.matcher(arrayAllergens.getString(j));
                             if (matcher.find()) {
                                 allergens.add("Z" + arrayAllergens.getString(j));
+                                //////////////////////////////////allergens_spelledout.add(AllergensAdditives.Zj);
+                                ///////////////////////////////////////////////////////
                             } else {
                                 allergens.add(arrayAllergens.getString(j));
                             }

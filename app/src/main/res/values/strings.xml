@@ -90,8 +90,8 @@
             <item>3</item>
         </string-array>
 
-    <!-- Allergens & Additives -->
-        <!-- Allergens -->
+    <!-- AllergensAdditives & Additives -->
+        <!-- AllergensAdditives -->
         <string name="gluten">glutenhaltig</string>
         <string name="crab">Krebstiere und Krebstiererzeugnisse</string>
         <string name="egg">Eier und Eiererzeugnisse</string>
