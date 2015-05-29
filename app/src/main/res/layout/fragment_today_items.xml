@@ -58,6 +58,13 @@
         android:textSize="12sp"
         android:textStyle="normal" />
 
+    <TextView
+        android:id="@+id/meal_contents_spelledout"
+        android:text="Heyoooooooooo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
     <ImageView
         android:id="@+id/meal_typeicon"
         android:layout_width="54dp"

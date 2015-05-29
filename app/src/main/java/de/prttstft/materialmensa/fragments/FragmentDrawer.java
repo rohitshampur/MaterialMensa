@@ -145,7 +145,7 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
             }
         });
     }
-//
+
     public static interface ClickListener {
         public void onClick(View view, int position);
 

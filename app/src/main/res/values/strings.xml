@@ -90,4 +90,39 @@
             <item>3</item>
         </string-array>
 
+    <!-- Allergens & Additives -->
+        <!-- Allergens -->
+        <string name="gluten">glutenhaltig</string>
+        <string name="crab">Krebstiere und Krebstiererzeugnisse</string>
+        <string name="egg">Eier und Eiererzeugnisse</string>
+        <string name="fish">Fisch</string>
+        <string name="peanuts">Erdnüsse und Erdnusserzeugnisse</string>
+        <string name="soy">Soja und Sojaerzeugnisse</string>
+        <string name="milk">Milch und Milcherzeugnisse(einschließlich Lactose)</string>
+        <string name="nuts">Schalenfrüchte sowie daraus hergest. Erzeugnisse</string>
+        <string name="celery">Sellerie und Sellerieerzeugnisse</string>
+        <string name="mustard">Senf und Senferzeugnisse</string>
+        <string name="sesame">Sesamsamen und Sesamsamenerzeugnisse</string>
+        <string name="sulfites">Schwefeldioxid und Sulfite</string>
+        <string name="lupins">Lupinen und Lupinenerzeugnisse</string>
+        <string name="mulluscs">Weichtiere und Weichtiererzeugnisse</string>
+
+        <!-- Additives -->
+        <string name="dyes">mit Farbstoff(en)</string>
+        <string name="preservatives">mit Konservierungsstoff(en)</string>
+        <string name="antioxidant">mit Antioxidationsmittel</string>
+        <string name="flavorenhancers">mit Geschmacksverstärker(n)</string>
+        <string name="phosphate">mit Phosphat</string>
+        <string name="sulphuretted">geschwefelt</string>
+        <string name="waxed">gewachst</string>
+        <string name="blacked">geschwärzt</string>
+        <string name="sweeteners">mit Süßungsmittel(n)</string>
+        <string name="phenylalanine">enthält eine Phenylalaninquelle</string>
+        <string name="taurine">mit Taurin</string>
+        <string name="nitritesalting">mit Nitratpökelsalz</string>
+        <string name="caffeine">koffeinhaltig</string>
+        <string name="quinine">chininhaltig</string>
+        <string name="milkprotein">Milcheiweiß</string>
+
+
 </resources>

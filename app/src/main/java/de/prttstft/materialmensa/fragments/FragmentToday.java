@@ -34,6 +34,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
@@ -253,7 +255,14 @@ public class FragmentToday extends Fragment {
                         JSONArray arrayAllergens = currentMeal.getJSONArray(KEY_ALLERGENS);
 
                         for (int j = 0; j < arrayAllergens.length(); j++) {
-                            allergens.add(arrayAllergens.getString(j));
+
+                            Pattern pattern = Pattern.compile("(^)(\\d+)");
+                            Matcher matcher = pattern.matcher(arrayAllergens.getString(j));
+                            if (matcher.find()) {
+                                allergens.add("Z" + arrayAllergens.getString(j));
+                            } else {
+                                allergens.add(arrayAllergens.getString(j));
+                            }
                         }
                     }
 

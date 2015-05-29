@@ -1,6 +1,8 @@
 package de.prttstft.materialmensa.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Looper;
 import android.preference.PreferenceManager;
@@ -22,6 +24,8 @@ import java.util.Locale;
 import android.os.Handler;
 
 import java.util.logging.LogRecord;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.extras.Constants;
@@ -57,9 +61,8 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
     public ViewHolderToday onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.fragment_today_items, parent, false);
         ViewHolderToday viewHolder = new ViewHolderToday(view);
-        //L.t(context, "Test");
         return viewHolder;
-/////////////////////////
+
     }
 
 
@@ -69,12 +72,6 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         String personCategory = SP.getString("prefPersonCategory", "1");
 
         Meal currentMeal = listMeals.get(position);
-        /*if (currentMeal.getBadge().equals("lactose-free")) {
-            delete(position);
-        }*/
-
-        //if (lactoseFree && listMeals.get(position).getBadge().equals("lactose-free")) {
-
 
         holder.meal_name.setText(currentMeal.getName());
 
@@ -82,37 +79,26 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         switch (currentMeal.getBadge()) {
             case "vegetarian":
                 holder.meal_typeicon.setImageResource(R.drawable.ic_vegeterian);
-                holder.meal_typeicon.setTag(1);
                 break;
             case "vegan":
                 holder.meal_typeicon.setImageResource(R.drawable.ic_vegan);
-                holder.meal_typeicon.setTag(1);
                 break;
             case "lactose-free":
                 holder.meal_typeicon.setImageResource(R.drawable.ic_lactose_free);
-                holder.meal_typeicon.setTag(0);
                 break;
             case "low-calorie":
                 holder.meal_typeicon.setImageResource(R.drawable.ic_low_calorie);
-                holder.meal_typeicon.setTag(1);
                 break;
             case "vital-food":
                 holder.meal_typeicon.setImageResource(R.drawable.ic_vital_food);
-                holder.meal_typeicon.setTag(1);
                 break;
             case "nonfat":
                 holder.meal_typeicon.setImageResource(R.drawable.ic_nonfat);
-                holder.meal_typeicon.setTag(1);
                 break;
             default:
                 holder.meal_typeicon.setVisibility(View.GONE);
-                holder.meal_typeicon.setTag(1);
                 break;
         }
-        /*if (holder.meal_typeicon.getTag().toString().equals("1")) {
-            L.t(context, holder.meal_typeicon.getTag().toString());
-        }*/
-
 
         if (personCategory != null) {
             switch (personCategory) {
@@ -164,6 +150,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         private ImageView meal_typeicon;
         private TextView meal_name;
         private TextView meal_price;
+        private TextView meal_contents_spelledout;
 
         private TextView meal_contents;
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
@@ -173,12 +160,11 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
         public ViewHolderToday(View itemView) {
             super(itemView);
-            //itemView.setOnClickListener(this);
-
             meal_typeicon = (ImageView) itemView.findViewById(R.id.meal_typeicon);
             meal_name = (TextView) itemView.findViewById(R.id.meal_name);
             meal_price = (TextView) itemView.findViewById(R.id.meal_price);
             meal_contents = (TextView) itemView.findViewById(R.id.meal_contents);
+            meal_contents_spelledout = (TextView) itemView.findViewById(R.id.meal_contents_spelledout);
             meal_contents.setOnClickListener(this);
 
         }
@@ -186,7 +172,28 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
         @Override
         public void onClick(View view) {
-            delete(getAdapterPosition());
+            /*final AlertDialog.Builder contentsAlert = new AlertDialog.Builder(context);
+            contentsAlert.setMessage(String.valueOf(meal_contents_spelledout.getText())).
+                    setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    }).
+                    create();
+            contentsAlert.show();
+            */
+
+            String test = "15";
+            //Pattern pattern = Pattern.compile("'(.*?)'");
+            Pattern pattern = Pattern.compile("(^)(\\d+)");
+            Matcher matcher = pattern.matcher(test);
+            if (matcher.find()) {
+                L.t(context, "FOUND");
+            } else {
+                L.t(context, "NOT FOUND");
+            }
+
 
         }
 
