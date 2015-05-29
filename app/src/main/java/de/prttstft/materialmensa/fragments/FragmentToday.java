@@ -57,7 +57,7 @@ public class FragmentToday extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    //public static final String URL_ROTTEN_TOMATOES_BOX_OFFICE = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json";
+
     private static final String STATE_MEAL = "state_meal";
 
     // TODO: Rename and change types of parameters
