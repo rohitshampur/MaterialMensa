@@ -9,7 +9,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import de.prttstft.materialmensa.BuildConfig;
 import de.prttstft.materialmensa.R;
+import de.prttstft.materialmensa.logging.L;
 
 
 public class ActivityAbout extends AppCompatActivity {
@@ -31,8 +39,21 @@ public class ActivityAbout extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String today = df.format(c.getTime());
 
-    }
+
+        Calendar d = Calendar.getInstance();
+        d.add(Calendar.DAY_OF_YEAR, 1);
+        SimpleDateFormat dfd = new SimpleDateFormat("yyyy-MM-dd");
+        String tomorrow = dfd.format(d.getTime());
+
+
+}
+
+
+
 
     // Options
     @Override

@@ -51,7 +51,7 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
 
     public List<Drawer> getData() {
         List<Drawer> data = new ArrayList<>();
-        int[] icons = {R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3, R.drawable.ic_ndrawer_icon4, R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_ndrawer_icon3};
+        int[] icons = {R.drawable.ic_ndrawer_icon1, R.drawable.ic_ndrawer_icon2, R.drawable.ic_cafete, R.drawable.ic_grillcafe, R.drawable.ic_ndrawer_icon1, R.drawable.ic_onewaysnack, R.drawable.ic_mensula};
         String[] titles = getResources().getStringArray(R.array.drawer_tabs);
         for (int i = 0; i < titles.length; i++) {
             Drawer current = new Drawer();

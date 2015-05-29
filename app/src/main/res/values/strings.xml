@@ -1,5 +1,4 @@
 <resources>
-    <!-- TODO: ADD EVERYSTHING AS STRING & TRANSLATE -->
 
     // General
     <string name="app_name">MaterialMensa</string>
@@ -19,9 +18,9 @@
             <item>Mensa Forum</item>
             <item>Caféte</item>
             <item>Grill|Café</item>
-            <item>Mensula</item>
             <item>Campus Döner</item>
             <item>One Way Snack</item>
+            <item>Mensula</item>
         </string-array>
 
         // Tabs
@@ -48,16 +47,17 @@
         <string name="Lifestyle">Lifestyle</string>
         <string name="DefaultPersonCategory">Set your person category in the preferences</string>
         <string name="DefaultLifestyle">Set your Lifestyle in the preferences</string>
+        <string name="DefaultLactoseCheckbox">0</string>
         <string name="PersonCategorySummary">You can select your person category here to only display the relevant price.</string>
         <string name="LifestyleSummary">Select your lifestyle preference here.</string>
         <string name="DontSet">Not set</string>
         <string name="Student">Student</string>
         <string name="Staff">Staff</string>
         <string name="Guest">Guest</string>
-        <string name="NoPreference">No Preference</string>
-        <string name="Pescetarian">Pescetarian</string>
+        <string name="NoPreference">No Meal Preference</string>
         <string name="Vegetarian">Vegetarian</string>
         <string name="Vegan">Vegan</string>
+        <string name="LactoseIntolerant">Lactose Intolerant</string>
         <string name="LactoseFree">Lactose Free</string>
         <string name="GlutenFree">Gluten Free</string>
         <string name="ReducedFat">Reduced Fat</string>
@@ -75,11 +75,11 @@
             <item>1</item>
             <item>2</item>
             <item>3</item>
+            <item>4</item>
         </string-array>
 
         <string-array name="listLifestyle">
             <item>@string/NoPreference</item>
-            <item>@string/Pescetarian</item>
             <item>@string/Vegetarian</item>
             <item>@string/Vegan</item>
         </string-array>
@@ -88,25 +88,6 @@
             <item>1</item>
             <item>2</item>
             <item>3</item>
-            <item>4</item>
-        </string-array>
-
-        <string-array name="listLifestyleExtras">
-            <item>@string/LactoseFree</item>
-            <item>@string/ReducedFat</item>
-            <item>@string/ReducedCalories</item>
-        </string-array>
-
-        <string-array name="listLifestyleExtrasValues">
-            <item>1</item>
-            <item>2</item>
-            <item>3</item>
-        </string-array>
-
-        <string-array name="listLifestyleExtrasDefaultValues">
-            <item>0</item>
-            <item>0</item>
-            <item>0</item>
         </string-array>
 
 </resources>

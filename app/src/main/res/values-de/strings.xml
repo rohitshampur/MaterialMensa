@@ -7,8 +7,7 @@
     <string name="navDrawerCategory">Studierende*r</string>
     <string name="GlutenFree">Glutenfrei</string>
     <string name="LactoseFree">Laktosefrei</string>
-    <string name="NoPreference">Keine Präferenz</string>
-    <string name="Pescetarian">Pescetarisch</string>
+    <string name="NoPreference">Keine Essenspräferenz</string>
     <string name="ReducedCalories">Kalorienreduziert</string>
     <string name="ReducedFat">Fettreduziert</string>
     <string name="Vegetarian">Vegetarisch</string>
@@ -26,4 +25,11 @@
     <string name="error_parse">Daten konnten nicht geparst werden</string>
     <string name="error_server">Eine Verbindung konnte nicht hergestellt werden</string>
     <string name="error_timeout">Eine Verbindung konnte nicht hergestellt werden</string>
+    <string name="DontSet">Nicht gesetzt</string>
+    <string name="Lifestyle">Lifestyle</string>
+    <string name="PersonCategory">Personenkategorie</string>
+    <string name="PersonCategorySummary">Stelle deine Personenkategorie ein, damit du nur die relevanten Preise angezeigt bekommst.</string>
+    <string name="LifestyleSummary">Stelle deinen Lifestyle an.</string>
+    <string name="DefaultLactoseCheckbox">Laktoseintoleranz</string>
+    <string name="LactoseIntolerant">Laktoseintolerant</string>
 </resources>

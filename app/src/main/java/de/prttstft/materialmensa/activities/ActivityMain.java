@@ -15,6 +15,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import de.prttstft.materialmensa.logging.L;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -33,13 +36,24 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
     public static final int DAYS_TODAY = 0;
     public static final int DAYS_TOMORROW = 1;
     public static int mensaID = 0;
-    public static int testt;
+    public static String today;
+    public static String tomorrow;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        today = df.format(c.getTime());
+
+
+        Calendar d = Calendar.getInstance();
+        d.add(Calendar.DAY_OF_YEAR, 1);
+        SimpleDateFormat dfd = new SimpleDateFormat("yyyy-MM-dd");
+        tomorrow = dfd.format(d.getTime());
 
 
         // Adding the Toolbar
@@ -129,7 +143,6 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
 
         if (index == 0 && mensaID != 0) {
             mensaID = 0;
-            testt = index;
             Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
             finish(); //finish Activity.

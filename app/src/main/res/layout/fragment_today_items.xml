@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="105dp"
-    android:background="@drawable/custom_bg"
-    android:clickable="true"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@android:color/white">
 
     <TextView
         android:id="@+id/meal_name"
@@ -50,6 +49,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="5dp"
         android:layout_toLeftOf="@+id/meal_typeicon"
+        android:clickable="true"
         android:maxLines="1"
         android:minLines="1"
         android:scrollbars="vertical"
@@ -68,4 +68,7 @@
         android:padding="8dp"
         android:src="@drawable/ic_meal_picture_dummy" />
 
-</RelativeLayout>
+</RelativeLayout><!--
+android:background="@drawable/custom_bg"
+android:clickable="true"
+    -->

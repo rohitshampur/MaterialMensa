@@ -16,6 +16,16 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        if (project.hasProperty("materialmensa.signing")) {
+            println "project has property mensaupb.signing:"
+            println project.property("materialmensa.signing")
+            if (new File(project.property("materialmensa.signing")).exists()) {
+                apply from: project.property("materialmensa.signing");
+                println "Applied properties"
+            }
+        }
+
     }
 }
 
