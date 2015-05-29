@@ -1,7 +1,9 @@
 package de.prttstft.materialmensa.fragments;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -177,6 +179,8 @@ public class FragmentToday extends Fragment {
                     public void onResponse(JSONArray response) {
                         textVolleyError.setVisibility(View.GONE);
                         listMeals = parseJSONResponse(response);
+                        // Filter mealList
+                        filterMealList();
                         adapterToday.setMealList(listMeals);
                     }
                 }, new Response.ErrorListener() {
@@ -206,6 +210,8 @@ public class FragmentToday extends Fragment {
                     List<String> allergens = new ArrayList<String>();
                     String badge = "";
                     int order_info = 0;
+                    SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    String ls = SP.getString("prefLifestyle", "1");
 
                     JSONObject currentMeal = response.getJSONObject(i);
 
@@ -322,6 +328,7 @@ public class FragmentToday extends Fragment {
         listToday.setAdapter(adapterToday);
         if (savedInstanceState != null) {
             listMeals = savedInstanceState.getParcelableArrayList(STATE_MEAL);
+            filterMealList();
             adapterToday.setMealList(listMeals);
         } else {
             sendJsonRequest();
@@ -331,5 +338,32 @@ public class FragmentToday extends Fragment {
         return view;
     }
 
+    public void filterMealList() {
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String lifeStyle = SP.getString("prefLifestyle", "1");
+        Boolean lactoseFree = SP.getBoolean("prefLactoseFree", false);
 
+        int i = listMeals.size() - 1;
+
+        while (i >= 0) {
+
+            if (lactoseFree) {
+                if (!listMeals.get(i).getBadge().equals("lactose-free")) {
+                    listMeals.remove(i);
+                }
+            } else {
+                if (lifeStyle.equals("2")) {
+                    if (!listMeals.get(i).getBadge().equals("vegetarian") & !listMeals.get(i).getBadge().equals("vegan")) {
+                        listMeals.remove(i);
+                    }
+                } else if (lifeStyle.equals("3")) {
+                    if (!listMeals.get(i).getBadge().equals("vegan")) {
+                        listMeals.remove(i);
+                    }
+                }
+            }
+
+            i--;
+        }
+    }
 }

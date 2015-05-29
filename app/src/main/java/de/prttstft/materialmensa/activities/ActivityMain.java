@@ -36,11 +36,8 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
     public static final int DAYS_TODAY = 0;
     public static final int DAYS_TOMORROW = 1;
     public static int mensaID = 0;
-    public static int testt;
     public static String today;
     public static String tomorrow;
-
-
 
 
     @Override
@@ -146,7 +143,6 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
 
         if (index == 0 && mensaID != 0) {
             mensaID = 0;
-            testt = index;
             Intent refresh = new Intent(this, ActivityMain.class);
             startActivity(refresh);//Start the same Activity
             finish(); //finish Activity.

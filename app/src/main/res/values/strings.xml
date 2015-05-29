@@ -54,10 +54,10 @@
         <string name="Student">Student</string>
         <string name="Staff">Staff</string>
         <string name="Guest">Guest</string>
-        <string name="NoPreference">No Preference</string>
-        <string name="Pescetarian">Pescetarian</string>
+        <string name="NoPreference">No Meal Preference</string>
         <string name="Vegetarian">Vegetarian</string>
         <string name="Vegan">Vegan</string>
+        <string name="LactoseIntolerant">Lactose Intolerant</string>
         <string name="LactoseFree">Lactose Free</string>
         <string name="GlutenFree">Gluten Free</string>
         <string name="ReducedFat">Reduced Fat</string>

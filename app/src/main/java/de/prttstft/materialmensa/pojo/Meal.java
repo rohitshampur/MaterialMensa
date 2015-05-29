@@ -162,12 +162,12 @@ public class Meal implements Parcelable {
     @Override
     public String toString() {
         return "\nName: " + name +
-                "\nCategory " + category +
+                /*"\nCategory " + category +
                 "\nPrice Students " + price_students +
                 "\nPrice Staff " + price_staff +
                 "\nPrice Guests " + price_guests +
                 "\nAllergens " + allergens +
-                "\nBadge " + badge +
+                "\nBadge " + badge +*/
                 "\n";
     }
 
