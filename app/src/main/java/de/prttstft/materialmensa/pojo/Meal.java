@@ -129,16 +129,16 @@ public class Meal implements Parcelable {
         this.price_guests = price_guests;
     }
 
-    public String getAllergens() {
-        return allergens.toString();
+    public List<String> getAllergens() {
+        return allergens;
     }
 
     public void setAllergens(List<String> allergens) {
         this.allergens = allergens;
     }
 
-    public String getAllergensSpelledOut() {
-        return allergens_spelledout.toString();
+    public List<String> getAllergensSpelledOut() {
+        return allergens_spelledout;
     }
 
     public void setAllergensSpelledOut(List<String> allergens_spelledout) {

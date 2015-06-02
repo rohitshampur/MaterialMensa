@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="105dp"
     android:orientation="horizontal"
-    android:background="@android:color/white">
+    android:background="@drawable/custom_bg"
+    android:clickable="true">
 
     <TextView
         android:id="@+id/meal_name"
@@ -57,10 +58,10 @@
         android:textColor="@color/secondary_text"
         android:textSize="12sp"
         android:textStyle="normal" />
-
+<!-- STRIIIIIING -->
     <TextView
         android:id="@+id/meal_contents_spelledout"
-        android:text="Heyoooooooooo"
+        android:text="No Allergens or Additives"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"/>
@@ -78,4 +79,5 @@
 </RelativeLayout><!--
 android:background="@drawable/custom_bg"
 android:clickable="true"
+    android:background="@android:color/white"
     -->

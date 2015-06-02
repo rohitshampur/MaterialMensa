@@ -12,117 +12,199 @@
     <string name="drawer_close">Close</string>
     <string name="navDrawerCategory">Student</string>
 
-        // Items
-        <string-array name="drawer_tabs">
-            <item>Mensa Academica</item>
-            <item>Mensa Forum</item>
-            <item>Caféte</item>
-            <item>Grill|Café</item>
-            <item>Campus Döner</item>
-            <item>One Way Snack</item>
-            <item>Mensula</item>
-        </string-array>
+    // Items
+    <string-array name="drawer_tabs">
+        <item>Mensa Academica</item>
+        <item>Mensa Forum</item>
+        <item>Caféte</item>
+        <item>Grill|Café</item>
+        <item>Campus Döner</item>
+        <item>One Way Snack</item>
+        <item>Mensula</item>
+    </string-array>
 
-        // Tabs
-        <string name="today">Today</string>
-        <string name="tomorrow">Tomorrow</string>
+    // Tabs
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
 
-        <string-array name="tabs">
-            <item>@string/today</item>
-            <item>@string/tomorrow</item>
-        </string-array>
+    <string-array name="tabs">
+        <item>@string/today</item>
+        <item>@string/tomorrow</item>
+    </string-array>
 
     // Errors
-        // Volley
-        <string name="error_timeout">A network connection could not be established</string>
-        <string name="error_auth_failure">A network connection could not be established</string>
-        <string name="error_server">A network connection could not be established</string>
-        <string name="error_network">A network connection could not be established</string>
-        <string name="error_parse">Could not parse data</string>
+    // Volley
+    <string name="error_timeout">A network connection could not be established</string>
+    <string name="error_auth_failure">A network connection could not be established</string>
+    <string name="error_server">A network connection could not be established</string>
+    <string name="error_network">A network connection could not be established</string>
+    <string name="error_parse">Could not parse data</string>
 
 
     // Preferences
-        // Strings
-        <string name="PersonCategory">Person Category</string>
-        <string name="Lifestyle">Lifestyle</string>
-        <string name="DefaultPersonCategory">Set your person category in the preferences</string>
-        <string name="DefaultLifestyle">Set your Lifestyle in the preferences</string>
-        <string name="DefaultLactoseCheckbox">0</string>
-        <string name="PersonCategorySummary">You can select your person category here to only display the relevant price.</string>
-        <string name="LifestyleSummary">Select your lifestyle preference here.</string>
-        <string name="DontSet">Not set</string>
-        <string name="Student">Student</string>
-        <string name="Staff">Staff</string>
-        <string name="Guest">Guest</string>
-        <string name="NoPreference">No Meal Preference</string>
-        <string name="Vegetarian">Vegetarian</string>
-        <string name="Vegan">Vegan</string>
-        <string name="LactoseIntolerant">Lactose Intolerant</string>
-        <string name="LactoseFree">Lactose Free</string>
-        <string name="GlutenFree">Gluten Free</string>
-        <string name="ReducedFat">Reduced Fat</string>
-        <string name="ReducedCalories">Reduced Calories</string>
+    // Strings
+    <string name="CategoryGeneral">General</string>
+    <string name="CategoryAllergensAdditives">Allergens &amp; Additives</string>
+    <string name="Allergens">Allergens</string>
+    <string name="Additives">Additives</string>
+    <string name="PersonCategory">Person Category</string>
+    <string name="Lifestyle">Lifestyle</string>
+    <string name="DefaultPersonCategory">Set your person category in the preferences</string>
+    <string name="DefaultLifestyle">Set your Lifestyle in the preferences</string>
+    <string name="DefaultLactoseCheckbox">0</string>
+    <string name="PersonCategorySummary">You can select your person category here to only display the relevant price.</string>
+    <string name="LifestyleSummary">Select your lifestyle preference here.</string>
+    <string name="AllergensSummary">Select the allergens filter here.</string>
+    <string name="AdditivesSummary">Select your additives filter here.</string>
+    <string name="DontSet">Not set</string>
+    <string name="Student">Student</string>
+    <string name="Staff">Staff</string>
+    <string name="Guest">Guest</string>
+    <string name="NoPreference">No Meal Preference</string>
+    <string name="Vegetarian">Vegetarian</string>
+    <string name="Vegan">Vegan</string>
+    <string name="LactoseIntolerant">Lactose Intolerant</string>
+    <string name="LactoseFree">Lactose Free</string>
+    <string name="GlutenFree">Gluten Free</string>
+    <string name="ReducedFat">Reduced Fat</string>
+    <string name="ReducedCalories">Reduced Calories</string>
 
-        // Arrays
-        <string-array name="listPersonCategory">
-            <item>@string/DontSet</item>
-            <item>@string/Student</item>
-            <item>@string/Staff</item>
-            <item>@string/Guest</item>
-        </string-array>
+    // Arrays
 
-        <string-array name="listPersonCategoryValues">
-            <item>1</item>
-            <item>2</item>
-            <item>3</item>
-            <item>4</item>
-        </string-array>
+    <string-array name="empty_array">
 
-        <string-array name="listLifestyle">
-            <item>@string/NoPreference</item>
-            <item>@string/Vegetarian</item>
-            <item>@string/Vegan</item>
-        </string-array>
+    </string-array>
 
-        <string-array name="listLifestyleValues">
-            <item>1</item>
-            <item>2</item>
-            <item>3</item>
-        </string-array>
+    <string-array name="listPersonCategory">
+        <item>@string/DontSet</item>
+        <item>@string/Student</item>
+        <item>@string/Staff</item>
+        <item>@string/Guest</item>
+    </string-array>
+
+    <string-array name="listPersonCategoryValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="listLifestyle">
+        <item>@string/NoPreference</item>
+        <item>@string/Vegetarian</item>
+        <item>@string/Vegan</item>
+    </string-array>
+
+    <string-array name="listLifestyleValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="listAllergens">
+        <item>@string/gluten</item>
+        <item>@string/crab</item>
+        <item>@string/egg</item>
+        <item>@string/fish</item>
+        <item>@string/peanuts</item>
+        <item>@string/soy</item>
+        <item>@string/milk</item>
+        <item>@string/nuts</item>
+        <item>@string/celery</item>
+        <item>@string/mustard</item>
+        <item>@string/sesame</item>
+        <item>@string/sulphites</item>
+        <item>@string/lupins</item>
+        <item>@string/molluscs</item>
+    </string-array>
+
+    <string-array name="listAllergensValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+    </string-array>
+
+    <string-array name="listAdditives">
+        <item>@string/dyes</item>
+        <item>@string/preservatives</item>
+        <item>@string/antioxidant</item>
+        <item>@string/flavorenhancers</item>
+        <item>@string/phosphate</item>
+        <item>@string/sulphurised</item>
+        <item>@string/waxed</item>
+        <item>@string/blackend</item>
+        <item>@string/sweeteners</item>
+        <item>@string/phenylalanine</item>
+        <item>@string/taurine</item>
+        <item>@string/nitratesaltingmix</item>
+        <item>@string/caffeine</item>
+        <item>@string/quinine</item>
+        <item>@string/milkprotein</item>
+    </string-array>
+
+    <string-array name="listAdditivesValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+    </string-array>
+
 
     <!-- AllergensAdditives & Additives -->
-        <!-- AllergensAdditives -->
-        <string name="gluten">glutenhaltig</string>
-        <string name="crab">Krebstiere und Krebstiererzeugnisse</string>
-        <string name="egg">Eier und Eiererzeugnisse</string>
-        <string name="fish">Fisch</string>
-        <string name="peanuts">Erdnüsse und Erdnusserzeugnisse</string>
-        <string name="soy">Soja und Sojaerzeugnisse</string>
-        <string name="milk">Milch und Milcherzeugnisse(einschließlich Lactose)</string>
-        <string name="nuts">Schalenfrüchte sowie daraus hergest. Erzeugnisse</string>
-        <string name="celery">Sellerie und Sellerieerzeugnisse</string>
-        <string name="mustard">Senf und Senferzeugnisse</string>
-        <string name="sesame">Sesamsamen und Sesamsamenerzeugnisse</string>
-        <string name="sulfites">Schwefeldioxid und Sulfite</string>
-        <string name="lupins">Lupinen und Lupinenerzeugnisse</string>
-        <string name="mulluscs">Weichtiere und Weichtiererzeugnisse</string>
+    <!-- Allergens -->
+    <string name="gluten">Gluten</string>
+    <string name="crab">Crustaceans and/or products thereof</string>
+    <string name="egg">Eggs and/or products thereof</string>
+    <string name="fish">Fish</string>
+    <string name="peanuts">Peanuts and/or products thereof</string>
+    <string name="soy">Soy and/or products thereof</string>
+    <string name="milk">Milk and/or products thereof (including Lactose)</string>
+    <string name="nuts">Nuts and/or products thereof</string>
+    <string name="celery">Celery and/or products thereof</string>
+    <string name="mustard">Mustard and/or products thereof</string>
+    <string name="sesame">Sesame and/or products thereof</string>
+    <string name="sulphites">Sulphur dioxide and Sulphites</string>
+    <string name="lupins">Lupins and/or products thereof</string>
+    <string name="molluscs">Molluscs and/or products thereof</string>
 
-        <!-- Additives -->
-        <string name="dyes">mit Farbstoff(en)</string>
-        <string name="preservatives">mit Konservierungsstoff(en)</string>
-        <string name="antioxidant">mit Antioxidationsmittel</string>
-        <string name="flavorenhancers">mit Geschmacksverstärker(n)</string>
-        <string name="phosphate">mit Phosphat</string>
-        <string name="sulphuretted">geschwefelt</string>
-        <string name="waxed">gewachst</string>
-        <string name="blacked">geschwärzt</string>
-        <string name="sweeteners">mit Süßungsmittel(n)</string>
-        <string name="phenylalanine">enthält eine Phenylalaninquelle</string>
-        <string name="taurine">mit Taurin</string>
-        <string name="nitritesalting">mit Nitratpökelsalz</string>
-        <string name="caffeine">koffeinhaltig</string>
-        <string name="quinine">chininhaltig</string>
-        <string name="milkprotein">Milcheiweiß</string>
+    <!-- Additives -->
+    <string name="dyes">Colorings</string>
+    <string name="preservatives">Preservatives</string>
+    <string name="antioxidant">Antioxidants</string>
+    <string name="flavorenhancers">Flavor enhancers</string>
+    <string name="phosphate">Phosphate</string>
+    <string name="sulphurised">Sulphurised</string>
+    <string name="waxed">Waxed</string>
+    <string name="blackend">Blackend</string>
+    <string name="sweeteners">Sweeteners</string>
+    <string name="phenylalanine">Phenylalanine</string>
+    <string name="taurine">Taurin</string>
+    <string name="nitratesaltingmix">Nitrate Salting Mix</string>
+    <string name="caffeine">Caffeine</string>
+    <string name="quinine">Quinine</string>
+    <string name="milkprotein">Milk protein</string>
 
 
 </resources>

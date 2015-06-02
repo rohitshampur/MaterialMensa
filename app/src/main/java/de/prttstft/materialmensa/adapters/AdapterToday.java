@@ -4,32 +4,21 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.support.annotation.DrawableRes;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
-import android.os.Handler;
-
-import java.util.logging.LogRecord;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import de.prttstft.materialmensa.R;
-import de.prttstft.materialmensa.extras.Constants;
-import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 
@@ -122,8 +111,17 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         }
 
 
-        if (!currentMeal.getAllergens().equals("[]")) {
-            holder.meal_contents.setText(currentMeal.getAllergens());
+        if (!currentMeal.getAllergens().toString().equals("[]")) {
+            String allergenreturn = "Allergens & Additives:\n";
+            List<String> allergenarray = currentMeal.getAllergens();
+            List<String> allergensSpelledOutarray = currentMeal.getAllergensSpelledOut();
+
+            for (int i = 0; i < allergensSpelledOutarray.size(); i++) {
+                allergenreturn = allergenreturn + "\n- " + allergensSpelledOutarray.get(i) + " (" + allergenarray.get(i) + ")";
+            }
+
+            holder.meal_contents.setText(currentMeal.getAllergens().toString());
+            holder.meal_contents_spelledout.setText(allergenreturn);
         } else {
             if (Locale.getDefault().getISO3Language().equals("deu")) {
                 holder.meal_contents.setText("Keine Allergene oder Zusatzstoffe");
@@ -172,7 +170,8 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
         @Override
         public void onClick(View view) {
-            /*final AlertDialog.Builder contentsAlert = new AlertDialog.Builder(context);
+
+            final AlertDialog.Builder contentsAlert = new AlertDialog.Builder(context);
             contentsAlert.setMessage(String.valueOf(meal_contents_spelledout.getText())).
                     setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
@@ -182,18 +181,6 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
                     }).
                     create();
             contentsAlert.show();
-            */
-
-            String test = "15";
-            //Pattern pattern = Pattern.compile("'(.*?)'");
-            Pattern pattern = Pattern.compile("(^)(\\d+)");
-            Matcher matcher = pattern.matcher(test);
-            if (matcher.find()) {
-                L.t(context, "FOUND");
-            } else {
-                L.t(context, "NOT FOUND");
-            }
-
 
         }
 
