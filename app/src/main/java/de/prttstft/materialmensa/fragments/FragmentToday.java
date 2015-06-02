@@ -40,9 +40,9 @@ import java.util.regex.Pattern;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapters.AdapterToday;
-import de.prttstft.materialmensa.extras.AllergensAdditives;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 
@@ -75,6 +75,7 @@ public class FragmentToday extends Fragment {
     private TextView textVolleyError;
     private MealSorter mSorter = new MealSorter();
 
+
     public static FragmentToday newInstance(String param1, String param2) {
 
         FragmentToday fragment = new FragmentToday();
@@ -91,6 +92,81 @@ public class FragmentToday extends Fragment {
         outState.putParcelableArrayList(STATE_MEAL, listMeals);
 
     }
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    private String getAllergens(String allergen) {
+        if (allergen.equals("1")) {
+            return getResources().getString(R.string.gluten);
+        } else if (allergen.equals("2")) {
+            return getResources().getString(R.string.crab);
+        } else if (allergen.equals("3")) {
+            return getResources().getString(R.string.egg);
+        } else if (allergen.equals("4")) {
+            return getResources().getString(R.string.fish);
+        } else if (allergen.equals("5")) {
+            return getResources().getString(R.string.peanuts);
+        } else if (allergen.equals("6")) {
+            return getResources().getString(R.string.soy);
+        } else if (allergen.equals("7")) {
+            return getResources().getString(R.string.milk);
+        } else if (allergen.equals("8")) {
+            return getResources().getString(R.string.nuts);
+        } else if (allergen.equals("9")) {
+            return getResources().getString(R.string.celery);
+        } else if (allergen.equals("10")) {
+            return getResources().getString(R.string.mustard);
+        } else if (allergen.equals("11")) {
+            return getResources().getString(R.string.sesame);
+        } else if (allergen.equals("12")) {
+            return getResources().getString(R.string.sulfites);
+        } else if (allergen.equals("13")) {
+            return getResources().getString(R.string.lupins);
+        } else if (allergen.equals("14")) {
+            return getResources().getString(R.string.mulluscs);
+        } else {
+            return "";
+        }
+    }
+
+    private String getAdditives(String additive) {
+        if (additive.equals("1")) {
+            return getResources().getString(R.string.dyes);
+        } else if (additive.equals("2")) {
+            return getResources().getString(R.string.preservatives);
+        } else if (additive.equals("3")) {
+            return getResources().getString(R.string.antioxidant);
+        } else if (additive.equals("4")) {
+            return getResources().getString(R.string.flavorenhancers);
+        } else if (additive.equals("5")) {
+            return getResources().getString(R.string.phosphate);
+        } else if (additive.equals("6")) {
+            return getResources().getString(R.string.sulphuretted);
+        } else if (additive.equals("7")) {
+            return getResources().getString(R.string.waxed);
+        } else if (additive.equals("8")) {
+            return getResources().getString(R.string.blacked);
+        } else if (additive.equals("9")) {
+            return getResources().getString(R.string.sweeteners);
+        } else if (additive.equals("10")) {
+            return getResources().getString(R.string.phenylalanine);
+        } else if (additive.equals("11")) {
+            return getResources().getString(R.string.taurine);
+        } else if (additive.equals("12")) {
+            return getResources().getString(R.string.nitritesalting);
+        } else if (additive.equals("13")) {
+            return getResources().getString(R.string.caffeine);
+        } else if (additive.equals("14")) {
+            return getResources().getString(R.string.quinine);
+        } else if (additive.equals("15")) {
+            return getResources().getString(R.string.milkprotein);
+        } else {
+            return "";
+        }
+    }
+    /////////////////////////////////////////////
+
+
 
     public static String getRequestUrl() {
         if (ActivityMain.mensaID == 1) {
@@ -259,13 +335,16 @@ public class FragmentToday extends Fragment {
                             Pattern pattern = Pattern.compile("(^)(\\d+)");
                             Matcher matcher = pattern.matcher(arrayAllergens.getString(j));
                             if (matcher.find()) {
-                                allergens.add("Z" + arrayAllergens.getString(j));
-                                //////////////////////////////////allergens_spelledout.add(AllergensAdditives.Zj);
-                                ///////////////////////////////////////////////////////
+                                allergens.add(arrayAllergens.getString(j));
+                                allergens_spelledout.add(getAdditives(String.valueOf(j)));
+
                             } else {
                                 allergens.add(arrayAllergens.getString(j));
+                                allergens_spelledout.add(getAllergens(String.valueOf(j)));
+
                             }
                         }
+                        L.t(getActivity(), allergens_spelledout.toString());
                     }
 
                     if (currentMeal.has(KEY_BADGE) && !currentMeal.isNull(KEY_BADGE)) {
@@ -280,6 +359,8 @@ public class FragmentToday extends Fragment {
                             tara = true;
                         }
                     }
+
+                    //L.t(getActivity(), String.valueOf(allergens_spelledout));
 
                     Meal meal = new Meal();
                     meal.setName(name);
