@@ -34,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +43,7 @@ import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapters.AdapterToday;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 
@@ -164,7 +166,6 @@ public class FragmentToday extends Fragment {
         }
     }
     /////////////////////////////////////////////
-
 
 
     public static String getRequestUrl() {
@@ -438,28 +439,48 @@ public class FragmentToday extends Fragment {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String lifeStyle = SP.getString("prefLifestyle", "1");
         Boolean lactoseFree = SP.getBoolean("prefLactoseFree", false);
+        Set<String> selections = SP.getStringSet("prefAdditives", null);
+        String[] selected = {};
+
+        try {
+            selected = selections.toArray(new String[]{});
+        } catch (NullPointerException e) {
+            L.t(getActivity(), "NOPE");
+        }
+        //L.t(getActivity(), String.valueOf(selected[0]));
 
         int i = listMeals.size() - 1;
 
         while (i >= 0) {
+            for (int j = 0; j < selected.length; j++) {
+                for (int k = 0; k < listMeals.get(i).getAllergens().size(); k++) {
+                    if (listMeals.get(i).getAllergens().get(k).equals(String.valueOf(selected[j]))) {
+                        listMeals.remove(i);
+                        break;
+                        //L.t(getActivity(), "MealAdditive: " + listMeals.get(i).getAllergens().get(k) + ", Setting Additive: " + String.valueOf(selected[j]));
 
-            if (lactoseFree) {
-                if (!listMeals.get(i).getBadge().equals("lactose-free")) {
-                    listMeals.remove(i);
-                }
-            } else {
-                if (lifeStyle.equals("2")) {
-                    if (!listMeals.get(i).getBadge().equals("vegetarian") & !listMeals.get(i).getBadge().equals("vegan")) {
-                        listMeals.remove(i);
-                    }
-                } else if (lifeStyle.equals("3")) {
-                    if (!listMeals.get(i).getBadge().equals("vegan")) {
-                        listMeals.remove(i);
+                    } else if (lactoseFree) {
+                        if (!listMeals.get(i).getBadge().equals("vegetarian") & !listMeals.get(i).getBadge().equals("vegan")) {
+                            listMeals.remove(i);
+                        }
+
+                    } else {
+                        if (lifeStyle.equals("2")) {
+                            if (!listMeals.get(i).getBadge().equals("vegetarian") & !listMeals.get(i).getBadge().equals("vegan")) {
+                                listMeals.remove(i);
+                            }
+
+                        } else if (lifeStyle.equals("3")) {
+                            if (!listMeals.get(i).getBadge().equals("vegan")) {
+                                listMeals.remove(i);
+                            }
+                        }
                     }
                 }
             }
-
             i--;
         }
     }
 }
+
+
