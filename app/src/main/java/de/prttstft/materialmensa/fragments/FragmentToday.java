@@ -258,8 +258,8 @@ public class FragmentToday extends Fragment {
                         textVolleyError.setVisibility(View.GONE);
                         listMeals = parseJSONResponse(response);
                         // Filter mealList
-                        filterMealList();
-                        adapterToday.setMealList(listMeals);
+                        //filterMealList();
+                        adapterToday.setMealList(filterMealList(listMeals));
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -425,8 +425,8 @@ public class FragmentToday extends Fragment {
         listToday.setAdapter(adapterToday);
         if (savedInstanceState != null) {
             listMeals = savedInstanceState.getParcelableArrayList(STATE_MEAL);
-            filterMealList();
-            adapterToday.setMealList(listMeals);
+            //filterMealList();
+            adapterToday.setMealList(filterMealList(listMeals));
         } else {
             sendJsonRequest();
         }
@@ -435,25 +435,63 @@ public class FragmentToday extends Fragment {
         return view;
     }
 
-    public void filterMealList() {
+    public ArrayList<Meal> filterMealList(ArrayList<Meal> unfilteredMealList) {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String lifeStyle = SP.getString("prefLifestyle", "1");
         Boolean lactoseFree = SP.getBoolean("prefLactoseFree", false);
         Set<String> selections = SP.getStringSet("prefAdditives", null);
         String[] selected = {};
+        ArrayList<Meal> filteredMealList = new ArrayList<>();
 
+        if (lifeStyle.equals("1") & !lactoseFree & selections.isEmpty()) {
+            L.t(getActivity(), "SELECTIONS IS EMPTY!");
+            return unfilteredMealList;
+        } else {
+            for (int i = 0; i < unfilteredMealList.size(); i++) {
+                if (lactoseFree) {
+                    if (unfilteredMealList.get(i).getBadge().equals("lactose-free")) {
+                        filteredMealList.add(unfilteredMealList.get(i));
+                    }
+                } else if (lifeStyle.equals("2")) {
+                    if (unfilteredMealList.get(i).getBadge().equals("vegetarian") | unfilteredMealList.get(i).getBadge().equals("vegan")) {
+                        filteredMealList.add(unfilteredMealList.get(i));
+                    }
+                } else if (lifeStyle.equals("3")) {
+                    if (unfilteredMealList.get(i).getBadge().equals("vegan")) {
+                        filteredMealList.add(unfilteredMealList.get(i));
+                    }
+                } else if (se)
+            }
+
+
+            /*L.t(getActivity(), "SELECTIONS IS NOT EMPTY!");
+            for (int i = 0; i < unfilteredMealList.size(); i++) {
+                if ()
+                    if (unfilteredMealList.get(i).filterMeal("badge", "vegetarian")) {
+                        filteredMealList.add(unfilteredMealList.get(i));
+
+                    }
+            }
+*/
+            return filteredMealList;
+        }
+
+/*
         try {
             selected = selections.toArray(new String[]{});
         } catch (NullPointerException e) {
             L.t(getActivity(), "NOPE");
         }
+
+
         //L.t(getActivity(), String.valueOf(selected[0]));
 
         int i = listMeals.size() - 1;
-
         while (i >= 0) {
-            for (int j = 0; j < selected.length; j++) {
-                for (int k = 0; k < listMeals.get(i).getAllergens().size(); k++) {
+            int j = selected.length - 1;
+            while (j >= 0) {
+                int k = listMeals.get(i).getAllergens().size() -1;
+                while (k >= 0) {
                     if (listMeals.get(i).getAllergens().get(k).equals(String.valueOf(selected[j]))) {
                         listMeals.remove(i);
                         break;
@@ -476,10 +514,12 @@ public class FragmentToday extends Fragment {
                             }
                         }
                     }
+                    k--;
                 }
+                j--;
             }
             i--;
-        }
+        }*/
     }
 }
 

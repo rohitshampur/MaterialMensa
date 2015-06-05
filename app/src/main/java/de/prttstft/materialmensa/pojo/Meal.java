@@ -212,4 +212,19 @@ public class Meal implements Parcelable {
             return new Meal[size];
         }
     };
+
+    public boolean filterMeal(String searchtype, String filter) {
+        if (searchtype.equals("badge")) {
+            if (filter.equals(getBadge())) {
+                return true;
+            }
+        }
+        /*if (searchtype.equals("allergensAdditives")) {
+            if (filter.equals(getAllergens())) {
+                return true;
+            }
+        }*/
+
+        return false;
+    }
 }
