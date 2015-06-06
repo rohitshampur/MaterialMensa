@@ -32,6 +32,8 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -439,12 +441,78 @@ public class FragmentToday extends Fragment {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String lifeStyle = SP.getString("prefLifestyle", "1");
         Boolean lactoseFree = SP.getBoolean("prefLactoseFree", false);
-        Set<String> selections = SP.getStringSet("prefAdditives", null);
-        String[] selected = {};
+        //Set<String> selections = SP.getStringSet("prefAdditives", Collections.<String>emptySet());
+        HashSet<String> hs = new HashSet<>();
+        Set<String> selections = SP.getStringSet("prefAdditives", Collections.<String>emptySet());
+        //String[] selected = {};
+
+        String[] selected = selections.toArray(new String[selections.size()]);
         ArrayList<Meal> filteredMealList = new ArrayList<>();
 
+        /*for (int i = 0; i < selected.length; i++) {
+            L.t(getActivity(), selected[i]);
+        }
+
+        for (int j = 0;j<unfilteredMealList.size();j++) {
+            for (int i = 0; i < unfilteredMealList.get(j).getAllergens().size(); i++) {
+                L.t(getActivity(), unfilteredMealList.get(j).getAllergens().toString());
+            }
+        }*/
+
+        for (int i = 0; i < unfilteredMealList.size(); i++) {
+            if (doesntContainAdditives(unfilteredMealList.get(i).getAllergens().toString(), selected)) {
+                filteredMealList.add(unfilteredMealList.get(i));
+            }
+        }
+
+
+
+
+        /*for (int i = 0; i < unfilteredMealList.size(); i++) {
+            if (doesntContainAdditives(unfilteredMealList.get(i).getAllergens().toString(), selected)) {
+                filteredMealList.add(unfilteredMealList.get(i));
+            }
+        }*/
+
+        if (!filteredMealList.isEmpty()) {
+            return filteredMealList;
+        } else {
+            return unfilteredMealList;
+        }
+
+
+        /*for (int i = 0; i < unfilteredMealList.size(); i++) {
+            for (int j = 1; j <= 15; j++) {
+                if (selections.contains(String.valueOf(j))) {
+                    if (unfilteredMealList.get(i).getAllergens().toString().contains(String.valueOf(j))) {
+
+                    }
+                }
+            }
+        }*/
+
+        /*for (int i = 0; i < unfilteredMealList.size(); i++) {
+            for (int j = 0; j < selections.size(); j++) {
+                String currentj = String.valueOf(j);
+                //L.t(getActivity(), "1");
+                if (selections.contains(currentj)) {
+                    if (!unfilteredMealList.get(i).getAllergens().toString().contains(currentj)) {
+                        L.t(getActivity(), "YO?!");
+                    }
+                }
+            }
+        }*/
+
+        /*if (selections.contains("3")) {
+            if (unfilteredMealList.get(0).getAllergens().toString().contains("2"))
+                L.t(getActivity(), "HEYA");
+        }*/
+
+
+
+/*
         if (lifeStyle.equals("1") & !lactoseFree & selections.isEmpty()) {
-            L.t(getActivity(), "SELECTIONS IS EMPTY!");
+            // L.t(getActivity(), "SELECTIONS IS EMPTY!");
             return unfilteredMealList;
         } else {
             for (int i = 0; i < unfilteredMealList.size(); i++) {
@@ -460,67 +528,52 @@ public class FragmentToday extends Fragment {
                     if (unfilteredMealList.get(i).getBadge().equals("vegan")) {
                         filteredMealList.add(unfilteredMealList.get(i));
                     }
-                } else if (se)
-            }
-
-
-            /*L.t(getActivity(), "SELECTIONS IS NOT EMPTY!");
-            for (int i = 0; i < unfilteredMealList.size(); i++) {
-                if ()
-                    if (unfilteredMealList.get(i).filterMeal("badge", "vegetarian")) {
-                        filteredMealList.add(unfilteredMealList.get(i));
-
-                    }
-            }
-*/
-            return filteredMealList;
-        }
-
-/*
-        try {
-            selected = selections.toArray(new String[]{});
-        } catch (NullPointerException e) {
-            L.t(getActivity(), "NOPE");
-        }
-
-
-        //L.t(getActivity(), String.valueOf(selected[0]));
-
-        int i = listMeals.size() - 1;
-        while (i >= 0) {
-            int j = selected.length - 1;
-            while (j >= 0) {
-                int k = listMeals.get(i).getAllergens().size() -1;
-                while (k >= 0) {
-                    if (listMeals.get(i).getAllergens().get(k).equals(String.valueOf(selected[j]))) {
-                        listMeals.remove(i);
-                        break;
-                        //L.t(getActivity(), "MealAdditive: " + listMeals.get(i).getAllergens().get(k) + ", Setting Additive: " + String.valueOf(selected[j]));
-
-                    } else if (lactoseFree) {
-                        if (!listMeals.get(i).getBadge().equals("vegetarian") & !listMeals.get(i).getBadge().equals("vegan")) {
-                            listMeals.remove(i);
-                        }
-
-                    } else {
-                        if (lifeStyle.equals("2")) {
-                            if (!listMeals.get(i).getBadge().equals("vegetarian") & !listMeals.get(i).getBadge().equals("vegan")) {
-                                listMeals.remove(i);
-                            }
-
-                        } else if (lifeStyle.equals("3")) {
-                            if (!listMeals.get(i).getBadge().equals("vegan")) {
-                                listMeals.remove(i);
-                            }
-                        }
-                    }
-                    k--;
                 }
-                j--;
             }
-            i--;
+            if (!filteredMealList.isEmpty()) {
+                return filteredMealList;
+            } else {
+                return unfilteredMealList;
+            }
         }*/
     }
+
+    public boolean containsAdditives(String inputString, String[] items) {
+
+        for (int i = 0; i < items.length; i++) {
+            L.t(getActivity(), items[i].toString());
+            if (inputString.contains(items[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean doesntContainAdditives(String inputString, String[] items) {
+
+        for (int i = 0; i < items.length; i++) {
+
+            String patternA = "(A{1}\\d{1,2})";
+            String inputStringRegExd = inputString.replaceAll(patternA, "");
+
+            Pattern patternZ = Pattern.compile(items[i]+"{1}\\D");
+            Matcher matcher = patternZ.matcher(inputStringRegExd);
+            //L.t(getActivity(), inputStringRegExd);
+            if (matcher.find()) {
+                L.t(getActivity(), String.valueOf(matcher.find()));
+                return false;
+            }
+
+            /*L.t(getActivity(), "1{1}\\D");
+            if (inputStringRegExd.contains(items[i]+"{1}\\D")) {
+                return false;
+            }*/
+
+            /*if (inputStringRegExd.contains(items[i])) {
+                return false;
+            }*/
+
+        }
+        return true;
+    }
 }
-
-
