@@ -96,8 +96,12 @@ public class FragmentToday extends Fragment {
 
     }
 
+    // Required empty public constructor
+    public FragmentToday() {
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////
+    // This should be outsourced
     private String getAllergens(String allergen) {
         if (allergen.equals("A1")) {
             return getResources().getString(R.string.gluten);
@@ -169,7 +173,7 @@ public class FragmentToday extends Fragment {
     }
     /////////////////////////////////////////////
 
-
+    // This should be outsourced
     public static String getRequestUrl() {
         if (ActivityMain.mensaID == 1) {
             return UrlEndpoints.URL_API
@@ -236,10 +240,6 @@ public class FragmentToday extends Fragment {
                     + UrlEndpoints.URL_PARAM_TODAY
                     ;
         }
-    }
-
-    public FragmentToday() {
-        // Required empty public constructor
     }
 
     @Override
@@ -367,8 +367,6 @@ public class FragmentToday extends Fragment {
                         }
                     }
 
-                    //L.t(getActivity(), String.valueOf(allergens_spelledout));
-
                     Meal meal = new Meal();
                     meal.setName(name);
                     meal.setCategory(category);
@@ -432,8 +430,6 @@ public class FragmentToday extends Fragment {
         } else {
             sendJsonRequest();
         }
-
-
         return view;
     }
 
@@ -471,13 +467,6 @@ public class FragmentToday extends Fragment {
         return true;
     }
 
-    public boolean isVegetarian(String badge) {
-        if (!(badge.equals("vegetarian") | !badge.equals("vegan"))) {
-            return false;
-        }
-        return true;
-    }
-
     public boolean doesntContainAdditives(String inputString, String[] items) {
 
         for (int i = 0; i < items.length; i++) {
@@ -496,6 +485,13 @@ public class FragmentToday extends Fragment {
                 return false;
             }*/
 
+        }
+        return true;
+    }
+
+    public boolean isVegetarian(String badge) {
+        if (!(badge.equals("vegetarian") | !badge.equals("vegan"))) {
+            return false;
         }
         return true;
     }
