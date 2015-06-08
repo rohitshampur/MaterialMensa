@@ -441,33 +441,11 @@ public class FragmentToday extends Fragment {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String lifeStyle = SP.getString("prefLifestyle", "1");
         Boolean lactoseFree = SP.getBoolean("prefLactoseFree", false);
-        //Set<String> selections = SP.getStringSet("prefAdditives", Collections.<String>emptySet());
-        //String[] selected = {};
-        //HashSet<String> hs = new HashSet<>();
         Set<String> selectionsAllergens = SP.getStringSet("prefAllergens", Collections.<String>emptySet());
         Set<String> selectionsAdditives = SP.getStringSet("prefAdditives", Collections.<String>emptySet());
-
         String[] selectedAllergens = selectionsAllergens.toArray(new String[selectionsAllergens.size()]);
         String[] selectedAdditives = selectionsAdditives.toArray(new String[selectionsAdditives.size()]);
         ArrayList<Meal> filteredMealList = new ArrayList<>();
-
-        /*for (int i = 0; i < selected.length; i++) {
-            L.t(getActivity(), selected[i]);
-        }
-
-        for (int j = 0;j<unfilteredMealList.size();j++) {
-            for (int i = 0; i < unfilteredMealList.get(j).getAllergens().size(); i++) {
-                L.t(getActivity(), unfilteredMealList.get(j).getAllergens().toString());
-            }
-        }*/
-
-        //L.t(getActivity(), String.valueOf(unfilteredMealList.get(0).getAllergens().toString()));
-
-        /*for (int i = 0; i < unfilteredMealList.size(); i++) {
-            if (doesntContainAdditives(unfilteredMealList.get(i).getAllergens().toString(), selected)) {
-                filteredMealList.add(unfilteredMealList.get(i));
-            }
-        }*/
 
         for (int i = 0; i < unfilteredMealList.size(); i++) {
             if (doesntContainAllergens(unfilteredMealList.get(i).getAllergens().toString(), selectedAllergens) & doesntContainAdditives(unfilteredMealList.get(i).getAllergens().toString(), selectedAdditives)) {
@@ -475,107 +453,29 @@ public class FragmentToday extends Fragment {
             }
         }
 
-        /*if (lifeStyle.equals("1") & !lactoseFree & selections.isEmpty()) {
-            // L.t(getActivity(), "SELECTIONS IS EMPTY!");
-            return unfilteredMealList;
-        } else {
-            for (int i = 0; i < unfilteredMealList.size(); i++) {
-                if (lactoseFree) {
-                    if (unfilteredMealList.get(i).getBadge().equals("lactose-free")) {
-                        filteredMealList.add(unfilteredMealList.get(i));
-                    }
-                } else if (lifeStyle.equals("2")) {
-                    if (unfilteredMealList.get(i).getBadge().equals("vegetarian") | unfilteredMealList.get(i).getBadge().equals("vegan")) {
-                        filteredMealList.add(unfilteredMealList.get(i));
-                    }
-                } else if (lifeStyle.equals("3")) {
-                    if (unfilteredMealList.get(i).getBadge().equals("vegan")) {
-                        filteredMealList.add(unfilteredMealList.get(i));
-
-
-                    }
-                }
-            }
-        }*/
-        /*for (int i = 0; i < unfilteredMealList.size(); i++) {
-            if (doesntContainAdditives(unfilteredMealList.get(i).getAllergens().toString(), selected)) {
-                filteredMealList.add(unfilteredMealList.get(i));
-            }
-        }*/
-
         if (!filteredMealList.isEmpty()) {
             return filteredMealList;
         } else {
             return unfilteredMealList;
         }
 
-
-        /*for (int i = 0; i < unfilteredMealList.size(); i++) {
-            for (int j = 1; j <= 15; j++) {
-                if (selections.contains(String.valueOf(j))) {
-                    if (unfilteredMealList.get(i).getAllergens().toString().contains(String.valueOf(j))) {
-
-                    }
-                }
-            }
-        }*/
-
-        /*for (int i = 0; i < unfilteredMealList.size(); i++) {
-            for (int j = 0; j < selections.size(); j++) {
-                String currentj = String.valueOf(j);
-                //L.t(getActivity(), "1");
-                if (selections.contains(currentj)) {
-                    if (!unfilteredMealList.get(i).getAllergens().toString().contains(currentj)) {
-                        L.t(getActivity(), "YO?!");
-                    }
-                }
-            }
-        }*/
-
-        /*if (selections.contains("3")) {
-            if (unfilteredMealList.get(0).getAllergens().toString().contains("2"))
-                L.t(getActivity(), "HEYA");
-        }*/
-
-
-
-/*
-        if (lifeStyle.equals("1") & !lactoseFree & selections.isEmpty()) {
-            // L.t(getActivity(), "SELECTIONS IS EMPTY!");
-            return unfilteredMealList;
-        } else {
-            for (int i = 0; i < unfilteredMealList.size(); i++) {
-                if (lactoseFree) {
-                    if (unfilteredMealList.get(i).getBadge().equals("lactose-free")) {
-                        filteredMealList.add(unfilteredMealList.get(i));
-                    }
-                } else if (lifeStyle.equals("2")) {
-                    if (unfilteredMealList.get(i).getBadge().equals("vegetarian") | unfilteredMealList.get(i).getBadge().equals("vegan")) {
-                        filteredMealList.add(unfilteredMealList.get(i));
-                    }
-                } else if (lifeStyle.equals("3")) {
-                    if (unfilteredMealList.get(i).getBadge().equals("vegan")) {
-                        filteredMealList.add(unfilteredMealList.get(i));
-                    }
-                }
-            }
-            if (!filteredMealList.isEmpty()) {
-                return filteredMealList;
-            } else {
-                return unfilteredMealList;
-            }
-        }*/
     }
 
-    public boolean containsAdditives(String inputString, String[] items) {
+    public boolean doesntContainAllergens(String inputString, String[] items) {
 
         for (int i = 0; i < items.length; i++) {
-            L.t(getActivity(), items[i].toString());
             if (inputString.contains(items[i])) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
+    }
+
+    public boolean isVegetarian(String badge) {
+        if (!(badge.equals("vegetarian") | !badge.equals("vegan"))) {
+            return false;
+        }
+        return true;
     }
 
     public boolean doesntContainAdditives(String inputString, String[] items) {
@@ -600,29 +500,10 @@ public class FragmentToday extends Fragment {
         return true;
     }
 
-    public boolean doesntContainAllergens(String inputString, String[] items) {
-
-        for (int i = 0; i < items.length; i++) {
-            if (inputString.contains(items[i])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean isVegetarian(String badge) {
-        if (!(badge.equals("vegetarian") | !badge.equals("vegan"))) {
-            return false;
-        }
-
-        return true;
-    }
-
     public boolean isVegan(String badge) {
         if (!badge.equals("vegan")) {
             return false;
         }
-
         return true;
     }
 }
