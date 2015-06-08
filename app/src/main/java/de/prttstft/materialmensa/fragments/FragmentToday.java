@@ -442,11 +442,13 @@ public class FragmentToday extends Fragment {
         String lifeStyle = SP.getString("prefLifestyle", "1");
         Boolean lactoseFree = SP.getBoolean("prefLactoseFree", false);
         //Set<String> selections = SP.getStringSet("prefAdditives", Collections.<String>emptySet());
-        HashSet<String> hs = new HashSet<>();
-        Set<String> selections = SP.getStringSet("prefAdditives", Collections.<String>emptySet());
         //String[] selected = {};
+        //HashSet<String> hs = new HashSet<>();
+        Set<String> selectionsAllergens = SP.getStringSet("prefAllergens", Collections.<String>emptySet());
+        Set<String> selectionsAdditives = SP.getStringSet("prefAdditives", Collections.<String>emptySet());
 
-        String[] selected = selections.toArray(new String[selections.size()]);
+        String[] selectedAllergens = selectionsAllergens.toArray(new String[selectionsAllergens.size()]);
+        String[] selectedAdditives = selectionsAdditives.toArray(new String[selectionsAdditives.size()]);
         ArrayList<Meal> filteredMealList = new ArrayList<>();
 
         /*for (int i = 0; i < selected.length; i++) {
@@ -459,15 +461,42 @@ public class FragmentToday extends Fragment {
             }
         }*/
 
-        for (int i = 0; i < unfilteredMealList.size(); i++) {
+        //L.t(getActivity(), String.valueOf(unfilteredMealList.get(0).getAllergens().toString()));
+
+        /*for (int i = 0; i < unfilteredMealList.size(); i++) {
             if (doesntContainAdditives(unfilteredMealList.get(i).getAllergens().toString(), selected)) {
+                filteredMealList.add(unfilteredMealList.get(i));
+            }
+        }*/
+
+        for (int i = 0; i < unfilteredMealList.size(); i++) {
+            if (doesntContainAllergens(unfilteredMealList.get(i).getAllergens().toString(), selectedAllergens) & doesntContainAdditives(unfilteredMealList.get(i).getAllergens().toString(), selectedAdditives)) {
                 filteredMealList.add(unfilteredMealList.get(i));
             }
         }
 
+        /*if (lifeStyle.equals("1") & !lactoseFree & selections.isEmpty()) {
+            // L.t(getActivity(), "SELECTIONS IS EMPTY!");
+            return unfilteredMealList;
+        } else {
+            for (int i = 0; i < unfilteredMealList.size(); i++) {
+                if (lactoseFree) {
+                    if (unfilteredMealList.get(i).getBadge().equals("lactose-free")) {
+                        filteredMealList.add(unfilteredMealList.get(i));
+                    }
+                } else if (lifeStyle.equals("2")) {
+                    if (unfilteredMealList.get(i).getBadge().equals("vegetarian") | unfilteredMealList.get(i).getBadge().equals("vegan")) {
+                        filteredMealList.add(unfilteredMealList.get(i));
+                    }
+                } else if (lifeStyle.equals("3")) {
+                    if (unfilteredMealList.get(i).getBadge().equals("vegan")) {
+                        filteredMealList.add(unfilteredMealList.get(i));
 
 
-
+                    }
+                }
+            }
+        }*/
         /*for (int i = 0; i < unfilteredMealList.size(); i++) {
             if (doesntContainAdditives(unfilteredMealList.get(i).getAllergens().toString(), selected)) {
                 filteredMealList.add(unfilteredMealList.get(i));
@@ -556,24 +585,44 @@ public class FragmentToday extends Fragment {
             String patternA = "(A{1}\\d{1,2})";
             String inputStringRegExd = inputString.replaceAll(patternA, "");
 
-            Pattern patternZ = Pattern.compile(items[i]+"{1}\\D");
+            Pattern patternZ = Pattern.compile(items[i] + "{1}\\D");
             Matcher matcher = patternZ.matcher(inputStringRegExd);
-            //L.t(getActivity(), inputStringRegExd);
+
             if (matcher.find()) {
-                L.t(getActivity(), String.valueOf(matcher.find()));
                 return false;
             }
-
-            /*L.t(getActivity(), "1{1}\\D");
-            if (inputStringRegExd.contains(items[i]+"{1}\\D")) {
-                return false;
-            }*/
 
             /*if (inputStringRegExd.contains(items[i])) {
                 return false;
             }*/
 
         }
+        return true;
+    }
+
+    public boolean doesntContainAllergens(String inputString, String[] items) {
+
+        for (int i = 0; i < items.length; i++) {
+            if (inputString.contains(items[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isVegetarian(String badge) {
+        if (!(badge.equals("vegetarian") | !badge.equals("vegan"))) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean isVegan(String badge) {
+        if (!badge.equals("vegan")) {
+            return false;
+        }
+
         return true;
     }
 }
