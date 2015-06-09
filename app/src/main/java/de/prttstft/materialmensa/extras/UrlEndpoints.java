@@ -12,6 +12,7 @@ public class UrlEndpoints {
     public static final String URL_PARAM_RESTAURANT = "restaurant=";
     public static final String URL_PARAM_DATE = "date=";
     public static final String URL_PARAM_TODAY = today ;
+    public static final String URL_PARAM_TOMORROW = tomorrow;
     public static final String URL_RESTAURANT_ACADEMICA = "mensa-academica-paderborn";
     public static final String URL_RESTAURANT_FORUM = "mensa-forum-paderborn";
     public static final String URL_RESTAURANT_CAFETE = "cafete";

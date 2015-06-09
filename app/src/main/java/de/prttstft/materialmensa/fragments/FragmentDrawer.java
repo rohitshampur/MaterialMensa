@@ -44,7 +44,6 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
     private View containerView;
 
 
-
     public FragmentDrawer() {
         // Required empty public constructor
     }
@@ -101,7 +100,6 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
         }));
 
     }
-
 
 
     public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolbar) {

@@ -15,9 +15,11 @@ public class Meal implements Parcelable {
     private String price_staff;
     private String price_guests;
     List<String> allergens = new ArrayList<String>();
+    List<String> allergens_spelledout = new ArrayList<String>();
     private String badge;
     private int order_info;
     private boolean tara;
+
 
     public Meal() {
 
@@ -127,12 +129,20 @@ public class Meal implements Parcelable {
         this.price_guests = price_guests;
     }
 
-    public String getAllergens() {
-        return allergens.toString();
+    public List<String> getAllergens() {
+        return allergens;
     }
 
     public void setAllergens(List<String> allergens) {
         this.allergens = allergens;
+    }
+
+    public List<String> getAllergensSpelledOut() {
+        return allergens_spelledout;
+    }
+
+    public void setAllergensSpelledOut(List<String> allergens_spelledout) {
+        this.allergens_spelledout = allergens_spelledout;
     }
 
     public String getBadge() {
@@ -162,12 +172,12 @@ public class Meal implements Parcelable {
     @Override
     public String toString() {
         return "\nName: " + name +
-                /*"\nCategory " + category +
+                "\nCategory " + category +
                 "\nPrice Students " + price_students +
                 "\nPrice Staff " + price_staff +
                 "\nPrice Guests " + price_guests +
-                "\nAllergens " + allergens +
-                "\nBadge " + badge +*/
+                "\nAllergensAdditives " + allergens +
+                "\nBadge " + badge +
                 "\n";
     }
 

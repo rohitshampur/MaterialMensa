@@ -32,8 +32,13 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
@@ -60,7 +65,6 @@ public class FragmentToday extends Fragment {
 
     private static final String STATE_MEAL = "state_meal";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private VolleySingleton volleySingleton;
@@ -72,6 +76,7 @@ public class FragmentToday extends Fragment {
     private RecyclerView listToday;
     private TextView textVolleyError;
     private MealSorter mSorter = new MealSorter();
+
 
     public static FragmentToday newInstance(String param1, String param2) {
 
@@ -90,6 +95,84 @@ public class FragmentToday extends Fragment {
 
     }
 
+    // Required empty public constructor
+    public FragmentToday() {
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // This should be outsourced
+    private String getAllergens(String allergen) {
+        if (allergen.equals("A1")) {
+            return getResources().getString(R.string.gluten);
+        } else if (allergen.equals("A2")) {
+            return getResources().getString(R.string.crab);
+        } else if (allergen.equals("A3")) {
+            return getResources().getString(R.string.egg);
+        } else if (allergen.equals("A4")) {
+            return getResources().getString(R.string.fish);
+        } else if (allergen.equals("A5")) {
+            return getResources().getString(R.string.peanuts);
+        } else if (allergen.equals("A6")) {
+            return getResources().getString(R.string.soy);
+        } else if (allergen.equals("A7")) {
+            return getResources().getString(R.string.milk);
+        } else if (allergen.equals("A8")) {
+            return getResources().getString(R.string.nuts);
+        } else if (allergen.equals("A9")) {
+            return getResources().getString(R.string.celery);
+        } else if (allergen.equals("A10")) {
+            return getResources().getString(R.string.mustard);
+        } else if (allergen.equals("A11")) {
+            return getResources().getString(R.string.sesame);
+        } else if (allergen.equals("A12")) {
+            return getResources().getString(R.string.sulphites);
+        } else if (allergen.equals("A13")) {
+            return getResources().getString(R.string.lupins);
+        } else if (allergen.equals("A14")) {
+            return getResources().getString(R.string.molluscs);
+        } else {
+            return "";
+        }
+    }
+
+    private String getAdditives(String additive) {
+        if (additive.equals("1")) {
+            return getResources().getString(R.string.dyes);
+        } else if (additive.equals("2")) {
+            return getResources().getString(R.string.preservatives);
+        } else if (additive.equals("3")) {
+            return getResources().getString(R.string.antioxidant);
+        } else if (additive.equals("4")) {
+            return getResources().getString(R.string.flavorenhancers);
+        } else if (additive.equals("5")) {
+            return getResources().getString(R.string.phosphate);
+        } else if (additive.equals("6")) {
+            return getResources().getString(R.string.sulphurised);
+        } else if (additive.equals("7")) {
+            return getResources().getString(R.string.waxed);
+        } else if (additive.equals("8")) {
+            return getResources().getString(R.string.blackend);
+        } else if (additive.equals("9")) {
+            return getResources().getString(R.string.sweeteners);
+        } else if (additive.equals("10")) {
+            return getResources().getString(R.string.phenylalanine);
+        } else if (additive.equals("11")) {
+            return getResources().getString(R.string.taurine);
+        } else if (additive.equals("12")) {
+            return getResources().getString(R.string.nitratesaltingmix);
+        } else if (additive.equals("13")) {
+            return getResources().getString(R.string.caffeine);
+        } else if (additive.equals("14")) {
+            return getResources().getString(R.string.quinine);
+        } else if (additive.equals("15")) {
+            return getResources().getString(R.string.milkprotein);
+        } else {
+            return "";
+        }
+    }
+    /////////////////////////////////////////////
+
+    // This should be outsourced
     public static String getRequestUrl() {
         if (ActivityMain.mensaID == 1) {
             return UrlEndpoints.URL_API
@@ -158,10 +241,6 @@ public class FragmentToday extends Fragment {
         }
     }
 
-    public FragmentToday() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,9 +258,7 @@ public class FragmentToday extends Fragment {
                     public void onResponse(JSONArray response) {
                         textVolleyError.setVisibility(View.GONE);
                         listMeals = parseJSONResponse(response);
-                        // Filter mealList
-                        filterMealList();
-                        adapterToday.setMealList(listMeals);
+                        adapterToday.setMealList(filterMealList(listMeals));
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -208,6 +285,7 @@ public class FragmentToday extends Fragment {
                     String price_staff = Constants.NA;
                     String price_guests = Constants.NA;
                     List<String> allergens = new ArrayList<String>();
+                    List<String> allergens_spelledout = new ArrayList<String>();
                     String badge = "";
                     int order_info = 0;
                     SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -225,14 +303,20 @@ public class FragmentToday extends Fragment {
 
                     if (currentMeal.has(KEY_CATEGORY) && !currentMeal.isNull(KEY_CATEGORY)) {
                         category = currentMeal.getString(KEY_CATEGORY);
-                        if (category.equals("dish-default") || category.equals("dish-wok") || category.equals("dish-grill") || category.equals("dish-pasta")) {
+                        if (category.equals("dish-default")) {
                             order_info = 1;
-                        } else if (category.equals("sidedish")) {
+                        } else if (category.equals("dish-pasta")) {
                             order_info = 2;
-                        } else if (category.equals("soups")) {
+                        } else if (category.equals("dish-wok")) {
                             order_info = 3;
-                        } else {
+                        } else if (category.equals("dish-grill")) {
                             order_info = 4;
+                        } else if (category.equals("sidedish")) {
+                            order_info = 5;
+                        } else if (category.equals("soups")) {
+                            order_info = 6;
+                        } else {
+                            order_info = 7;
                         }
 
                     }
@@ -253,8 +337,18 @@ public class FragmentToday extends Fragment {
                         JSONArray arrayAllergens = currentMeal.getJSONArray(KEY_ALLERGENS);
 
                         for (int j = 0; j < arrayAllergens.length(); j++) {
-                            allergens.add(arrayAllergens.getString(j));
+                            Pattern pattern = Pattern.compile("(^)(\\d+)");
+                            Matcher matcher = pattern.matcher(arrayAllergens.getString(j));
+                            if (matcher.find()) {
+                                allergens.add(arrayAllergens.getString(j));
+                                allergens_spelledout.add(getAdditives(arrayAllergens.getString(j)));
+
+                            } else {
+                                allergens.add(arrayAllergens.getString(j));
+                                allergens_spelledout.add(getAllergens(arrayAllergens.getString(j)));
+                            }
                         }
+
                     }
 
                     if (currentMeal.has(KEY_BADGE) && !currentMeal.isNull(KEY_BADGE)) {
@@ -277,10 +371,10 @@ public class FragmentToday extends Fragment {
                     meal.setPriceStaff(price_staff);
                     meal.setPriceGuests(price_guests);
                     meal.setAllergens(allergens);
+                    meal.setAllergensSpelledOut(allergens_spelledout);
                     meal.setBadge(badge);
                     meal.setOrderInfo(order_info);
                     meal.setTara(tara);
-
 
                     if (!name.equals(Constants.NA)) {
                         listMeals.add(meal);
@@ -328,42 +422,87 @@ public class FragmentToday extends Fragment {
         listToday.setAdapter(adapterToday);
         if (savedInstanceState != null) {
             listMeals = savedInstanceState.getParcelableArrayList(STATE_MEAL);
-            filterMealList();
-            adapterToday.setMealList(listMeals);
+            adapterToday.setMealList(filterMealList(listMeals));
         } else {
             sendJsonRequest();
         }
-
-
         return view;
     }
 
-    public void filterMealList() {
+    public ArrayList<Meal> filterMealList(ArrayList<Meal> unfilteredMealList) {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String lifeStyle = SP.getString("prefLifestyle", "1");
-        Boolean lactoseFree = SP.getBoolean("prefLactoseFree", false);
+        Set<String> selectionsAllergens = SP.getStringSet("prefAllergens", Collections.<String>emptySet());
+        Set<String> selectionsAdditives = SP.getStringSet("prefAdditives", Collections.<String>emptySet());
+        String[] selectedAllergens = selectionsAllergens.toArray(new String[selectionsAllergens.size()]);
+        String[] selectedAdditives = selectionsAdditives.toArray(new String[selectionsAdditives.size()]);
+        ArrayList<Meal> filteredMealList = new ArrayList<>();
 
-        int i = listMeals.size() - 1;
+        for (int i = 0; i < unfilteredMealList.size(); i++) {
+            String getAllergensAdditives = unfilteredMealList.get(i).getAllergens().toString();
+            String getBadge = unfilteredMealList.get(i).getBadge();
+            Boolean isCleared = true;
 
-        while (i >= 0) {
-
-            if (lactoseFree) {
-                if (!listMeals.get(i).getBadge().equals("lactose-free")) {
-                    listMeals.remove(i);
-                }
-            } else {
-                if (lifeStyle.equals("2")) {
-                    if (!listMeals.get(i).getBadge().equals("vegetarian") & !listMeals.get(i).getBadge().equals("vegan")) {
-                        listMeals.remove(i);
-                    }
-                } else if (lifeStyle.equals("3")) {
-                    if (!listMeals.get(i).getBadge().equals("vegan")) {
-                        listMeals.remove(i);
-                    }
-                }
+            if (doesContainsFilteredAllergens(getAllergensAdditives, selectedAllergens)) {
+                isCleared = false;
             }
 
-            i--;
+            if (doesContainsFilteredAdditives(getAllergensAdditives, selectedAdditives)) {
+                isCleared = false;
+            }
+
+            if (lifeStyle.equals("2") & !isVegetarian(getBadge)) {
+                isCleared = false;
+            } else if (lifeStyle.equals("3") & !isVegan(getBadge)) {
+                isCleared = false;
+            }
+
+            if (isCleared) {
+                filteredMealList.add(unfilteredMealList.get(i));
+            }
         }
+        return filteredMealList;
+    }
+
+    public boolean doesContainsFilteredAllergens(String inputString, String[] items) {
+
+        for (int i = 0; i < items.length; i++) {
+            if (inputString.contains(items[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean doesContainsFilteredAdditives(String inputString, String[] items) {
+
+        for (int i = 0; i < items.length; i++) {
+
+            String patternA = "(A{1}\\d{1,2})";
+            String inputStringRegExd = inputString.replaceAll(patternA, "");
+
+            Pattern patternZ = Pattern.compile(items[i] + "{1}\\D");
+            Matcher matcher = patternZ.matcher(inputStringRegExd);
+
+            if (matcher.find()) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public boolean isVegetarian(String badge) {
+        if (!(badge.equals("vegetarian") | badge.equals("vegan"))) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isVegan(String badge) {
+        if (!badge.equals("vegan")) {
+            return false;
+        }
+        return true;
     }
 }
