@@ -30,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -322,15 +323,15 @@ public class FragmentToday extends Fragment {
                     }
 
                     if (currentMeal.has(KEY_STUDENTS) && !currentMeal.isNull(KEY_STUDENTS)) {
-                        price_students = currentMeal.getString(KEY_STUDENTS);
+                        price_students = formatCurrency(currentMeal.getString(KEY_STUDENTS));
                     }
 
                     if (currentMeal.has(KEY_STAFF) && !currentMeal.isNull(KEY_STAFF)) {
-                        price_staff = currentMeal.getString(KEY_STAFF);
+                        price_staff = formatCurrency(currentMeal.getString(KEY_STAFF));
                     }
 
                     if (currentMeal.has(KEY_GUESTS) && !currentMeal.isNull(KEY_GUESTS)) {
-                        price_guests = currentMeal.getString(KEY_GUESTS);
+                        price_guests = formatCurrency(currentMeal.getString(KEY_GUESTS));
                     }
 
                     if (currentMeal.has(KEY_ALLERGENS) && !currentMeal.isNull(KEY_ALLERGENS)) {
@@ -504,5 +505,14 @@ public class FragmentToday extends Fragment {
             return false;
         }
         return true;
+    }
+
+    public String formatCurrency(String prize) {
+        double prizeDouble = Double.valueOf(prize);
+
+        Locale german = new Locale("de", "DE");
+        NumberFormat format = NumberFormat.getCurrencyInstance(german);
+
+        return format.format(prizeDouble);
     }
 }
