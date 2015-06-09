@@ -76,27 +76,27 @@ public class Meal implements Parcelable {
 
     public String getPrices() {
         if (tara) {
-            return "Per 100gr: " + "Students: " + price_students + "€" + " // " + "Staff: " + price_staff + "€" + " // " + "Guests: " + price_guests + "€";
+            return "Per 100gr: " + "Students: " + price_students + " | " + "Staff: " + price_staff + " | " + "Guests: " + price_guests;
         } else {
-            return "Students: " + price_students + "€" + " // " + "Staff: " + price_staff + "€" + " // " + "Guests: " + price_guests + "€";
+            return "Students: " + price_students + " | " + "Staff: " + price_staff + " | " + "Guests: " + price_guests;
         }
 
     }
 
     public String getPricesDe() {
         if (tara) {
-            return "Pro 100gr: " + "Studierende: " + price_students + "€" + " // " + "Bedienstete: " + price_staff + "€" + " // " + "Gäste: " + price_guests + "€";
+            return "Pro 100gr: " + "Studierende: " + price_students + " | " + "Bedienstete: " + price_staff + " | " + "Gäste: " + price_guests;
         } else {
-            return "Studierende: " + price_students + "€" + " // " + "Bedienstete: " + price_staff + "€" + " // " + "Gäste: " + price_guests + "€";
+            return "Studierende: " + price_students + " | " + "Bedienstete: " + price_staff + " | " + "Gäste: " + price_guests;
         }
 
     }
 
     public String getPriceStudents() {
         if (tara) {
-            return price_students + "€" + "/100gr";
+            return price_students + "/100gr";
         } else {
-            return price_students + "€";
+            return price_students;
         }
     }
 
@@ -106,9 +106,9 @@ public class Meal implements Parcelable {
 
     public String getPriceStaff() {
         if (tara) {
-            return price_staff + "€" + "/100gr";
+            return price_staff + "/100gr";
         } else {
-            return price_staff + "€";
+            return price_staff;
         }
 
     }
@@ -119,9 +119,9 @@ public class Meal implements Parcelable {
 
     public String getPriceGuests() {
         if (tara) {
-            return price_guests + "€" + "/100gr";
+            return price_guests + "/100gr";
         } else {
-            return price_guests + "€";
+            return price_guests;
         }
     }
 
