@@ -259,8 +259,6 @@ public class FragmentToday extends Fragment {
                     public void onResponse(JSONArray response) {
                         textVolleyError.setVisibility(View.GONE);
                         listMeals = parseJSONResponse(response);
-                        // Filter mealList
-                        //filterMealList();
                         adapterToday.setMealList(filterMealList(listMeals));
                     }
                 }, new Response.ErrorListener() {
@@ -436,7 +434,6 @@ public class FragmentToday extends Fragment {
     public ArrayList<Meal> filterMealList(ArrayList<Meal> unfilteredMealList) {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String lifeStyle = SP.getString("prefLifestyle", "1");
-        Boolean lactoseFree = SP.getBoolean("prefLactoseFree", false);
         Set<String> selectionsAllergens = SP.getStringSet("prefAllergens", Collections.<String>emptySet());
         Set<String> selectionsAdditives = SP.getStringSet("prefAdditives", Collections.<String>emptySet());
         String[] selectedAllergens = selectionsAllergens.toArray(new String[selectionsAllergens.size()]);
@@ -444,30 +441,43 @@ public class FragmentToday extends Fragment {
         ArrayList<Meal> filteredMealList = new ArrayList<>();
 
         for (int i = 0; i < unfilteredMealList.size(); i++) {
-            if (doesntContainAllergens(unfilteredMealList.get(i).getAllergens().toString(), selectedAllergens) & doesntContainAdditives(unfilteredMealList.get(i).getAllergens().toString(), selectedAdditives)) {
+            String getAllergensAdditives = unfilteredMealList.get(i).getAllergens().toString();
+            String getBadge = unfilteredMealList.get(i).getBadge();
+            Boolean isCleared = true;
+
+            if (doesContainsFilteredAllergens(getAllergensAdditives, selectedAllergens)) {
+                isCleared = false;
+            }
+
+            if (doesContainsFilteredAdditives(getAllergensAdditives, selectedAdditives)) {
+                isCleared = false;
+            }
+
+            if (lifeStyle.equals("2") & !isVegetarian(getBadge)) {
+                isCleared = false;
+            } else if (lifeStyle.equals("3") & !isVegan(getBadge)) {
+                isCleared = false;
+            }
+
+            if (isCleared) {
                 filteredMealList.add(unfilteredMealList.get(i));
             }
         }
 
-        if (!filteredMealList.isEmpty()) {
-            return filteredMealList;
-        } else {
-            return unfilteredMealList;
-        }
-
+        return filteredMealList;
     }
 
-    public boolean doesntContainAllergens(String inputString, String[] items) {
+    public boolean doesContainsFilteredAllergens(String inputString, String[] items) {
 
         for (int i = 0; i < items.length; i++) {
             if (inputString.contains(items[i])) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
-    public boolean doesntContainAdditives(String inputString, String[] items) {
+    public boolean doesContainsFilteredAdditives(String inputString, String[] items) {
 
         for (int i = 0; i < items.length; i++) {
 
@@ -478,19 +488,15 @@ public class FragmentToday extends Fragment {
             Matcher matcher = patternZ.matcher(inputStringRegExd);
 
             if (matcher.find()) {
-                return false;
+                return true;
             }
 
-            /*if (inputStringRegExd.contains(items[i])) {
-                return false;
-            }*/
-
         }
-        return true;
+        return false;
     }
 
     public boolean isVegetarian(String badge) {
-        if (!(badge.equals("vegetarian") | !badge.equals("vegan"))) {
+        if (!(badge.equals("vegetarian") | badge.equals("vegan"))) {
             return false;
         }
         return true;
@@ -502,4 +508,5 @@ public class FragmentToday extends Fragment {
         }
         return true;
     }
+
 }

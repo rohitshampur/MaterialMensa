@@ -51,7 +51,6 @@
     <string name="Lifestyle">Lifestyle</string>
     <string name="DefaultPersonCategory">Set your person category in the preferences</string>
     <string name="DefaultLifestyle">Set your Lifestyle in the preferences</string>
-    <string name="DefaultLactoseCheckbox">0</string>
     <string name="PersonCategorySummary">You can select your person category here to only display the relevant price.</string>
     <string name="LifestyleSummary">Select your lifestyle preference here.</string>
     <string name="AllergensSummary">Select the allergens filter here.</string>
@@ -63,8 +62,6 @@
     <string name="NoPreference">No Meal Preference</string>
     <string name="Vegetarian">Vegetarian</string>
     <string name="Vegan">Vegan</string>
-    <string name="LactoseIntolerant">Lactose Intolerant</string>
-    <string name="LactoseFree">Lactose Free</string>
     <string name="GlutenFree">Gluten Free</string>
     <string name="ReducedFat">Reduced Fat</string>
     <string name="ReducedCalories">Reduced Calories</string>
