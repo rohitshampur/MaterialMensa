@@ -65,7 +65,6 @@ public class FragmentToday extends Fragment {
 
     private static final String STATE_MEAL = "state_meal";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private VolleySingleton volleySingleton;
@@ -423,7 +422,6 @@ public class FragmentToday extends Fragment {
         listToday.setAdapter(adapterToday);
         if (savedInstanceState != null) {
             listMeals = savedInstanceState.getParcelableArrayList(STATE_MEAL);
-            //filterMealList();
             adapterToday.setMealList(filterMealList(listMeals));
         } else {
             sendJsonRequest();
@@ -463,7 +461,6 @@ public class FragmentToday extends Fragment {
                 filteredMealList.add(unfilteredMealList.get(i));
             }
         }
-
         return filteredMealList;
     }
 
@@ -508,5 +505,4 @@ public class FragmentToday extends Fragment {
         }
         return true;
     }
-
 }

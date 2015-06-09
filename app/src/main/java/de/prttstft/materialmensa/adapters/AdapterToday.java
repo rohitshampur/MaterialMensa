@@ -14,11 +14,13 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import de.prttstft.materialmensa.R;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 
@@ -117,9 +119,9 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
             List<String> allergensSpelledOutarray = currentMeal.getAllergensSpelledOut();
 
             for (int i = 0; i < allergensSpelledOutarray.size(); i++) {
-                allergenreturn = allergenreturn + "\n- " + allergensSpelledOutarray.get(i) + " (" + allergenarray.get(i) + ")";
+                allergenreturn = allergenreturn + "\n- " + allergensSpelledOutarray.get(i);
             }
-
+// + " (" + allergenarray.get(i) + ")"
             holder.meal_contents.setText(currentMeal.getAllergens().toString());
             holder.meal_contents_spelledout.setText(allergenreturn);
         } else {
@@ -170,7 +172,6 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
         @Override
         public void onClick(View view) {
-
             final AlertDialog.Builder contentsAlert = new AlertDialog.Builder(context);
             contentsAlert.setMessage(String.valueOf(meal_contents_spelledout.getText())).
                     setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -183,6 +184,8 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
             contentsAlert.show();
 
         }
+
+
 
     }
 
