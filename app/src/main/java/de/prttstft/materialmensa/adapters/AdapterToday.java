@@ -6,20 +6,26 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import de.prttstft.materialmensa.R;
+import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
@@ -31,6 +37,8 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
     private VolleySingleton volleySingleton;
     private ImageLoader imageLoader;
     private Context context;
+    private SparseBooleanArray selectedItems;
+    ActionMode mActionMode;
 
 
     public AdapterToday(Context context) {
@@ -55,6 +63,43 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         return viewHolder;
 
     }
+
+    private ActionMode.Callback callback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            MenuInflater menuInflater = new MenuInflater(context);
+            menuInflater.inflate(R.menu.menu_cam, menu);
+            L.t(context, "onCreateActionMode");
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+            //actionMode.setTitle();
+            L.t(context, "onPrepareActionMode");
+            return true;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+            if (menuItem.getItemId() == R.id.favorite) {
+                L.t(context, "Favorite");
+                return true;
+            } else if (menuItem.getItemId() == R.id.share) {
+                L.t(context, "Share");
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode actionMode) {
+            mActionMode = null;
+            // Deselect all
+            L.t(context, "onDestroyActionMode");
+
+        }
+    };
 
 
     @Override
@@ -145,14 +190,19 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         notifyItemRemoved(position);
     }
 
+
+    /////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////
     //static class ViewHolderToday extends RecyclerView.ViewHolder implements View.OnClickListener {
-    class ViewHolderToday extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolderToday extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private ImageView meal_typeicon;
         private TextView meal_name;
         private TextView meal_price;
         private TextView meal_contents_spelledout;
-
+        private RelativeLayout meal_item;
         private TextView meal_contents;
+        private TextView meal_selected;
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
         String pC = SP.getString("prefPersonCategory", "1");
         String ls = SP.getString("prefLifestyle", "1");
@@ -160,9 +210,15 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
         public ViewHolderToday(View itemView) {
             super(itemView);
+            meal_item = (RelativeLayout) itemView.findViewById(R.id.meal_item);
+            meal_item.setOnClickListener(this);
+            meal_item.setOnLongClickListener(this);
+            meal_selected = (TextView) itemView.findViewById(R.id.meal_selected);
+
             meal_typeicon = (ImageView) itemView.findViewById(R.id.meal_typeicon);
             meal_name = (TextView) itemView.findViewById(R.id.meal_name);
             meal_price = (TextView) itemView.findViewById(R.id.meal_price);
+
             meal_contents = (TextView) itemView.findViewById(R.id.meal_contents);
             meal_contents_spelledout = (TextView) itemView.findViewById(R.id.meal_contents_spelledout);
             meal_contents.setOnClickListener(this);
@@ -172,21 +228,78 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
         @Override
         public void onClick(View view) {
-            final AlertDialog.Builder contentsAlert = new AlertDialog.Builder(context);
-            contentsAlert.setMessage(String.valueOf(meal_contents_spelledout.getText())).
-                    setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    }).
-                    create();
-            contentsAlert.show();
+            if (mActionMode != null) {
+                toggleSelection(getAdapterPosition());
+                L.t(context, "ActionMode is not null");
+            } else {
+                final AlertDialog.Builder contentsAlert = new AlertDialog.Builder(context);
+                contentsAlert.setMessage(String.valueOf(meal_contents_spelledout.getText())).
+                        setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).
+                        create();
+                contentsAlert.show();
+            }
 
         }
 
+        @Override
+        public boolean onLongClick(View view) {
+            if (mActionMode != null) {
+                return false;
+            } else {
+                mActionMode = ((ActivityMain) context).startActionMode(callback);
+                toggleSelection(getAdapterPosition());
+                return true;
+            }
+
+            /*if (meal_selected.getText().equals("false")) {
+                meal_item.setBackgroundResource(R.drawable.custom_bg_selected);
+                meal_selected.setText("true");
+                L.t(context, "Selected was false and is now true");
+            } else if (meal_selected.getText().equals("true")) {
+                meal_item.setBackgroundResource(R.drawable.custom_bg);
+                meal_selected.setText("false");
+                L.t(context, "Selected was true and is now false");
+            }*/
 
 
+        }
+
+        public void toggleSelection(int pos) {
+            if (meal_selected.getText().equals("false")) {
+                meal_item.setBackgroundResource(R.drawable.custom_bg_selected);
+                meal_selected.setText("true");
+
+                L.t(context, "Selected was false and is now true");
+            } else if (meal_selected.getText().equals("true")) {
+                meal_item.setBackgroundResource(R.drawable.custom_bg);
+                meal_selected.setText("false");
+                L.t(context, "Selected was true and is now false");
+            }
+        }
+
+        public void clearSelections() {
+            selectedItems.clear();
+            notifyDataSetChanged();
+        }
+
+        public int getSelectedItemCount() {
+            return selectedItems.size();
+        }
+
+        public List<Integer> getSelectedItems() {
+            List<Integer> items =
+                    new ArrayList<Integer>(selectedItems.size());
+            for (int i = 0; i < selectedItems.size(); i++) {
+                items.add(selectedItems.keyAt(i));
+            }
+            return items;
+        }
     }
+
 
 }

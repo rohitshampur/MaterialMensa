@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/favorite"
+        android:icon="@drawable/ic_ndrawer_icon2"
+        android:title="Favorite" />
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_ndrawer_icon1"
+        android:title="Share" />
+
+</menu>
