@@ -37,7 +37,8 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
     private VolleySingleton volleySingleton;
     private ImageLoader imageLoader;
     private Context context;
-    private SparseBooleanArray selectedItems;
+    //private SparseBooleanArray selectedItems;
+    private List<Integer> selectedItems = new ArrayList<Integer>();
     ActionMode mActionMode;
 
 
@@ -69,14 +70,12 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
             MenuInflater menuInflater = new MenuInflater(context);
             menuInflater.inflate(R.menu.menu_cam, menu);
-            L.t(context, "onCreateActionMode");
             return true;
         }
 
         @Override
         public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-            //actionMode.setTitle();
-            L.t(context, "onPrepareActionMode");
+
             return true;
         }
 
@@ -94,10 +93,9 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
         @Override
         public void onDestroyActionMode(ActionMode actionMode) {
+            clearSelections();
+            clearSelectedItems();
             mActionMode = null;
-            // Deselect all
-            L.t(context, "onDestroyActionMode");
-
         }
     };
 
@@ -166,7 +164,6 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
             for (int i = 0; i < allergensSpelledOutarray.size(); i++) {
                 allergenreturn = allergenreturn + "\n- " + allergensSpelledOutarray.get(i);
             }
-// + " (" + allergenarray.get(i) + ")"
             holder.meal_contents.setText(currentMeal.getAllergens().toString());
             holder.meal_contents_spelledout.setText(allergenreturn);
         } else {
@@ -190,11 +187,40 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         notifyItemRemoved(position);
     }
 
+    public void clearSelections() {
+        //selectedItems.clear();
+        notifyDataSetChanged();
+    }
 
-    /////////////////////////////////////////////////
+    public void addSelectedItem(int pos) {
+        selectedItems.add(pos);
+    }
 
-    ///////////////////////////////////////////////////////////
-    //static class ViewHolderToday extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public void removeSelectedItem(int pos) {
+        for (int i = 0; i < selectedItems.size(); i++) {
+            if (selectedItems.get(i).equals(pos))
+                selectedItems.remove(i);
+        }
+    }
+
+    public List<Integer> getSelectedItems() {
+        return selectedItems;
+    }
+
+    public int getSelectedItemsSize() {
+        return selectedItems.size();
+    }
+
+    public void clearSelectedItems() {
+        RelativeLayout meal_item;
+        TextView meal_selected;
+
+        for (int i = selectedItems.size() - 1; i >= 0; i--) {
+            selectedItems.remove(i);
+        }
+    }
+
+
     class ViewHolderToday extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private ImageView meal_typeicon;
         private TextView meal_name;
@@ -221,17 +247,19 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
             meal_contents = (TextView) itemView.findViewById(R.id.meal_contents);
             meal_contents_spelledout = (TextView) itemView.findViewById(R.id.meal_contents_spelledout);
-            meal_contents.setOnClickListener(this);
-
+            //meal_contents.setOnClickListener(this);
         }
 
 
         @Override
         public void onClick(View view) {
             if (mActionMode != null) {
-                toggleSelection(getAdapterPosition());
-                L.t(context, "ActionMode is not null");
-            } else {
+                toggleSelection(getLayoutPosition());
+                if (getSelectedItemsSize() == 0) {
+                    mActionMode.finish();
+                }
+
+            } /*else {
                 final AlertDialog.Builder contentsAlert = new AlertDialog.Builder(context);
                 contentsAlert.setMessage(String.valueOf(meal_contents_spelledout.getText())).
                         setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -242,8 +270,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
                         }).
                         create();
                 contentsAlert.show();
-            }
-
+            }*/
         }
 
         @Override
@@ -251,55 +278,39 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
             if (mActionMode != null) {
                 return false;
             } else {
+                clearSelections();
                 mActionMode = ((ActivityMain) context).startActionMode(callback);
-                toggleSelection(getAdapterPosition());
+                toggleSelection(getLayoutPosition());
+                notifyItemChanged(getLayoutPosition());
                 return true;
             }
-
-            /*if (meal_selected.getText().equals("false")) {
-                meal_item.setBackgroundResource(R.drawable.custom_bg_selected);
-                meal_selected.setText("true");
-                L.t(context, "Selected was false and is now true");
-            } else if (meal_selected.getText().equals("true")) {
-                meal_item.setBackgroundResource(R.drawable.custom_bg);
-                meal_selected.setText("false");
-                L.t(context, "Selected was true and is now false");
-            }*/
-
-
         }
 
         public void toggleSelection(int pos) {
             if (meal_selected.getText().equals("false")) {
                 meal_item.setBackgroundResource(R.drawable.custom_bg_selected);
                 meal_selected.setText("true");
-
-                L.t(context, "Selected was false and is now true");
+                addSelectedItem(pos);
+                notifyItemChanged(getLayoutPosition());
             } else if (meal_selected.getText().equals("true")) {
                 meal_item.setBackgroundResource(R.drawable.custom_bg);
                 meal_selected.setText("false");
-                L.t(context, "Selected was true and is now false");
+                removeSelectedItem(pos);
+                notifyItemChanged(getLayoutPosition());
             }
+            mActionMode.setTitle(String.valueOf(getSelectedItemsSize()));
         }
 
         public void clearSelections() {
-            selectedItems.clear();
-            notifyDataSetChanged();
-        }
-
-        public int getSelectedItemCount() {
-            return selectedItems.size();
-        }
-
-        public List<Integer> getSelectedItems() {
-            List<Integer> items =
-                    new ArrayList<Integer>(selectedItems.size());
-            for (int i = 0; i < selectedItems.size(); i++) {
-                items.add(selectedItems.keyAt(i));
+            for (int i = 0; i < listMeals.size(); i++) {
+                if (meal_selected.getText().equals("true")) {
+                    meal_item.setBackgroundResource(R.drawable.custom_bg);
+                    meal_selected.setText("false");
+                    notifyItemChanged(getLayoutPosition());
+                }
             }
-            return items;
         }
+
+
     }
-
-
 }
