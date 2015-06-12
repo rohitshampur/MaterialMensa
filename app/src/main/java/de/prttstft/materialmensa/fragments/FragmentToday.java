@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -25,20 +24,16 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.bignerdranch.android.multiselector.MultiSelector;
-import com.bignerdranch.android.multiselector.SwappingHolder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -49,8 +44,8 @@ import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapters.AdapterToday;
 import de.prttstft.materialmensa.extras.Constants;
+import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
-import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 

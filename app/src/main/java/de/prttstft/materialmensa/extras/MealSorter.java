@@ -1,4 +1,4 @@
-package de.prttstft.materialmensa.fragments;
+package de.prttstft.materialmensa.extras;
 
 import java.util.ArrayList;
 import java.util.Collections;
