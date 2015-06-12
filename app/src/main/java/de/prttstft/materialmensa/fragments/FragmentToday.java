@@ -1,6 +1,5 @@
 package de.prttstft.materialmensa.fragments;
 
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,16 +21,13 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,128 +47,116 @@ import de.prttstft.materialmensa.pojo.Meal;
 
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.*;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentToday#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FragmentToday extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-
-    private static final String STATE_MEAL = "state_meal";
-
-    private String mParam1;
-    private String mParam2;
-    private VolleySingleton volleySingleton;
-    private ImageLoader imageLoader;
     private RequestQueue requestQueue;
     public ArrayList<Meal> listMeals = new ArrayList<>();
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private AdapterToday adapterToday;
-    private RecyclerView listToday;
     private TextView textVolleyError;
     private MealSorter mSorter = new MealSorter();
 
-
     public static FragmentToday newInstance(String param1, String param2) {
-
-        FragmentToday fragment = new FragmentToday();
-    /*    Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
-        return fragment;
+        return new FragmentToday();
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(STATE_MEAL, listMeals);
-
-    }
-
-    // Required empty public constructor
     public FragmentToday() {
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////
-    // This should be outsourced
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        VolleySingleton volleySingleton = VolleySingleton.getInstance();
+        requestQueue = volleySingleton.getRequestQueue();
+        sendJsonRequest();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_today, container, false);
+        textVolleyError = (TextView) view.findViewById(R.id.textVolleyError);
+        RecyclerView listToday = (RecyclerView) view.findViewById(R.id.listToday);
+        listToday.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapterToday = new AdapterToday(getActivity());
+        listToday.setAdapter(adapterToday);
+        sendJsonRequest();
+        return view;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    //                     This should be outsourced                     //
+
     private String getAllergens(String allergen) {
-        if (allergen.equals("A1")) {
-            return getResources().getString(R.string.gluten);
-        } else if (allergen.equals("A2")) {
-            return getResources().getString(R.string.crab);
-        } else if (allergen.equals("A3")) {
-            return getResources().getString(R.string.egg);
-        } else if (allergen.equals("A4")) {
-            return getResources().getString(R.string.fish);
-        } else if (allergen.equals("A5")) {
-            return getResources().getString(R.string.peanuts);
-        } else if (allergen.equals("A6")) {
-            return getResources().getString(R.string.soy);
-        } else if (allergen.equals("A7")) {
-            return getResources().getString(R.string.milk);
-        } else if (allergen.equals("A8")) {
-            return getResources().getString(R.string.nuts);
-        } else if (allergen.equals("A9")) {
-            return getResources().getString(R.string.celery);
-        } else if (allergen.equals("A10")) {
-            return getResources().getString(R.string.mustard);
-        } else if (allergen.equals("A11")) {
-            return getResources().getString(R.string.sesame);
-        } else if (allergen.equals("A12")) {
-            return getResources().getString(R.string.sulphites);
-        } else if (allergen.equals("A13")) {
-            return getResources().getString(R.string.lupins);
-        } else if (allergen.equals("A14")) {
-            return getResources().getString(R.string.molluscs);
-        } else {
-            return "";
+        switch (allergen) {
+            case "A1":
+                return getResources().getString(R.string.gluten);
+            case "A2":
+                return getResources().getString(R.string.crab);
+            case "A3":
+                return getResources().getString(R.string.egg);
+            case "A4":
+                return getResources().getString(R.string.fish);
+            case "A5":
+                return getResources().getString(R.string.peanuts);
+            case "A6":
+                return getResources().getString(R.string.soy);
+            case "A7":
+                return getResources().getString(R.string.milk);
+            case "A8":
+                return getResources().getString(R.string.nuts);
+            case "A9":
+                return getResources().getString(R.string.celery);
+            case "A10":
+                return getResources().getString(R.string.mustard);
+            case "A11":
+                return getResources().getString(R.string.sesame);
+            case "A12":
+                return getResources().getString(R.string.sulphites);
+            case "A13":
+                return getResources().getString(R.string.lupins);
+            case "A14":
+                return getResources().getString(R.string.molluscs);
+            default:
+                return "";
         }
     }
 
     private String getAdditives(String additive) {
-        if (additive.equals("1")) {
-            return getResources().getString(R.string.dyes);
-        } else if (additive.equals("2")) {
-            return getResources().getString(R.string.preservatives);
-        } else if (additive.equals("3")) {
-            return getResources().getString(R.string.antioxidant);
-        } else if (additive.equals("4")) {
-            return getResources().getString(R.string.flavorenhancers);
-        } else if (additive.equals("5")) {
-            return getResources().getString(R.string.phosphate);
-        } else if (additive.equals("6")) {
-            return getResources().getString(R.string.sulphurised);
-        } else if (additive.equals("7")) {
-            return getResources().getString(R.string.waxed);
-        } else if (additive.equals("8")) {
-            return getResources().getString(R.string.blackend);
-        } else if (additive.equals("9")) {
-            return getResources().getString(R.string.sweeteners);
-        } else if (additive.equals("10")) {
-            return getResources().getString(R.string.phenylalanine);
-        } else if (additive.equals("11")) {
-            return getResources().getString(R.string.taurine);
-        } else if (additive.equals("12")) {
-            return getResources().getString(R.string.nitratesaltingmix);
-        } else if (additive.equals("13")) {
-            return getResources().getString(R.string.caffeine);
-        } else if (additive.equals("14")) {
-            return getResources().getString(R.string.quinine);
-        } else if (additive.equals("15")) {
-            return getResources().getString(R.string.milkprotein);
-        } else {
-            return "";
+        switch (additive) {
+            case "1":
+                return getResources().getString(R.string.dyes);
+            case "2":
+                return getResources().getString(R.string.preservatives);
+            case "3":
+                return getResources().getString(R.string.antioxidant);
+            case "4":
+                return getResources().getString(R.string.flavorenhancers);
+            case "5":
+                return getResources().getString(R.string.phosphate);
+            case "6":
+                return getResources().getString(R.string.sulphurised);
+            case "7":
+                return getResources().getString(R.string.waxed);
+            case "8":
+                return getResources().getString(R.string.blackend);
+            case "9":
+                return getResources().getString(R.string.sweeteners);
+            case "10":
+                return getResources().getString(R.string.phenylalanine);
+            case "11":
+                return getResources().getString(R.string.taurine);
+            case "12":
+                return getResources().getString(R.string.nitratesaltingmix);
+            case "13":
+                return getResources().getString(R.string.caffeine);
+            case "14":
+                return getResources().getString(R.string.quinine);
+            case "15":
+                return getResources().getString(R.string.milkprotein);
+            default:
+                return "";
         }
     }
-    /////////////////////////////////////////////
 
-    // This should be outsourced
     public static String getRequestUrl() {
         if (ActivityMain.mensaID == 1) {
             return UrlEndpoints.URL_API
@@ -241,14 +225,6 @@ public class FragmentToday extends Fragment {
         }
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        volleySingleton = VolleySingleton.getInstance();
-        requestQueue = volleySingleton.getRequestQueue();
-        sendJsonRequest();
-    }
-
     private void sendJsonRequest() {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
                 getRequestUrl(),
@@ -303,20 +279,28 @@ public class FragmentToday extends Fragment {
 
                     if (currentMeal.has(KEY_CATEGORY) && !currentMeal.isNull(KEY_CATEGORY)) {
                         category = currentMeal.getString(KEY_CATEGORY);
-                        if (category.equals("dish-default")) {
-                            order_info = 1;
-                        } else if (category.equals("dish-pasta")) {
-                            order_info = 2;
-                        } else if (category.equals("dish-wok")) {
-                            order_info = 3;
-                        } else if (category.equals("dish-grill")) {
-                            order_info = 4;
-                        } else if (category.equals("sidedish")) {
-                            order_info = 5;
-                        } else if (category.equals("soups")) {
-                            order_info = 6;
-                        } else {
-                            order_info = 7;
+                        switch (category) {
+                            case "dish-default":
+                                order_info = 1;
+                                break;
+                            case "dish-pasta":
+                                order_info = 2;
+                                break;
+                            case "dish-wok":
+                                order_info = 3;
+                                break;
+                            case "dish-grill":
+                                order_info = 4;
+                                break;
+                            case "sidedish":
+                                order_info = 5;
+                                break;
+                            case "soups":
+                                order_info = 6;
+                                break;
+                            default:
+                                order_info = 7;
+                                break;
                         }
 
                     }
@@ -389,7 +373,6 @@ public class FragmentToday extends Fragment {
         return listMeals;
     }
 
-
     private void handleVolleyError(VolleyError error) {
         textVolleyError.setVisibility(View.VISIBLE);
         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
@@ -407,26 +390,6 @@ public class FragmentToday extends Fragment {
             textVolleyError.setText(R.string.error_parse);
         }
 
-    }
-
-    ////////////////////////////////////PARCEL COMMENTED OUT
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_today, container, false);
-        textVolleyError = (TextView) view.findViewById(R.id.textVolleyError);
-        listToday = (RecyclerView) view.findViewById(R.id.listToday);
-        listToday.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapterToday = new AdapterToday(getActivity());
-        listToday.setAdapter(adapterToday);
-        /*if (savedInstanceState != null) {
-            listMeals = savedInstanceState.getParcelableArrayList(STATE_MEAL);
-            adapterToday.setMealList(filterMealList(listMeals));
-        } else {*/
-        sendJsonRequest();
-        //}
-        return view;
     }
 
     public ArrayList<Meal> filterMealList(ArrayList<Meal> unfilteredMealList) {
@@ -518,8 +481,8 @@ public class FragmentToday extends Fragment {
 
     public boolean doesContainsFilteredAllergens(String inputString, String[] items) {
 
-        for (int i = 0; i < items.length; i++) {
-            if (inputString.contains(items[i])) {
+        for (String item : items) {
+            if (inputString.contains(item)) {
                 return true;
             }
         }
@@ -528,12 +491,12 @@ public class FragmentToday extends Fragment {
 
     public boolean doesContainsFilteredAdditives(String inputString, String[] items) {
 
-        for (int i = 0; i < items.length; i++) {
+        for (String item : items) {
 
             String patternA = "(A{1}\\d{1,2})";
             String inputStringRegExd = inputString.replaceAll(patternA, "");
 
-            Pattern patternZ = Pattern.compile(items[i] + "{1}\\D");
+            Pattern patternZ = Pattern.compile(item + "{1}\\D");
             Matcher matcher = patternZ.matcher(inputStringRegExd);
 
             if (matcher.find()) {
@@ -545,17 +508,11 @@ public class FragmentToday extends Fragment {
     }
 
     public boolean isVegetarian(String badge) {
-        if (!(badge.equals("vegetarian") | badge.equals("vegan"))) {
-            return false;
-        }
-        return true;
+        return badge.equals("vegetarian") | badge.equals("vegan");
     }
 
     public boolean isVegan(String badge) {
-        if (!badge.equals("vegan")) {
-            return false;
-        }
-        return true;
+        return badge.equals("vegan");
     }
 
     public String formatCurrency(String prize) {
@@ -567,5 +524,7 @@ public class FragmentToday extends Fragment {
         return format.format(prizeDouble);
     }
 
+    //                     This should be outsourced                     //
+    ///////////////////////////////////////////////////////////////////////
 
 }
