@@ -32,7 +32,7 @@ import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 
 public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderToday> {
-
+//
     private ArrayList<Meal> listMeals = new ArrayList<>();
     private LayoutInflater layoutInflater;
     private ImageLoader imageLoader;
