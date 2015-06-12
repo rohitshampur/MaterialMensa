@@ -2,6 +2,7 @@
 
     // General
     <string name="app_name">MaterialMensa</string>
+    <string name="na">N/A</string>
 
     // Menu
     <string name="action_about">About</string>

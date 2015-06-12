@@ -1,6 +1,7 @@
 package de.prttstft.materialmensa.pojo;
 
 
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,17 +9,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.prttstft.materialmensa.R;
+
 public class Meal implements Parcelable {
     private String name;
     private String category;
     private String price_students;
     private String price_staff;
     private String price_guests;
+    private String priceOutput;
     List<String> allergens = new ArrayList<String>();
     List<String> allergens_spelledout = new ArrayList<String>();
     private String badge;
     private int order_info;
     private boolean tara;
+
+
+    Integer badgeIcon;
 
 
     public Meal() {
@@ -129,6 +136,14 @@ public class Meal implements Parcelable {
         this.price_guests = price_guests;
     }
 
+    public String getPriceOutput() {
+        return priceOutput;
+    }
+
+    public void setPriceOutput(String priceOutput) {
+        this.priceOutput = priceOutput;
+    }
+
     public List<String> getAllergens() {
         return allergens;
     }
@@ -167,6 +182,18 @@ public class Meal implements Parcelable {
 
     public void setTara(boolean tara) {
         this.tara = tara;
+    }
+
+    public Integer getBadgeIcon() {
+        if (badgeIcon != null) {
+            return badgeIcon;
+        } else {
+            return R.drawable.ic_transparent;
+        }
+    }
+
+    public void setBadgeIcon(int badgeIcon) {
+        this.badgeIcon = badgeIcon;
     }
 
     @Override

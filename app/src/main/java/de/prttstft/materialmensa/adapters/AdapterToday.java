@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
@@ -34,7 +35,6 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
 
     private ArrayList<Meal> listMeals = new ArrayList<>();
     private LayoutInflater layoutInflater;
-    private VolleySingleton volleySingleton;
     private ImageLoader imageLoader;
     private Context context;
     //private SparseBooleanArray selectedItems;
@@ -45,23 +45,20 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
     public AdapterToday(Context context) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
-        volleySingleton = VolleySingleton.getInstance();
+        VolleySingleton volleySingleton = VolleySingleton.getInstance();
         imageLoader = volleySingleton.getImageLoader();
     }
 
     public void setMealList(ArrayList<Meal> listMeals) {
         this.listMeals = listMeals;
-
         notifyDataSetChanged();
         notifyItemRangeChanged(0, listMeals.size());
-
     }
 
     @Override
     public ViewHolderToday onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.fragment_today_items, parent, false);
-        ViewHolderToday viewHolder = new ViewHolderToday(view);
-        return viewHolder;
+        return new ViewHolderToday(view);
 
     }
 
@@ -104,57 +101,11 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
     public void onBindViewHolder(final ViewHolderToday holder, int position) {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
         String personCategory = SP.getString("prefPersonCategory", "1");
-
         Meal currentMeal = listMeals.get(position);
 
         holder.meal_name.setText(currentMeal.getName());
-
-
-        switch (currentMeal.getBadge()) {
-            case "vegetarian":
-                holder.meal_typeicon.setImageResource(R.drawable.ic_vegeterian);
-                break;
-            case "vegan":
-                holder.meal_typeicon.setImageResource(R.drawable.ic_vegan);
-                break;
-            case "lactose-free":
-                holder.meal_typeicon.setImageResource(R.drawable.ic_lactose_free);
-                break;
-            case "low-calorie":
-                holder.meal_typeicon.setImageResource(R.drawable.ic_low_calorie);
-                break;
-            case "vital-food":
-                holder.meal_typeicon.setImageResource(R.drawable.ic_vital_food);
-                break;
-            case "nonfat":
-                holder.meal_typeicon.setImageResource(R.drawable.ic_nonfat);
-                break;
-            default:
-                holder.meal_typeicon.setVisibility(View.GONE);
-                break;
-        }
-
-        if (personCategory != null) {
-            switch (personCategory) {
-                case "2":
-                    holder.meal_price.setText(currentMeal.getPriceStudents());
-                    break;
-                case "3":
-                    holder.meal_price.setText(currentMeal.getPriceStaff());
-                    break;
-                case "4":
-                    holder.meal_price.setText(currentMeal.getPriceGuests());
-                    break;
-                default:
-                    if (Locale.getDefault().getISO3Language().equals("deu")) {
-                        holder.meal_price.setText(currentMeal.getPricesDe());
-                    } else {
-                        holder.meal_price.setText(currentMeal.getPrices());
-                    }
-                    break;
-            }
-        }
-
+        holder.meal_typeicon.setImageResource(currentMeal.getBadgeIcon());
+        holder.meal_price.setText(currentMeal.getPriceOutput());
 
         if (!currentMeal.getAllergens().toString().equals("[]")) {
             String allergenreturn = "Allergens & Additives:\n";
@@ -173,8 +124,6 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
                 holder.meal_contents.setText("No Allergens or Additives");
             }
         }
-
-
     }
 
     @Override
@@ -182,13 +131,8 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         return listMeals.size();
     }
 
-    public void delete(int position) {
-        listMeals.remove(position);
-        notifyItemRemoved(position);
-    }
-
     public void clearSelections() {
-        //selectedItems.clear();
+        selectedItems.clear();
         notifyDataSetChanged();
     }
 
@@ -197,7 +141,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
     }
 
     public void removeSelectedItem(int pos) {
-        for (int i = 0; i < selectedItems.size(); i++) {
+        for (int i = 0; i < getItemCount(); i++) {
             if (selectedItems.get(i).equals(pos))
                 selectedItems.remove(i);
         }
@@ -240,14 +184,11 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
             meal_item.setOnClickListener(this);
             meal_item.setOnLongClickListener(this);
             meal_selected = (TextView) itemView.findViewById(R.id.meal_selected);
-
             meal_typeicon = (ImageView) itemView.findViewById(R.id.meal_typeicon);
             meal_name = (TextView) itemView.findViewById(R.id.meal_name);
             meal_price = (TextView) itemView.findViewById(R.id.meal_price);
-
             meal_contents = (TextView) itemView.findViewById(R.id.meal_contents);
             meal_contents_spelledout = (TextView) itemView.findViewById(R.id.meal_contents_spelledout);
-            //meal_contents.setOnClickListener(this);
         }
 
 
@@ -292,6 +233,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
                 meal_selected.setText("true");
                 addSelectedItem(pos);
                 notifyItemChanged(getLayoutPosition());
+
             } else if (meal_selected.getText().equals("true")) {
                 meal_item.setBackgroundResource(R.drawable.custom_bg);
                 meal_selected.setText("false");
@@ -302,7 +244,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         }
 
         public void clearSelections() {
-            for (int i = 0; i < listMeals.size(); i++) {
+            for (int i = 0; i < getItemCount(); i++) {
                 if (meal_selected.getText().equals("true")) {
                     meal_item.setBackgroundResource(R.drawable.custom_bg);
                     meal_selected.setText("false");
@@ -310,7 +252,5 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
                 }
             }
         }
-
-
     }
 }
