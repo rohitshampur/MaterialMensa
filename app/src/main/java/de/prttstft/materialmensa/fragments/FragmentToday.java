@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -24,10 +25,13 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.bignerdranch.android.multiselector.MultiSelector;
+import com.bignerdranch.android.multiselector.SwappingHolder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -410,7 +414,7 @@ public class FragmentToday extends Fragment {
 
     }
 
-
+    ////////////////////////////////////PARCEL COMMENTED OUT
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -421,17 +425,18 @@ public class FragmentToday extends Fragment {
         listToday.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapterToday = new AdapterToday(getActivity());
         listToday.setAdapter(adapterToday);
-        if (savedInstanceState != null) {
+        /*if (savedInstanceState != null) {
             listMeals = savedInstanceState.getParcelableArrayList(STATE_MEAL);
             adapterToday.setMealList(filterMealList(listMeals));
-        } else {
-            sendJsonRequest();
-        }
+        } else {*/
+        sendJsonRequest();
+        //}
         return view;
     }
 
     public ArrayList<Meal> filterMealList(ArrayList<Meal> unfilteredMealList) {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String personCategory = SP.getString("prefPersonCategory", "1");
         String lifeStyle = SP.getString("prefLifestyle", "1");
         Set<String> selectionsAllergens = SP.getStringSet("prefAllergens", Collections.<String>emptySet());
         Set<String> selectionsAdditives = SP.getStringSet("prefAdditives", Collections.<String>emptySet());
@@ -442,7 +447,58 @@ public class FragmentToday extends Fragment {
         for (int i = 0; i < unfilteredMealList.size(); i++) {
             String getAllergensAdditives = unfilteredMealList.get(i).getAllergens().toString();
             String getBadge = unfilteredMealList.get(i).getBadge();
+            String getPrices = unfilteredMealList.get(i).getPrices();
+            String getPricesDe = unfilteredMealList.get(i).getPricesDe();
+            String getStudentPrice = unfilteredMealList.get(i).getPriceStudents();
+            String getStaffPrice = unfilteredMealList.get(i).getPriceStaff();
+            String getGuestPrice = unfilteredMealList.get(i).getPriceGuests();
             Boolean isCleared = true;
+
+            switch (getBadge) {
+                case "vegetarian":
+                    unfilteredMealList.get(i).setBadgeIcon(R.drawable.ic_vegeterian);
+                    break;
+                case "vegan":
+                    unfilteredMealList.get(i).setBadgeIcon(R.drawable.ic_vegan);
+                    break;
+                case "lactose-free":
+                    unfilteredMealList.get(i).setBadgeIcon(R.drawable.ic_lactose_free);
+                    break;
+                case "low-calorie":
+                    unfilteredMealList.get(i).setBadgeIcon(R.drawable.ic_low_calorie);
+                    break;
+                case "vital-food":
+                    unfilteredMealList.get(i).setBadgeIcon(R.drawable.ic_vital_food);
+                    break;
+                case "nonfat":
+                    unfilteredMealList.get(i).setBadgeIcon(R.drawable.ic_nonfat);
+                    break;
+                default:
+                    unfilteredMealList.get(i).setBadgeIcon(R.drawable.ic_transparent);
+                    break;
+            }
+
+            if (personCategory != null) {
+                switch (personCategory) {
+                    case "2":
+                        unfilteredMealList.get(i).setPriceOutput(getStudentPrice);
+                        break;
+                    case "3":
+                        unfilteredMealList.get(i).setPriceOutput(getStaffPrice);
+                        break;
+                    case "4":
+                        unfilteredMealList.get(i).setPriceOutput(getGuestPrice);
+                        break;
+                    default:
+                        if (Locale.getDefault().getISO3Language().equals("deu")) {
+                            unfilteredMealList.get(i).setPriceOutput(getPricesDe);
+                        } else {
+                            unfilteredMealList.get(i).setPriceOutput(getPrices);
+                        }
+                        break;
+                }
+            }
+
 
             if (doesContainsFilteredAllergens(getAllergensAdditives, selectedAllergens)) {
                 isCleared = false;
@@ -515,4 +571,6 @@ public class FragmentToday extends Fragment {
 
         return format.format(prizeDouble);
     }
+
+
 }

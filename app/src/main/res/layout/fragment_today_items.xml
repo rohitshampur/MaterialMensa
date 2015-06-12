@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/meal_item"
     android:layout_width="match_parent"
     android:layout_height="105dp"
-    android:orientation="horizontal"
     android:background="@drawable/custom_bg"
-    android:clickable="true">
+    android:clickable="true"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/meal_name"
@@ -18,7 +19,7 @@
         android:maxLines="2"
         android:minLines="1"
         android:scrollbars="vertical"
-        android:text="Meal"
+        android:text="@string/na"
         android:textColor="@color/primary_text"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -35,7 +36,7 @@
         android:maxLines="1"
         android:minLines="1"
         android:scrollbars="vertical"
-        android:text="Price: 1,70 €"
+        android:text="@string/na"
         android:textColor="@color/primary_text"
         android:textSize="12sp"
         android:textStyle="normal" />
@@ -54,17 +55,17 @@
         android:maxLines="1"
         android:minLines="1"
         android:scrollbars="vertical"
-        android:text="Contents"
+        android:text="@string/na"
         android:textColor="@color/secondary_text"
         android:textSize="12sp"
         android:textStyle="normal" />
-<!-- STRIIIIIING -->
+
     <TextView
         android:id="@+id/meal_contents_spelledout"
-        android:text="No Allergens or Additives"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:text="No Allergens or Additives"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/meal_typeicon"
@@ -76,8 +77,11 @@
         android:padding="8dp"
         android:src="@drawable/ic_meal_picture_dummy" />
 
-</RelativeLayout><!--
-android:background="@drawable/custom_bg"
-android:clickable="true"
-    android:background="@android:color/white"
-    -->
+    <TextView
+        android:id="@+id/meal_selected"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="false"
+        android:visibility="gone" />
+
+</RelativeLayout>
