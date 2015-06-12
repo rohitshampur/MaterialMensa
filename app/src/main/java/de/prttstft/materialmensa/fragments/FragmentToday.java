@@ -54,7 +54,7 @@ public class FragmentToday extends Fragment {
     private TextView textVolleyError;
     private MealSorter mSorter = new MealSorter();
 
-    public static FragmentToday newInstance(String param1, String param2) {
+    public static FragmentToday newInstance() {
         return new FragmentToday();
     }
 

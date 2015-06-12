@@ -213,7 +213,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
             Fragment fragment = null;
             switch (num) {
                 case DAYS_TODAY:
-                    fragment = FragmentToday.newInstance("", "");
+                    fragment = FragmentToday.newInstance();
                     break;
                 case DAYS_TOMORROW:
                     fragment = FragmentTomorrow.newInstance("", "");
