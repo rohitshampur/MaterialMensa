@@ -22,15 +22,18 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
     private ArrayList<Meal> items = new ArrayList<>();
 
     private Context context;
+    private ViewHolder.ClickListener clickListener;
 
-    public Adapter() {
+    public Adapter(ViewHolder.ClickListener clickListener) {
+        super();
+        this.clickListener = clickListener;
 
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_today_items, parent, false);
-        return new ViewHolder(view);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_today_items, parent, false);
+        return new ViewHolder(v, clickListener);
     }
 
     @Override
@@ -67,18 +70,23 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
 
         private RelativeLayout meal_item;
 
+        private ClickListener listener;
+
         private TextView meal_name;
         private TextView meal_price;
         private TextView meal_contents;
         private TextView meal_contents_spelledout;
         private ImageView meal_typeicon;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, ClickListener listener) {
             super(itemView);
             meal_item = (RelativeLayout) itemView.findViewById(R.id.meal_item);
 
+            this.listener = listener;
+
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
+
 
             meal_name = (TextView) itemView.findViewById(R.id.meal_name);
             meal_price = (TextView) itemView.findViewById(R.id.meal_price);
@@ -89,13 +97,23 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            Log.d(TAG, "Item clicked at position " + getAdapterPosition());
+            if (listener != null) {
+                listener.onItemClicked(getAdapterPosition());
+            }
         }
 
         @Override
         public boolean onLongClick(View v) {
-            Log.d(TAG, "Item long-clicked at position " + getAdapterPosition());
-            return true;
+            if (listener != null) {
+                return listener.onItemLongClicked(getAdapterPosition());
+            }
+            return false;
+        }
+
+        public interface ClickListener {
+            void onItemClicked(int position);
+
+            boolean onItemLongClicked(int position);
         }
     }
 
@@ -109,4 +127,6 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
         notifyDataSetChanged();
         notifyItemRangeChanged(0, listMeals.size());
     }
+
+
 }

@@ -6,15 +6,19 @@ import android.util.SparseBooleanArray;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.prttstft.materialmensa.logging.L;
+
 public abstract class SelectableAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     @SuppressWarnings("unused")
     private static final String TAG = SelectableAdapter.class.getSimpleName();
 
     private SparseBooleanArray selectedItems;
 
+
     public SelectableAdapter() {
         selectedItems = new SparseBooleanArray();
     }
+
 
     /**
      * Indicates if the item at position position is selected
@@ -25,11 +29,13 @@ public abstract class SelectableAdapter<VH extends RecyclerView.ViewHolder> exte
         return getSelectedItems().contains(position);
     }
 
+
     /**
      * Toggle the selection status of the item at a given position
      * @param position Position of the item to toggle the selection status for
      */
     public void toggleSelection(int position) {
+
         if (selectedItems.get(position, false)) {
             selectedItems.delete(position);
         } else {

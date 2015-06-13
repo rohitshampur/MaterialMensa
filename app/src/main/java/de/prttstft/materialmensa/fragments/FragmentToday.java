@@ -4,9 +4,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -42,17 +49,20 @@ import de.prttstft.materialmensa.adapters.Adapter;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.*;
 
-public class FragmentToday extends Fragment {
+public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickListener{
     private RequestQueue requestQueue;
     public ArrayList<Meal> listMeals = new ArrayList<>();
-    private Adapter adapter;
     private TextView textVolleyError;
     private MealSorter mSorter = new MealSorter();
+    private Adapter adapter;
+    private ActionModeCallback actionModeCallback = new ActionModeCallback();
+    private ActionMode actionMode;
 
     public static FragmentToday newInstance() {
         return new FragmentToday();
@@ -67,6 +77,7 @@ public class FragmentToday extends Fragment {
         VolleySingleton volleySingleton = VolleySingleton.getInstance();
         requestQueue = volleySingleton.getRequestQueue();
         sendJsonRequest();
+
     }
 
     @Override
@@ -74,13 +85,91 @@ public class FragmentToday extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today, container, false);
         textVolleyError = (TextView) view.findViewById(R.id.textVolleyError);
-        RecyclerView listToday = (RecyclerView) view.findViewById(R.id.recycler_view);
-        listToday.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new Adapter();
-        listToday.setAdapter(adapter);
+
+        adapter = new Adapter(this);
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         sendJsonRequest();
         return view;
     }
+
+    @Override
+    public void onItemClicked(int position) {
+        if (actionMode != null) {
+            toggleSelection(position);
+        }
+    }
+
+    @Override
+    public boolean onItemLongClicked(int position) {
+        if (actionMode != null) {
+            //((ActivityMain) getActivity()).startSupportActionMode(actionModeCallback);
+            //ActivityMain activity = (ActivityMain)getActivity();
+            //actionMode = activity.startSupportActionMode(actionModeCallback);
+            //((ActionBarActivity)getActivity()).startSupportActionMode(actionModeCallback);
+            ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
+
+
+            //actionMode = (ActivityMain)(actionModeCallback);
+        }
+
+        toggleSelection(position);
+
+        return true;
+    }
+
+    private void toggleSelection(int position) {
+        adapter.toggleSelection(position);
+        int count = adapter.getSelectedItemCount();
+
+        if (count == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(String.valueOf(count));
+            actionMode.invalidate();
+        }
+    }
+
+    private class ActionModeCallback implements ActionMode.Callback {
+        @SuppressWarnings("unused")
+        private final String TAG = ActionModeCallback.class.getSimpleName();
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate (R.menu.menu_cam, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.favorite:
+                    // TODO: actually remove items
+                    Log.d(TAG, "menu_remove");
+                    mode.finish();
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            adapter.clearSelection();
+            actionMode = null;
+        }
+    }
+
 
     ///////////////////////////////////////////////////////////////////////
     //                     This should be outsourced                     //
