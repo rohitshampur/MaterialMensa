@@ -23,10 +23,7 @@ public class Meal implements Parcelable {
     private String badge;
     private int order_info;
     private boolean tara;
-
-
     Integer badgeIcon;
-
 
     public Meal() {
 
@@ -40,11 +37,7 @@ public class Meal implements Parcelable {
         price_guests = input.readString();
         badge = input.readString();
         order_info = input.readInt();
-        if (input.readInt() == 1) {
-            tara = true;
-        } else {
-            tara = false;
-        }
+        tara = input.readInt() == 1;
     }
 
     public Meal(String name,

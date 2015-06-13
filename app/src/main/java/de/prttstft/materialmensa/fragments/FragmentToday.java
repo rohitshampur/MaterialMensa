@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
-import de.prttstft.materialmensa.adapters.AdapterToday;
+import de.prttstft.materialmensa.adapters.Adapter;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
@@ -50,7 +50,7 @@ import static de.prttstft.materialmensa.extras.Keys.EndpointToday.*;
 public class FragmentToday extends Fragment {
     private RequestQueue requestQueue;
     public ArrayList<Meal> listMeals = new ArrayList<>();
-    private AdapterToday adapterToday;
+    private Adapter adapter;
     private TextView textVolleyError;
     private MealSorter mSorter = new MealSorter();
 
@@ -74,10 +74,10 @@ public class FragmentToday extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today, container, false);
         textVolleyError = (TextView) view.findViewById(R.id.textVolleyError);
-        RecyclerView listToday = (RecyclerView) view.findViewById(R.id.listToday);
+        RecyclerView listToday = (RecyclerView) view.findViewById(R.id.recycler_view);
         listToday.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapterToday = new AdapterToday(getActivity());
-        listToday.setAdapter(adapterToday);
+        adapter = new Adapter(getActivity());
+        listToday.setAdapter(adapter);
         sendJsonRequest();
         return view;
     }
@@ -234,7 +234,7 @@ public class FragmentToday extends Fragment {
                     public void onResponse(JSONArray response) {
                         textVolleyError.setVisibility(View.GONE);
                         listMeals = parseJSONResponse(response);
-                        adapterToday.setMealList(filterMealList(listMeals));
+                        adapter.setMealList(filterMealList(listMeals));
                     }
                 }, new Response.ErrorListener() {
             @Override

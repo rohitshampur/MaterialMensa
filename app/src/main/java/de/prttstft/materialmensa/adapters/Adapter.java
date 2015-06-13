@@ -16,13 +16,13 @@ import java.util.Locale;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.pojo.Meal;
 
-public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolder> {
+public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private ArrayList<Meal> items = new ArrayList<>();
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public AdapterToday(Context context) {
+    public Adapter(Context context) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
     }
