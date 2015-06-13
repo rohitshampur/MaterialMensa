@@ -17,7 +17,7 @@ import java.util.Locale;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.pojo.Meal;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
 
     private ArrayList<Meal> items = new ArrayList<>();
 
