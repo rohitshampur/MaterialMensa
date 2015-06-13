@@ -2,6 +2,7 @@ package de.prttstft.materialmensa.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +59,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         }
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+        @SuppressWarnings("unused")
+        private static final String TAG = ViewHolder.class.getSimpleName();
+
         private RelativeLayout meal_item;
 
         private TextView meal_name;
@@ -70,8 +74,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
             meal_item = (RelativeLayout) itemView.findViewById(R.id.meal_item);
-            meal_item.setOnClickListener(this);
-            meal_item.setOnLongClickListener(this);
+
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
 
             meal_name = (TextView) itemView.findViewById(R.id.meal_name);
             meal_price = (TextView) itemView.findViewById(R.id.meal_price);
@@ -81,12 +86,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(View v) {
+            Log.d(TAG, "Item clicked at position " + getAdapterPosition());
         }
 
         @Override
-        public boolean onLongClick(View view) {
-            return false;
+        public boolean onLongClick(View v) {
+            Log.d(TAG, "Item long-clicked at position " + getAdapterPosition());
+            return true;
         }
     }
 
