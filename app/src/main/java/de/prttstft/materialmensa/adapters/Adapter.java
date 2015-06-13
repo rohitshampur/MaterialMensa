@@ -37,9 +37,11 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Meal currentMeal = items.get(position);
 
-        holder.meal_name.setText(currentMeal.getName());
+        //holder.meal_name.setText(currentMeal.getName());
         holder.meal_typeicon.setImageResource(currentMeal.getBadgeIcon());
         holder.meal_price.setText(currentMeal.getPriceOutput());
+
+        holder.meal_name.setText(isSelected(position) ? "SELECTED" : "NOT SELECTED");
 
         if (!currentMeal.getAllergens().toString().equals("[]")) {
             String allergenreturn = "Allergens & Additives:\n";
