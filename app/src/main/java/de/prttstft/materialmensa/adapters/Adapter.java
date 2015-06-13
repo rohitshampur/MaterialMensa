@@ -19,17 +19,16 @@ import de.prttstft.materialmensa.pojo.Meal;
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private ArrayList<Meal> items = new ArrayList<>();
-    private LayoutInflater layoutInflater;
+
     private Context context;
 
-    public Adapter(Context context) {
-        this.context = context;
-        layoutInflater = LayoutInflater.from(context);
+    public Adapter() {
+
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.fragment_today_items, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_today_items, parent, false);
         return new ViewHolder(view);
     }
 

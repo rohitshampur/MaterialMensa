@@ -76,7 +76,7 @@ public class FragmentToday extends Fragment {
         textVolleyError = (TextView) view.findViewById(R.id.textVolleyError);
         RecyclerView listToday = (RecyclerView) view.findViewById(R.id.recycler_view);
         listToday.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new Adapter(getActivity());
+        adapter = new Adapter();
         listToday.setAdapter(adapter);
         sendJsonRequest();
         return view;
