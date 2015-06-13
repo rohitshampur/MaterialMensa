@@ -18,7 +18,7 @@ import de.prttstft.materialmensa.pojo.Meal;
 
 public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolder> {
 
-    private ArrayList<Meal> listMeals = new ArrayList<>();
+    private ArrayList<Meal> items = new ArrayList<>();
     private LayoutInflater layoutInflater;
     private Context context;
 
@@ -35,7 +35,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolder> 
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Meal currentMeal = listMeals.get(position);
+        Meal currentMeal = items.get(position);
 
         holder.meal_name.setText(currentMeal.getName());
         holder.meal_typeicon.setImageResource(currentMeal.getBadgeIcon());
@@ -81,7 +81,6 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolder> 
             meal_typeicon = (ImageView) itemView.findViewById(R.id.meal_typeicon);
         }
 
-
         @Override
         public void onClick(View view) {
         }
@@ -94,11 +93,11 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return listMeals.size();
+        return items.size();
     }
 
     public void setMealList(ArrayList<Meal> listMeals) {
-        this.listMeals = listMeals;
+        this.items = listMeals;
         notifyDataSetChanged();
         notifyItemRangeChanged(0, listMeals.size());
     }
