@@ -31,7 +31,6 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolder> 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.fragment_today_items, parent, false);
         return new ViewHolder(view);
-
     }
 
     @Override
