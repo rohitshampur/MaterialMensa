@@ -16,7 +16,7 @@ import java.util.Locale;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.pojo.Meal;
 
-public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderToday> {
+public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolder> {
 
     private ArrayList<Meal> listMeals = new ArrayList<>();
     private LayoutInflater layoutInflater;
@@ -28,14 +28,14 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
     }
 
     @Override
-    public ViewHolderToday onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.fragment_today_items, parent, false);
-        return new ViewHolderToday(view);
+        return new ViewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolderToday holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Meal currentMeal = listMeals.get(position);
 
         holder.meal_name.setText(currentMeal.getName());
@@ -60,7 +60,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         }
     }
 
-    class ViewHolderToday extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private ImageView meal_typeicon;
         private TextView meal_name;
         private TextView meal_price;
@@ -68,7 +68,7 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolderTo
         private RelativeLayout meal_item;
         private TextView meal_contents;
 
-        public ViewHolderToday(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             meal_item = (RelativeLayout) itemView.findViewById(R.id.meal_item);
             meal_item.setOnClickListener(this);
