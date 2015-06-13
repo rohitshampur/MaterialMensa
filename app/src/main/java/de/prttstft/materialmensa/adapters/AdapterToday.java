@@ -60,23 +60,25 @@ public class AdapterToday extends RecyclerView.Adapter<AdapterToday.ViewHolder> 
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        private ImageView meal_typeicon;
+        private RelativeLayout meal_item;
+
         private TextView meal_name;
         private TextView meal_price;
-        private TextView meal_contents_spelledout;
-        private RelativeLayout meal_item;
         private TextView meal_contents;
+        private TextView meal_contents_spelledout;
+        private ImageView meal_typeicon;
 
         public ViewHolder(View itemView) {
             super(itemView);
             meal_item = (RelativeLayout) itemView.findViewById(R.id.meal_item);
             meal_item.setOnClickListener(this);
             meal_item.setOnLongClickListener(this);
-            meal_typeicon = (ImageView) itemView.findViewById(R.id.meal_typeicon);
+
             meal_name = (TextView) itemView.findViewById(R.id.meal_name);
             meal_price = (TextView) itemView.findViewById(R.id.meal_price);
             meal_contents = (TextView) itemView.findViewById(R.id.meal_contents);
             meal_contents_spelledout = (TextView) itemView.findViewById(R.id.meal_contents_spelledout);
+            meal_typeicon = (ImageView) itemView.findViewById(R.id.meal_typeicon);
         }
 
 
