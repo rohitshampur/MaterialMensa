@@ -1,9 +1,7 @@
 package de.prttstft.materialmensa.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -18,7 +16,6 @@ import android.view.MenuItem;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import de.prttstft.materialmensa.logging.L;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
@@ -26,7 +23,6 @@ import de.prttstft.materialmensa.fragments.FragmentToday;
 import de.prttstft.materialmensa.fragments.FragmentTomorrow;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.fragments.FragmentDrawer;
-
 
 public class ActivityMain extends AppCompatActivity implements MaterialTabListener {
 
@@ -39,23 +35,21 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
     public static String today;
     public static String tomorrow;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Calendar
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         //today = df.format(c.getTime());
         today = "2015-06-15";
 
-
         Calendar d = Calendar.getInstance();
         d.add(Calendar.DAY_OF_YEAR, 1);
         SimpleDateFormat dfd = new SimpleDateFormat("yyyy-MM-dd");
         tomorrow = dfd.format(d.getTime());
-
 
         // Adding the Toolbar
         toolbar = (Toolbar) findViewById(R.id.app_bar);
@@ -68,7 +62,6 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         FragmentDrawer drawerFragment =
                 (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
-
 
         // Adding the Tabs
         tabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
@@ -104,11 +97,9 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         startActivity(Intent.createChooser(shareIntent, "Share"));
     }
 
-
     // Options
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -128,58 +119,46 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
             startActivity(i);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     public void onDrawerItemClicked(int index) {
-        //mPager.setCurrentItem(index);
-        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-
-        /*String lifestyleChoice = SP.getString("prefLifestyle","0");
-        if (lifestyleChoice.equals("1")) {
-            L.t(this, "YOU HAVE NO PREFERENCE");
-        }*/
-
         if (index == 0 && mensaID != 0) {
             mensaID = 0;
             Intent refresh = new Intent(this, ActivityMain.class);
-            startActivity(refresh);//Start the same Activity
-            finish(); //finish Activity.
+            startActivity(refresh);
+            finish();
         } else if (index == 1 && mensaID != 1) {
             mensaID = 1;
             Intent refresh = new Intent(this, ActivityMain.class);
-            startActivity(refresh);//Start the same Activity
-            finish(); //finish Activity.
+            startActivity(refresh);
+            finish();
         } else if (index == 2 && mensaID != 2) {
             mensaID = 2;
             Intent refresh = new Intent(this, ActivityMain.class);
-            startActivity(refresh);//Start the same Activity
-            finish(); //finish Activity.
+            startActivity(refresh);
+            finish();
         } else if (index == 3 && mensaID != 3) {
             mensaID = 3;
             Intent refresh = new Intent(this, ActivityMain.class);
-            startActivity(refresh);//Start the same Activity
-            finish(); //finish Activity.
+            startActivity(refresh);
+            finish();
         } else if (index == 4 && mensaID != 4) {
             mensaID = 4;
             Intent refresh = new Intent(this, ActivityMain.class);
-            startActivity(refresh);//Start the same Activity
-            finish(); //finish Activity.
+            startActivity(refresh);
+            finish();
         } else if (index == 5 && mensaID != 5) {
             mensaID = 5;
             Intent refresh = new Intent(this, ActivityMain.class);
-            startActivity(refresh);//Start the same Activity
-            finish(); //finish Activity.
+            startActivity(refresh);
+            finish();
         } else if (index == 6 && mensaID != 6) {
             mensaID = 6;
             Intent refresh = new Intent(this, ActivityMain.class);
-            startActivity(refresh);//Start the same Activity
-            finish(); //finish Activity.
+            startActivity(refresh);
+            finish();
         }
-
-
     }
 
     // Tabs Stuff
@@ -195,13 +174,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
 
     @Override
     public void onTabUnselected(MaterialTab materialTab) {
-
     }
-
-    public void onDrawerSlide(float slideOffset) {
-
-    }
-
 
     private class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -220,7 +193,6 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
                     break;
             }
             return fragment;
-
         }
 
         @Override
