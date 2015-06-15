@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -49,7 +48,6 @@ import de.prttstft.materialmensa.adapters.Adapter;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
-import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 
@@ -106,15 +104,8 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
     @Override
     public boolean onItemLongClicked(int position) {
-        if (actionMode != null) {
-            //((ActivityMain) getActivity()).startSupportActionMode(actionModeCallback);
-            //ActivityMain activity = (ActivityMain)getActivity();
-            //actionMode = activity.startSupportActionMode(actionModeCallback);
-            //((ActionBarActivity)getActivity()).startSupportActionMode(actionModeCallback);
-            ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
-
-
-            //actionMode = (ActivityMain)(actionModeCallback);
+        if (actionMode == null) {
+            actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
         }
 
         toggleSelection(position);
@@ -169,7 +160,6 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
             actionMode = null;
         }
     }
-
 
     ///////////////////////////////////////////////////////////////////////
     //                     This should be outsourced                     //
@@ -615,5 +605,4 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
     //                     This should be outsourced                     //
     ///////////////////////////////////////////////////////////////////////
-
 }
