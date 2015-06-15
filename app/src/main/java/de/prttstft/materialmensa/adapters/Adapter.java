@@ -11,10 +11,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import de.prttstft.materialmensa.R;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.pojo.Meal;
 
 public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
@@ -23,11 +26,11 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
 
     private Context context;
     private ViewHolder.ClickListener clickListener;
+    Map<Integer, String> listOfMeals = new HashMap<Integer, String>();
 
     public Adapter(ViewHolder.ClickListener clickListener) {
         super();
         this.clickListener = clickListener;
-
     }
 
     @Override
@@ -40,11 +43,16 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Meal currentMeal = items.get(position);
 
-        //holder.meal_name.setText(currentMeal.getName());
+        holder.meal_name.setText(currentMeal.getName());
         holder.meal_typeicon.setImageResource(currentMeal.getBadgeIcon());
         holder.meal_price.setText(currentMeal.getPriceOutput());
 
-        holder.meal_name.setText(isSelected(position) ? "SELECTED" : "NOT SELECTED");
+        holder.meal_item.setBackgroundResource(isSelected(position) ? R.drawable.custom_bg_selected : R.drawable.custom_bg);
+
+        if (isSelected(position)) {
+            listOfMeals.put(position, String.valueOf(holder.meal_name.getText()));
+        }
+
 
         if (!currentMeal.getAllergens().toString().equals("[]")) {
             String allergenreturn = "Allergens & Additives:\n";
@@ -53,6 +61,7 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
             for (int i = 0; i < allergensSpelledOutarray.size(); i++) {
                 allergenreturn = allergenreturn + "\n- " + allergensSpelledOutarray.get(i);
             }
+
             holder.meal_contents.setText(currentMeal.getAllergens().toString());
             holder.meal_contents_spelledout.setText(allergenreturn);
         } else {
@@ -62,6 +71,8 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
                 holder.meal_contents.setText("No Allergens or Additives");
             }
         }
+
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -78,6 +89,8 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
         private TextView meal_contents_spelledout;
         private ImageView meal_typeicon;
 
+
+
         public ViewHolder(View itemView, ClickListener listener) {
             super(itemView);
             meal_item = (RelativeLayout) itemView.findViewById(R.id.meal_item);
@@ -86,7 +99,6 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
-
 
             meal_name = (TextView) itemView.findViewById(R.id.meal_name);
             meal_price = (TextView) itemView.findViewById(R.id.meal_price);
@@ -107,6 +119,7 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
             if (listener != null) {
                 return listener.onItemLongClicked(getAdapterPosition());
             }
+
             return false;
         }
 
@@ -126,6 +139,11 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
         this.items = listMeals;
         notifyDataSetChanged();
         notifyItemRangeChanged(0, listMeals.size());
+    }
+
+    public static void getSelectedMealNames() {
+        //L.t(context, String.valueOf(listOfMeals.toString()));
+
     }
 
 

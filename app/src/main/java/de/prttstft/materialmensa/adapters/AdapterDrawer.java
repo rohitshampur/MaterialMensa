@@ -73,7 +73,6 @@ public class AdapterDrawer extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeaderHolder) {
 
-
         } else {
             ItemHolder itemHolder = (ItemHolder) holder;
             Drawer current = data.get(position - 1);

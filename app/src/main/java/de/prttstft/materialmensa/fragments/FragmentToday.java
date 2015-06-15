@@ -1,5 +1,6 @@
 package de.prttstft.materialmensa.fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -9,6 +10,7 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -48,8 +50,10 @@ import de.prttstft.materialmensa.adapters.Adapter;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
+import de.prttstft.materialmensa.adapters.Adapter;
 
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.*;
 
@@ -108,6 +112,8 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
             actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
         }
 
+
+
         toggleSelection(position);
 
         return true;
@@ -144,8 +150,11 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.favorite:
-                    // TODO: actually remove items
-                    Log.d(TAG, "menu_remove");
+                    mode.finish();
+                    return true;
+
+                case R.id.share:
+                    shareIntent();
                     mode.finish();
                     return true;
 
@@ -159,6 +168,15 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
             adapter.clearSelection();
             actionMode = null;
         }
+    }
+
+    // Share Intent
+    private void shareIntent() {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Willst du mit mir Mensen? Heute gibt es ");
+        shareIntent.setType("text/plain");
+        startActivity(Intent.createChooser(shareIntent, "Share"));
     }
 
     ///////////////////////////////////////////////////////////////////////

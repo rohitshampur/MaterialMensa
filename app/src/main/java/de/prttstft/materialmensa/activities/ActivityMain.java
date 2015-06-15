@@ -87,15 +87,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
 
     }
 
-    // Share Intent
-    private void shareIntent() {
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        // Build String to Share
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "Willst du mit mir Mensen? Heute gibt es ");
-        shareIntent.setType("text/plain");
-        startActivity(Intent.createChooser(shareIntent, "Share"));
-    }
+
 
     // Options
     @Override
