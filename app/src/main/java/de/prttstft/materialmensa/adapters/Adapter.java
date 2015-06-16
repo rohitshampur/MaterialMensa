@@ -27,11 +27,13 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
     private Context context;
     private ViewHolder.ClickListener clickListener;
     Map<Integer, String> listOfMeals = new HashMap<Integer, String>();
+    List<String> selectedMeals;
 
     public Adapter(ViewHolder.ClickListener clickListener) {
         super();
         this.clickListener = clickListener;
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -41,6 +43,7 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+
         Meal currentMeal = items.get(position);
 
         holder.meal_name.setText(currentMeal.getName());
@@ -48,11 +51,6 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
         holder.meal_price.setText(currentMeal.getPriceOutput());
 
         holder.meal_item.setBackgroundResource(isSelected(position) ? R.drawable.custom_bg_selected : R.drawable.custom_bg);
-
-        if (isSelected(position)) {
-            listOfMeals.put(position, String.valueOf(holder.meal_name.getText()));
-        }
-
 
         if (!currentMeal.getAllergens().toString().equals("[]")) {
             String allergenreturn = "Allergens & Additives:\n";
@@ -90,9 +88,9 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
         private ImageView meal_typeicon;
 
 
-
         public ViewHolder(View itemView, ClickListener listener) {
             super(itemView);
+
             meal_item = (RelativeLayout) itemView.findViewById(R.id.meal_item);
 
             this.listener = listener;
@@ -105,6 +103,7 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
             meal_contents = (TextView) itemView.findViewById(R.id.meal_contents);
             meal_contents_spelledout = (TextView) itemView.findViewById(R.id.meal_contents_spelledout);
             meal_typeicon = (ImageView) itemView.findViewById(R.id.meal_typeicon);
+
         }
 
         @Override
@@ -141,10 +140,25 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
         notifyItemRangeChanged(0, listMeals.size());
     }
 
-    public static void getSelectedMealNames() {
-        //L.t(context, String.valueOf(listOfMeals.toString()));
+    public void getSelectedMealNames() {
 
+        for (int i = 0; i < items.size(); i++) {
+            if (isSelected(i)) {
+                selectedMeals.add(items.get(i).getName());
+            }
+        }
     }
 
+    public String buildSelectedMealNamesString() {
+        String selectedMealsString = "";
+        if (!selectedMeals.isEmpty()) {
+            for (int i = 0; i < selectedMeals.size(); i++) {
+                selectedMealsString = selectedMealsString + selectedMeals.get(i) + "\n";
+            }
+            return selectedMealsString;
+        }
+        //ToDo: Strings!
+        return "No Meals Selected";
 
+    }
 }

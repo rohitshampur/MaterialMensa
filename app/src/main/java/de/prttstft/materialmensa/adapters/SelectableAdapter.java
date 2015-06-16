@@ -1,5 +1,6 @@
 package de.prttstft.materialmensa.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 
@@ -11,7 +12,7 @@ import de.prttstft.materialmensa.logging.L;
 public abstract class SelectableAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     @SuppressWarnings("unused")
     private static final String TAG = SelectableAdapter.class.getSimpleName();
-
+    Context context;
     private SparseBooleanArray selectedItems;
 
 
@@ -72,6 +73,7 @@ public abstract class SelectableAdapter<VH extends RecyclerView.ViewHolder> exte
         for (int i = 0; i < selectedItems.size(); ++i) {
             items.add(selectedItems.keyAt(i));
         }
+
         return items;
     }
 }

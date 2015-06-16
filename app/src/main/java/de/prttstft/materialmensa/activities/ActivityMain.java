@@ -43,8 +43,8 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         // Calendar
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        //today = df.format(c.getTime());
-        today = "2015-06-15";
+        today = df.format(c.getTime());
+        //today = "2015-06-15";
 
         Calendar d = Calendar.getInstance();
         d.add(Calendar.DAY_OF_YEAR, 1);

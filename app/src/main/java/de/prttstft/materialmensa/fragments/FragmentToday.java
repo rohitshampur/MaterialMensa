@@ -47,6 +47,7 @@ import java.util.regex.Pattern;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapters.Adapter;
+import de.prttstft.materialmensa.adapters.SelectableAdapter;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
@@ -174,6 +175,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     private void shareIntent() {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
+
         shareIntent.putExtra(Intent.EXTRA_TEXT, "Willst du mit mir Mensen? Heute gibt es ");
         shareIntent.setType("text/plain");
         startActivity(Intent.createChooser(shareIntent, "Share"));
