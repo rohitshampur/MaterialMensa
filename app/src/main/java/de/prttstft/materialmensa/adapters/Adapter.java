@@ -150,6 +150,7 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
     }
 
     public String buildSelectedMealNamesString() {
+        getSelectedMealNames();
         String selectedMealsString = "";
         if (!selectedMeals.isEmpty()) {
             for (int i = 0; i < selectedMeals.size(); i++) {
