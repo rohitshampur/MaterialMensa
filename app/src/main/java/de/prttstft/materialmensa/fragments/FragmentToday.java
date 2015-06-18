@@ -150,9 +150,6 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.favorite:
-                    mode.finish();
-                    return true;
 
                 case R.id.share:
                     shareIntent();
@@ -176,7 +173,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     private void shareIntent() {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "Willst du mit mir Mensen? Heute gibt es" + "\n" + adapter.buildSelectedMealNamesString());
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Willst du mit mir Mensen? Heute gibt es" + adapter.buildSelectedMealNamesString());
         shareIntent.setType("text/plain");
         startActivity(Intent.createChooser(shareIntent, "Share"));
         adapter.emptySelectedMealNameList();

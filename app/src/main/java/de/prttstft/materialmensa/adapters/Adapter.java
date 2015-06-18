@@ -64,7 +64,6 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
 
             holder.meal_contents.setText(currentMeal.getAllergens().toString());
             holder.meal_contents_spelledout.setText(allergenreturn);
-           // getSelectedMealNames();
 
         } else {
             if (Locale.getDefault().getISO3Language().equals("deu")) {
@@ -91,7 +90,6 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
         private TextView meal_contents_spelledout;
         private ImageView meal_typeicon;
 
-
         public ViewHolder(View itemView, ClickListener listener) {
             super(itemView);
 
@@ -107,7 +105,6 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
             meal_contents = (TextView) itemView.findViewById(R.id.meal_contents);
             meal_contents_spelledout = (TextView) itemView.findViewById(R.id.meal_contents_spelledout);
             meal_typeicon = (ImageView) itemView.findViewById(R.id.meal_typeicon);
-
 
         }
 
@@ -146,14 +143,14 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
     }
 
     public void getSelectedMealNames() {
-        Meal currentM;
+        Meal currentMeal;
         Set<String> selectedMealsSet = new HashSet<String>();
 
         for (int i = 0; i < items.size(); i++) {
-            currentM = items.get(i);
+            currentMeal = items.get(i);
             if (isSelected(i)) {
-                if (!selectedMealsSet.contains(currentM.getName()))
-                    selectedMealsSet.add(currentM.getName());
+                if (!selectedMealsSet.contains(currentMeal.getName()))
+                    selectedMealsSet.add(currentMeal.getName());
             }
         }
         if (!selectedMealsSet.isEmpty()) {
@@ -170,13 +167,12 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
         String selectedMealsString = "";
         if (!selectedMealNameList.isEmpty()) {
             for (int i = 0; i < selectedMealNameList.size(); i++) {
-                selectedMealsString = selectedMealsString + selectedMealNameList.get(i) + "\n";
+                selectedMealsString = selectedMealsString +  "\n" + "• " + selectedMealNameList.get(i);
             }
             return selectedMealsString;
         }
         //ToDo: Strings!
         return "No Meals Selected";
     }
-
 
 }
