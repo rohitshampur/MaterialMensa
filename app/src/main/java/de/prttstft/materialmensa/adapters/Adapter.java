@@ -11,10 +11,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Set;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.logging.L;
@@ -26,8 +28,8 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
 
     private Context context;
     private ViewHolder.ClickListener clickListener;
-    Map<Integer, String> listOfMeals = new HashMap<Integer, String>();
-    List<String> selectedMeals;
+    List<String> selectedMealNameList = new ArrayList<String>();
+
 
     public Adapter(ViewHolder.ClickListener clickListener) {
         super();
@@ -62,6 +64,8 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
 
             holder.meal_contents.setText(currentMeal.getAllergens().toString());
             holder.meal_contents_spelledout.setText(allergenreturn);
+           // getSelectedMealNames();
+
         } else {
             if (Locale.getDefault().getISO3Language().equals("deu")) {
                 holder.meal_contents.setText("Keine Allergene oder Zusatzstoffe");
@@ -104,6 +108,7 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
             meal_contents_spelledout = (TextView) itemView.findViewById(R.id.meal_contents_spelledout);
             meal_typeicon = (ImageView) itemView.findViewById(R.id.meal_typeicon);
 
+
         }
 
         @Override
@@ -141,25 +146,37 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
     }
 
     public void getSelectedMealNames() {
+        Meal currentM;
+        Set<String> selectedMealsSet = new HashSet<String>();
 
         for (int i = 0; i < items.size(); i++) {
+            currentM = items.get(i);
             if (isSelected(i)) {
-                selectedMeals.add(items.get(i).getName());
+                if (!selectedMealsSet.contains(currentM.getName()))
+                    selectedMealsSet.add(currentM.getName());
             }
         }
+        if (!selectedMealsSet.isEmpty()) {
+            selectedMealNameList.addAll(selectedMealsSet);
+        }
+    }
+
+    public void emptySelectedMealNameList() {
+        selectedMealNameList = new ArrayList<String>();
     }
 
     public String buildSelectedMealNamesString() {
         getSelectedMealNames();
         String selectedMealsString = "";
-        if (!selectedMeals.isEmpty()) {
-            for (int i = 0; i < selectedMeals.size(); i++) {
-                selectedMealsString = selectedMealsString + selectedMeals.get(i) + "\n";
+        if (!selectedMealNameList.isEmpty()) {
+            for (int i = 0; i < selectedMealNameList.size(); i++) {
+                selectedMealsString = selectedMealsString + selectedMealNameList.get(i) + "\n";
             }
             return selectedMealsString;
         }
         //ToDo: Strings!
         return "No Meals Selected";
-
     }
+
+
 }

@@ -168,6 +168,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         public void onDestroyActionMode(ActionMode mode) {
             adapter.clearSelection();
             actionMode = null;
+
         }
     }
 
@@ -175,10 +176,10 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     private void shareIntent() {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        L.t(getActivity(), adapter.buildSelectedMealNamesString());
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "Willst du mit mir Mensen? Heute gibt es ");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Willst du mit mir Mensen? Heute gibt es" + "\n" + adapter.buildSelectedMealNamesString());
         shareIntent.setType("text/plain");
         startActivity(Intent.createChooser(shareIntent, "Share"));
+        adapter.emptySelectedMealNameList();
     }
 
     ///////////////////////////////////////////////////////////////////////
