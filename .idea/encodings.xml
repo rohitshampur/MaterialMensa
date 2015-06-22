@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/app/build.gradle" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/proguard-rules.pro" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/de/prttstft/materialmensa/activities/ActivityAbout.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/de/prttstft/materialmensa/activities/ActivityMain.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/de/prttstft/materialmensa/activities/ActivityPreferences.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/de/prttstft/materialmensa/adapters/Adapter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/de/prttstft/materialmensa/adapters/AdapterDrawer.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/de/prttstft/materialmensa/adapters/AdapterToday.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/de/prttstft/materialmensa/extras/Constants.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/de/prttstft/materialmensa/extras/Keys.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/de/prttstft/materialmensa/extras/MealSorter.java" charset="UTF-8" />
@@ -22,5 +22,6 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/de/prttstft/materialmensa/views/Drawer.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/build.gradle" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/settings.gradle" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

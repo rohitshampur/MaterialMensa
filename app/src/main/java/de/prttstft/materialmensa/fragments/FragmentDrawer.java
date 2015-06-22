@@ -32,13 +32,11 @@ import de.prttstft.materialmensa.adapters.AdapterDrawer;
  * A simple {@link Fragment} subclass.
  */
 public class FragmentDrawer extends android.support.v4.app.Fragment {
-    private RecyclerView mRecyclerDrawer;
     public static final String PREF_FILE_NAME = "testpref";
     public static final String KEY_USER_LEARNED_DRAWER = "user_learned_drawer";
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-    private AdapterDrawer mAdapter;
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
     private View containerView;
@@ -81,8 +79,8 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstaceState) {
-        mRecyclerDrawer = (RecyclerView) view.findViewById(R.id.drawerList);
-        mAdapter = new AdapterDrawer(getActivity(), getData());
+        RecyclerView mRecyclerDrawer = (RecyclerView) view.findViewById(R.id.drawerList);
+        AdapterDrawer mAdapter = new AdapterDrawer(getActivity(), getData());
         mRecyclerDrawer.setAdapter(mAdapter);
         mRecyclerDrawer.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -191,7 +189,7 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
         }
 
         @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean b) {
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
         }
 

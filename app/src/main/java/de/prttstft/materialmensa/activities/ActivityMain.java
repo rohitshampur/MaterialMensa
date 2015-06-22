@@ -43,8 +43,8 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         // Calendar
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        //today = df.format(c.getTime());
-        today = "2015-06-15";
+        today = df.format(c.getTime());
+        //today = "2015-06-15";
 
         Calendar d = Calendar.getInstance();
         d.add(Calendar.DAY_OF_YEAR, 1);
@@ -87,15 +87,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
 
     }
 
-    // Share Intent
-    private void shareIntent() {
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        // Build String to Share
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "Willst du mit mir Mensen? Heute gibt es ");
-        shareIntent.setType("text/plain");
-        startActivity(Intent.createChooser(shareIntent, "Share"));
-    }
+
 
     // Options
     @Override
