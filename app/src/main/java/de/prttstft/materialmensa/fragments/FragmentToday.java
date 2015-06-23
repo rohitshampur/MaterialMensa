@@ -69,14 +69,12 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     public FragmentToday() {
     }
 
-    //
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         VolleySingleton volleySingleton = VolleySingleton.getInstance();
         requestQueue = volleySingleton.getRequestQueue();
         sendJsonRequest();
-
     }
 
     @Override
@@ -324,7 +322,6 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
                                 order_info = 7;
                                 break;
                         }
-
                     }
 
                     if (currentMeal.has(KEY_STUDENTS) && !currentMeal.isNull(KEY_STUDENTS)) {
@@ -354,7 +351,6 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
                                 allergens_spelledout.add(getAllergens(arrayAllergens.getString(j)));
                             }
                         }
-
                     }
 
                     if (currentMeal.has(KEY_BADGE) && !currentMeal.isNull(KEY_BADGE)) {
