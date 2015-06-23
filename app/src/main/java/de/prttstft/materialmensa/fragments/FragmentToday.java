@@ -10,8 +10,6 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,14 +45,12 @@ import java.util.regex.Pattern;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapters.Adapter;
-import de.prttstft.materialmensa.adapters.SelectableAdapter;
+import de.prttstft.materialmensa.adapterExtras.DividerItemDecoration;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
-import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
-import de.prttstft.materialmensa.adapters.Adapter;
 
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.*;
 
@@ -73,7 +69,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
     public FragmentToday() {
     }
-
+//
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +89,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), null));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

@@ -2,7 +2,6 @@ package de.prttstft.materialmensa.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +10,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
 import de.prttstft.materialmensa.R;
-import de.prttstft.materialmensa.logging.L;
+import de.prttstft.materialmensa.adapterExtras.SelectableAdapter;
 import de.prttstft.materialmensa.pojo.Meal;
 
 public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
