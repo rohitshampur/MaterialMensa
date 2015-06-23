@@ -187,8 +187,6 @@ public class Meal implements Parcelable {
         }
     }
 
-
-
     public void setBadgeIcon(int badgeIcon) {
         this.badgeIcon = badgeIcon;
     }

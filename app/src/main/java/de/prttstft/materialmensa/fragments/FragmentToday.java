@@ -48,8 +48,8 @@ import de.prttstft.materialmensa.adapters.Adapter;
 import de.prttstft.materialmensa.adapterExtras.DividerItemDecoration;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.MealSorter;
+import de.prttstft.materialmensa.extras.URLBuilder;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
-import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 
@@ -177,9 +177,6 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         adapter.emptySelectedMealNameList();
     }
 
-    ///////////////////////////////////////////////////////////////////////
-    //                     This should be outsourced                     //
-
     private String getAllergens(String allergen) {
         switch (allergen) {
             case "A1":
@@ -252,84 +249,16 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         }
     }
 
-    public static String getRequestUrl() {
-        if (ActivityMain.mensaID == 1) {
-            return UrlEndpoints.URL_API
-                    + UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + UrlEndpoints.URL_PARAM_RESTAURANT
-                    + UrlEndpoints.URL_RESTAURANT_FORUM
-                    + UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + UrlEndpoints.URL_PARAM_DATE
-                    + UrlEndpoints.URL_PARAM_TODAY
-                    ;
-
-        } else if (ActivityMain.mensaID == 2) {
-            return UrlEndpoints.URL_API
-                    + UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + UrlEndpoints.URL_PARAM_RESTAURANT
-                    + UrlEndpoints.URL_RESTAURANT_CAFETE
-                    + UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + UrlEndpoints.URL_PARAM_DATE
-                    + UrlEndpoints.URL_PARAM_TODAY
-                    ;
-        } else if (ActivityMain.mensaID == 3) {
-            return UrlEndpoints.URL_API
-                    + UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + UrlEndpoints.URL_PARAM_RESTAURANT
-                    + UrlEndpoints.URL_RESTAURANT_GRILLCAFE
-                    + UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + UrlEndpoints.URL_PARAM_DATE
-                    + UrlEndpoints.URL_PARAM_TODAY
-                    ;
-        } else if (ActivityMain.mensaID == 4) {
-            return UrlEndpoints.URL_API
-                    + UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + UrlEndpoints.URL_PARAM_RESTAURANT
-                    + UrlEndpoints.URL_RESTAURANT_CAMPUSDOENER
-                    + UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + UrlEndpoints.URL_PARAM_DATE
-                    + UrlEndpoints.URL_PARAM_TODAY
-                    ;
-        } else if (ActivityMain.mensaID == 5) {
-            return UrlEndpoints.URL_API
-                    + UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + UrlEndpoints.URL_PARAM_RESTAURANT
-                    + UrlEndpoints.URL_RESTAURANT_ONEWAYSNACK
-                    + UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + UrlEndpoints.URL_PARAM_DATE
-                    + UrlEndpoints.URL_PARAM_TODAY
-                    ;
-        } else if (ActivityMain.mensaID == 6) {
-            return UrlEndpoints.URL_API
-                    + UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + UrlEndpoints.URL_PARAM_RESTAURANT
-                    + UrlEndpoints.URL_RESTAURANT_MENSULA
-                    + UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + UrlEndpoints.URL_PARAM_DATE
-                    + UrlEndpoints.URL_PARAM_TODAY
-                    ;
-        } else {
-            return UrlEndpoints.URL_API
-                    + UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + UrlEndpoints.URL_PARAM_RESTAURANT
-                    + UrlEndpoints.URL_RESTAURANT_ACADEMICA
-                    + UrlEndpoints.URL_CHAR_AMEPERSAND
-                    + UrlEndpoints.URL_PARAM_DATE
-                    + UrlEndpoints.URL_PARAM_TODAY
-                    ;
-        }
-    }
-
     private void sendJsonRequest() {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
-                getRequestUrl(),
+                URLBuilder.getRequestUrl(),
                 (String) null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         textVolleyError.setVisibility(View.GONE);
                         listMeals = parseJSONResponse(response);
-                        adapter.setMealList(filterMealList(listMeals));
+                        adapter.setMealList(setUpAndFilterMealList(listMeals));
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -484,10 +413,9 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         } else if (error instanceof ParseError) {
             textVolleyError.setText(R.string.error_parse);
         }
-
     }
 
-    public ArrayList<Meal> filterMealList(ArrayList<Meal> unfilteredMealList) {
+    public ArrayList<Meal> setUpAndFilterMealList(ArrayList<Meal> unfilteredMealList) {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String personCategory = SP.getString("prefPersonCategory", "1");
         String lifeStyle = SP.getString("prefLifestyle", "1");
@@ -498,8 +426,6 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         ArrayList<Meal> filteredMealList = new ArrayList<>();
 
         for (Meal nextMeal : unfilteredMealList) {
-
-            String getAllergensAdditives = nextMeal.getAllergens().toString();
             String getBadge = nextMeal.getBadge();
             String getPrices = nextMeal.getPrices();
             String getPricesDe = nextMeal.getPricesDe();
@@ -553,24 +479,16 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
                 }
             }
 
-            if (nextMeal.containsAllergens(selectedAllergens)) {
-                isCleared = false;
-            }
-            if (nextMeal.containsAdditives(selectedAdditives)) {
-                isCleared = false;
-            }
+            if (nextMeal.containsAllergens(selectedAllergens)) isCleared = false;
 
-            if (lifeStyle.equals("2") & !nextMeal.isVegetarian()) {
-                isCleared = false;
-            }
-            if (lifeStyle.equals("3") & !nextMeal.isVegan()) {
-                isCleared = false;
-            }
+            if (nextMeal.containsAdditives(selectedAdditives)) isCleared = false;
 
+            if (lifeStyle.equals("2") & !nextMeal.isVegetarian()) isCleared = false;
 
-            if (isCleared) {
-                filteredMealList.add(nextMeal);
-            }
+            if (lifeStyle.equals("3") & !nextMeal.isVegan()) isCleared = false;
+
+            if (isCleared) filteredMealList.add(nextMeal);
+
         }
         return filteredMealList;
     }
@@ -583,7 +501,4 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
         return format.format(prizeDouble);
     }
-
-    //                     This should be outsourced                     //
-    ///////////////////////////////////////////////////////////////////////
 }
