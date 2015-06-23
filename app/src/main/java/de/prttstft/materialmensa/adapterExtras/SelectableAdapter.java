@@ -1,4 +1,4 @@
-package de.prttstft.materialmensa.adapters;
+package de.prttstft.materialmensa.adapterExtras;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,8 +6,6 @@ import android.util.SparseBooleanArray;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.prttstft.materialmensa.logging.L;
 
 public abstract class SelectableAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     @SuppressWarnings("unused")
