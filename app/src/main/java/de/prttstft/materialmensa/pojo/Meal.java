@@ -223,6 +223,22 @@ public class Meal implements Parcelable {
 
     }
 
+    public boolean containsAllergens(String[] allergens) {
+        List<String> myAllergens = getAllergens();
+        if (!myAllergens.isEmpty()) {
+            for (String myAllergen : myAllergens) {
+                for (String searchAllergen : allergens) {
+                    if(myAllergen.startsWith("A")) {
+                        if (myAllergen.substring(1).equals(searchAllergen)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public static final Parcelable.Creator<Meal> CREATOR = new Parcelable.Creator<Meal>() {
         public Meal createFromParcel(Parcel in) {
             return new Meal(in);

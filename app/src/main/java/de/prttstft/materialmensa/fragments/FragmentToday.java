@@ -49,12 +49,13 @@ import de.prttstft.materialmensa.adapterExtras.DividerItemDecoration;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.extras.UrlEndpoints;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.*;
 
-public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickListener{
+public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickListener {
     private RequestQueue requestQueue;
     public ArrayList<Meal> listMeals = new ArrayList<>();
     private TextView textVolleyError;
@@ -69,7 +70,8 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
     public FragmentToday() {
     }
-//
+
+    //
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +113,6 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         }
 
 
-
         toggleSelection(position);
 
         return true;
@@ -135,7 +136,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate (R.menu.menu_cam, menu);
+            mode.getMenuInflater().inflate(R.menu.menu_cam, menu);
             return true;
         }
 
@@ -496,65 +497,64 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         String[] selectedAdditives = selectionsAdditives.toArray(new String[selectionsAdditives.size()]);
         ArrayList<Meal> filteredMealList = new ArrayList<>();
 
-        for (int i = 0; i < unfilteredMealList.size(); i++) {
-            String getAllergensAdditives = unfilteredMealList.get(i).getAllergens().toString();
-            String getBadge = unfilteredMealList.get(i).getBadge();
-            String getPrices = unfilteredMealList.get(i).getPrices();
-            String getPricesDe = unfilteredMealList.get(i).getPricesDe();
-            String getStudentPrice = unfilteredMealList.get(i).getPriceStudents();
-            String getStaffPrice = unfilteredMealList.get(i).getPriceStaff();
-            String getGuestPrice = unfilteredMealList.get(i).getPriceGuests();
+        for (Meal nextMeal : unfilteredMealList) {
+
+            String getAllergensAdditives = nextMeal.getAllergens().toString();
+            String getBadge = nextMeal.getBadge();
+            String getPrices = nextMeal.getPrices();
+            String getPricesDe = nextMeal.getPricesDe();
+            String getStudentPrice =nextMeal.getPriceStudents();
+            String getStaffPrice = nextMeal.getPriceStaff();
+            String getGuestPrice = nextMeal.getPriceGuests();
             Boolean isCleared = true;
 
             switch (getBadge) {
                 case "vegetarian":
-                    unfilteredMealList.get(i).setBadgeIcon(R.drawable.ic_vegeterian);
+                    nextMeal.setBadgeIcon(R.drawable.ic_vegeterian);
                     break;
                 case "vegan":
-                    unfilteredMealList.get(i).setBadgeIcon(R.drawable.ic_vegan);
+                    nextMeal.setBadgeIcon(R.drawable.ic_vegan);
                     break;
                 case "lactose-free":
-                    unfilteredMealList.get(i).setBadgeIcon(R.drawable.ic_lactose_free);
+                    nextMeal.setBadgeIcon(R.drawable.ic_lactose_free);
                     break;
                 case "low-calorie":
-                    unfilteredMealList.get(i).setBadgeIcon(R.drawable.ic_low_calorie);
+                    nextMeal.setBadgeIcon(R.drawable.ic_low_calorie);
                     break;
                 case "vital-food":
-                    unfilteredMealList.get(i).setBadgeIcon(R.drawable.ic_vital_food);
+                    nextMeal.setBadgeIcon(R.drawable.ic_vital_food);
                     break;
                 case "nonfat":
-                    unfilteredMealList.get(i).setBadgeIcon(R.drawable.ic_nonfat);
+                    nextMeal.setBadgeIcon(R.drawable.ic_nonfat);
                     break;
                 default:
-                    unfilteredMealList.get(i).setBadgeIcon(R.drawable.ic_transparent);
+                    nextMeal.setBadgeIcon(R.drawable.ic_transparent);
                     break;
             }
 
             if (personCategory != null) {
                 switch (personCategory) {
                     case "2":
-                        unfilteredMealList.get(i).setPriceOutput(getStudentPrice);
+                        nextMeal.setPriceOutput(getStudentPrice);
                         break;
                     case "3":
-                        unfilteredMealList.get(i).setPriceOutput(getStaffPrice);
+                        nextMeal.setPriceOutput(getStaffPrice);
                         break;
                     case "4":
-                        unfilteredMealList.get(i).setPriceOutput(getGuestPrice);
+                        nextMeal.setPriceOutput(getGuestPrice);
                         break;
                     default:
                         if (Locale.getDefault().getISO3Language().equals("deu")) {
-                            unfilteredMealList.get(i).setPriceOutput(getPricesDe);
+                            nextMeal.setPriceOutput(getPricesDe);
                         } else {
-                            unfilteredMealList.get(i).setPriceOutput(getPrices);
+                            nextMeal.setPriceOutput(getPrices);
                         }
                         break;
                 }
             }
 
+            isCleared = !nextMeal.containsAllergens(selectedAllergens);
 
-            if (doesContainsFilteredAllergens(getAllergensAdditives, selectedAllergens)) {
-                isCleared = false;
-            }
 
             if (doesContainsFilteredAdditives(getAllergensAdditives, selectedAdditives)) {
                 isCleared = false;
@@ -567,36 +567,22 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
             }
 
             if (isCleared) {
-                filteredMealList.add(unfilteredMealList.get(i));
+                filteredMealList.add(nextMeal);
             }
         }
         return filteredMealList;
     }
 
-    public boolean doesContainsFilteredAllergens(String inputString, String[] items) {
-
-        for (String item : items) {
-            if (inputString.contains(item)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean doesContainsFilteredAdditives(String inputString, String[] items) {
-
-        for (String item : items) {
-
-            String patternA = "(A{1}\\d{1,2})";
-            String inputStringRegExd = inputString.replaceAll(patternA, "");
-
-            Pattern patternZ = Pattern.compile(item + "{1}\\D");
-            Matcher matcher = patternZ.matcher(inputStringRegExd);
-
-            if (matcher.find()) {
-                return true;
+        if (inputString.length() > 2) {
+            for (String allergen : inputString.substring(1, inputString.length() - 1).split(",")) {
+                allergen = allergen.trim();
+                for (String item : items) {
+                    if (item.equals(allergen)) {
+                        return true;
+                    }
+                }
             }
-
         }
         return false;
     }

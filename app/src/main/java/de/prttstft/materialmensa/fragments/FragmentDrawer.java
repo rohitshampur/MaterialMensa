@@ -188,6 +188,11 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
         public void onTouchEvent(RecyclerView rv, MotionEvent e) {
         }
 
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean b) {
+
+        }
+
     }
 
     public static void saveToPreferences(Context context, String preferenceName, String preferenceValue) {
