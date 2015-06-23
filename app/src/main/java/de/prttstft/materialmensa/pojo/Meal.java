@@ -1,6 +1,7 @@
 package de.prttstft.materialmensa.pojo;
 
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import de.prttstft.materialmensa.R;
+import de.prttstft.materialmensa.logging.L;
 
 public class Meal implements Parcelable {
     private String name;
@@ -185,6 +187,8 @@ public class Meal implements Parcelable {
         }
     }
 
+
+
     public void setBadgeIcon(int badgeIcon) {
         this.badgeIcon = badgeIcon;
     }
@@ -228,7 +232,7 @@ public class Meal implements Parcelable {
         if (!myAllergens.isEmpty()) {
             for (String myAllergen : myAllergens) {
                 for (String searchAllergen : allergens) {
-                    if(myAllergen.startsWith("A")) {
+                    if (myAllergen.startsWith("A")) {
                         if (myAllergen.substring(1).equals(searchAllergen)) {
                             return true;
                         }
@@ -237,6 +241,30 @@ public class Meal implements Parcelable {
             }
         }
         return false;
+    }
+
+    public boolean containsAdditives(String[] additives) {
+        List<String> myAllergens = getAllergens();
+        if (!myAllergens.isEmpty()) {
+            for (String myAdditive : myAllergens) {
+                for (String searchAdditive : additives) {
+                    if (!myAdditive.startsWith("A")) {
+                        if (myAdditive.equals(searchAdditive)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isVegetarian() {
+        return getBadge().equals("vegetarian") | getBadge().equals("vegan");
+    }
+
+    public boolean isVegan() {
+        return getBadge().equals("vegan");
     }
 
     public static final Parcelable.Creator<Meal> CREATOR = new Parcelable.Creator<Meal>() {

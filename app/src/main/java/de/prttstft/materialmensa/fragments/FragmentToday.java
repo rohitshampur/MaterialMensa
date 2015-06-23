@@ -503,7 +503,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
             String getBadge = nextMeal.getBadge();
             String getPrices = nextMeal.getPrices();
             String getPricesDe = nextMeal.getPricesDe();
-            String getStudentPrice =nextMeal.getPriceStudents();
+            String getStudentPrice = nextMeal.getPriceStudents();
             String getStaffPrice = nextMeal.getPriceStaff();
             String getGuestPrice = nextMeal.getPriceGuests();
             Boolean isCleared = true;
@@ -553,46 +553,26 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
                 }
             }
 
-            isCleared = !nextMeal.containsAllergens(selectedAllergens);
-
-
-            if (doesContainsFilteredAdditives(getAllergensAdditives, selectedAdditives)) {
+            if (nextMeal.containsAllergens(selectedAllergens)) {
+                isCleared = false;
+            }
+            if (nextMeal.containsAdditives(selectedAdditives)) {
                 isCleared = false;
             }
 
-            if (lifeStyle.equals("2") & !isVegetarian(getBadge)) {
-                isCleared = false;
-            } else if (lifeStyle.equals("3") & !isVegan(getBadge)) {
+            if (lifeStyle.equals("2") & !nextMeal.isVegetarian()) {
                 isCleared = false;
             }
+            if (lifeStyle.equals("3") & !nextMeal.isVegan()) {
+                isCleared = false;
+            }
+
 
             if (isCleared) {
                 filteredMealList.add(nextMeal);
             }
         }
         return filteredMealList;
-    }
-
-    public boolean doesContainsFilteredAdditives(String inputString, String[] items) {
-        if (inputString.length() > 2) {
-            for (String allergen : inputString.substring(1, inputString.length() - 1).split(",")) {
-                allergen = allergen.trim();
-                for (String item : items) {
-                    if (item.equals(allergen)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean isVegetarian(String badge) {
-        return badge.equals("vegetarian") | badge.equals("vegan");
-    }
-
-    public boolean isVegan(String badge) {
-        return badge.equals("vegan");
     }
 
     public String formatCurrency(String prize) {
