@@ -69,7 +69,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
     public FragmentToday() {
     }
-
+//
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
