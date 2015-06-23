@@ -43,13 +43,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.prttstft.materialmensa.R;
-import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapters.Adapter;
 import de.prttstft.materialmensa.adapterExtras.DividerItemDecoration;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.extras.URLBuilder;
-import de.prttstft.materialmensa.extras.UrlEndpoints;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 
