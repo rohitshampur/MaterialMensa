@@ -99,7 +99,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         sendJsonRequest();
         return view;
     }
-
+//
     @Override
     public void onItemClicked(int position) {
         if (actionMode != null) {
