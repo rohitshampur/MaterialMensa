@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
+import de.prttstft.materialmensa.adapterExtras.SimpleSectionedRecyclerViewAdapter;
 import de.prttstft.materialmensa.adapters.Adapter;
 import de.prttstft.materialmensa.adapterExtras.DividerItemDecoration;
 import de.prttstft.materialmensa.extras.Constants;
@@ -54,7 +55,7 @@ import de.prttstft.materialmensa.pojo.Meal;
 
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.*;
 
-public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickListener{
+public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickListener {
     private RequestQueue requestQueue;
     public ArrayList<Meal> listMeals = new ArrayList<>();
     private TextView textVolleyError;
@@ -69,7 +70,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
     public FragmentToday() {
     }
-//
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,10 +89,24 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         adapter = new Adapter(this);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        recyclerView.setAdapter(adapter);
+        //recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), null));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        List<SimpleSectionedRecyclerViewAdapter.Section> sections =
+                new ArrayList<SimpleSectionedRecyclerViewAdapter.Section>();
+
+        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(0, "Section 1"));
+        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(5, "Section 2"));
+
+        SimpleSectionedRecyclerViewAdapter.Section[] dummy = new SimpleSectionedRecyclerViewAdapter.Section[sections.size()];
+        SimpleSectionedRecyclerViewAdapter mSectionedAdapter = new
+                SimpleSectionedRecyclerViewAdapter(getActivity(),R.layout.section,R.id.section_text,adapter);
+        mSectionedAdapter.setSections(sections.toArray(dummy));
+
+        recyclerView.setAdapter(mSectionedAdapter);
 
         sendJsonRequest();
         return view;
@@ -109,7 +124,6 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         if (actionMode == null) {
             actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
         }
-
 
 
         toggleSelection(position);
@@ -135,7 +149,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate (R.menu.menu_cam, menu);
+            mode.getMenuInflater().inflate(R.menu.menu_cam, menu);
             return true;
         }
 

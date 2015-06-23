@@ -43,6 +43,9 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
+        if (items.size() == 0)
+            return;
+
         Meal currentMeal = items.get(position);
 
         holder.meal_name.setText(currentMeal.getName());
