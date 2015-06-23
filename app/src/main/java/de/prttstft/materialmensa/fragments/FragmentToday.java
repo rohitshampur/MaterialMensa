@@ -58,7 +58,7 @@ import de.prttstft.materialmensa.adapters.Adapter;
 
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.*;
 
-public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickListener{
+public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickListener {
     private RequestQueue requestQueue;
     public ArrayList<Meal> listMeals = new ArrayList<>();
     private TextView textVolleyError;
@@ -114,7 +114,6 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         }
 
 
-
         toggleSelection(position);
 
         return true;
@@ -138,7 +137,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate (R.menu.menu_cam, menu);
+            mode.getMenuInflater().inflate(R.menu.menu_cam, menu);
             return true;
         }
 
@@ -554,6 +553,11 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
                 }
             }
 
+            if (unfilteredMealList.get(i).getIsFavorited().equals("true")) {
+                unfilteredMealList.get(i).setFavoriteIcon(R.drawable.ic_favorited);
+            } else {
+                unfilteredMealList.get(i).setFavoriteIcon(R.drawable.ic_unfavorited);
+            }
 
             if (doesContainsFilteredAllergens(getAllergensAdditives, selectedAllergens)) {
                 isCleared = false;

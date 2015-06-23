@@ -24,6 +24,8 @@ public class Meal implements Parcelable {
     private int order_info;
     private boolean tara;
     Integer badgeIcon;
+    private String isFavorited;
+    Integer favoriteIcon;
 
     public Meal() {
 
@@ -183,6 +185,22 @@ public class Meal implements Parcelable {
         } else {
             return R.drawable.ic_transparent;
         }
+    }
+
+    public void setIsFavorited(String isFavorited) {
+        this.isFavorited = isFavorited;
+    }
+
+    public String getIsFavorited() {
+        return isFavorited;
+    }
+
+    public void setFavoriteIcon(Integer favoriteIcon) {
+        this.favoriteIcon = favoriteIcon;
+    }
+
+    public Integer getFavoriteIcon() {
+        return favoriteIcon;
     }
 
     public void setBadgeIcon(int badgeIcon) {
