@@ -87,7 +87,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), null));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), null));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

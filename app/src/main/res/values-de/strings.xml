@@ -67,4 +67,10 @@
     <string name="waxed">gewachst [7]</string>
     <string name="AdditivesSummary">Stelle deinen Zusatzstofffilter ein.</string>
     <string name="AllergensSummary">Stelle deinen Allergenfilter ein.</string>
+    <string name="about_about">Über</string>
+    <string name="about_aboutText">MaterialMensa wurde entwickelt von <a href="http://www.prttstft.de">Max Karadeniz</a>. Es wurden eine Menge an verschiedenen Tutorials und Codeschnipsel benutzt. Unter anderem von: <a href="http://www.youtube.com/slidenerd">Slidenerd</a>, <a href="http://www.enoent.fr/">enoent</a> und <a href="http://www.android4devs.com/">AndroidForDevs</a>. Der chaotische, großteils unkommentierte Quellcode ist bei  <a href="https://github.com/prttstft/MaterialMensa">Github</a> zu finden. Mit Dank an <a href="http://lucahammer.com/">Luca</a>, Robin, Schmanu.</string>
+    <string name="about_api">API</string>
+    <string name="about_iconsText">Die meisten Icons wurden von <a href="https://icons8.com/">Icons8</a> runtergeladen und mit <a href="http://romannurik.github.io/AndroidAssetStudio/index.html">Android Asset Studio</a> bearbeitet.</string>
+    <string name="about_libraries">Folgende Open Source Bibliotheken werden benutzt:</string>
+    <string name="about_apiText">API bereitgestelt vom <a href="http://www.studentenwerk-pb.de/gastronomie/rahmenbedingungen-fuer-speiseplan-nutzung/">Studentenwerk Paderborn</a>.</string>
 </resources>

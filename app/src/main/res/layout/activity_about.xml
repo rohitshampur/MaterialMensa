@@ -18,12 +18,79 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="16dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ultrices tempor elit, sed lacinia nibh vestibulum at. In eget sodales purus, id rutrum felis. Quisque eu ligula vitae ipsum mattis hendrerit eu vel orci. Nunc feugiat arcu vel ligula sollicitudin bibendum. Nulla vitae lacinia quam. Duis aliquet, ligula vitae pharetra tincidunt, massa dolor malesuada ante, vitae pretium felis nisl non elit. Nunc metus mi, ullamcorper et nulla id, rhoncus ultricies ligula. Mauris ut dui fringilla, finibus eros ac, pharetra erat. Curabitur ut mi id nulla pretium cursus. Sed facilisis nibh varius commodo faucibus. Pellentesque ac sem sit amet velit euismod ullamcorper. Sed eget nibh nec elit efficitur rutrum. Etiam ullamcorper vitae augue at laoreet. Aliquam mattis tortor eu vestibulum euismod. Quisque in est ac sapien consectetur laoreet.
+            android:orientation="vertical">
 
-Aliquam erat volutpat. Quisque vel laoreet massa. Maecenas ipsum magna, pharetra sit amet tempor vitae, blandit in felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum sodales posuere nisi efficitur iaculis. Vestibulum semper ultricies neque, eget efficitur ligula ullamcorper id. Nam posuere iaculis magna sit amet condimentum. Aliquam urna libero, varius ac vehicula ut, maximus nec arcu." />
+            <TextView
+                android:id="@+id/about_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:linksClickable="true"
+                android:paddingBottom="10dp"
+                android:textStyle="bold"
+                android:text="@string/about_about" />
+
+            <TextView
+                android:id="@+id/about_aboutText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:linksClickable="true"
+                android:paddingBottom="15dp"
+                android:text="@string/about_aboutText" />
+
+            <TextView
+                android:id="@+id/about_icons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:linksClickable="true"
+                android:paddingBottom="10dp"
+                android:textStyle="bold"
+                android:text="@string/about_icons" />
+
+            <TextView
+                android:id="@+id/about_iconsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:linksClickable="true"
+                android:paddingBottom="15dp"
+                android:text="@string/about_iconsText" />
+
+            <TextView
+                android:id="@+id/about_libraries"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:linksClickable="true"
+                android:paddingBottom="10dp"
+                android:textStyle="bold"
+                android:text="@string/about_libraries" />
+
+            <TextView
+                android:id="@+id/about_librariesText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:linksClickable="true"
+                android:paddingBottom="15dp"
+                android:text="@string/about_librariesText" />
+
+            <TextView
+                android:id="@+id/about_api"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:linksClickable="true"
+                android:paddingBottom="10dp"
+                android:textStyle="bold"
+                android:text="@string/about_api" />
+
+            <TextView
+                android:id="@+id/about_apiText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:linksClickable="true"
+                android:text="@string/about_apiText" />
+
+        </LinearLayout>
     </ScrollView>
 
 </RelativeLayout>
