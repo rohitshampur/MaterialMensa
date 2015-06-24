@@ -87,8 +87,6 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
 
     }
 
-
-
     // Options
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

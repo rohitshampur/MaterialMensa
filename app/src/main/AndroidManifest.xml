@@ -23,6 +23,4 @@
         <activity android:name=".activities.ActivityAbout" />
         <activity android:name=".activities.ActivityPreferences" />
     </application>
-
-
 </manifest>
