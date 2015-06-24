@@ -20,7 +20,7 @@ import de.prttstft.materialmensa.adapterExtras.SelectableAdapter;
 import de.prttstft.materialmensa.pojo.Meal;
 
 public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
-//
+    //
     private ArrayList<Meal> items = new ArrayList<>();
 
     private Context context;
@@ -69,8 +69,6 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
                 holder.meal_contents.setText("No Allergens or Additives");
             }
         }
-
-
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -164,12 +162,11 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
         String selectedMealsString = "";
         if (!selectedMealNameList.isEmpty()) {
             for (int i = 0; i < selectedMealNameList.size(); i++) {
-                selectedMealsString = selectedMealsString +  "\n" + "• " + selectedMealNameList.get(i);
+                selectedMealsString = selectedMealsString + "\n" + "• " + selectedMealNameList.get(i);
             }
             return selectedMealsString;
         }
         //ToDo: Strings!
         return "No Meals Selected";
     }
-
 }
