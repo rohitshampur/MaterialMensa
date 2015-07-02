@@ -1,5 +1,6 @@
 package de.prttstft.materialmensa.activities;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import de.prttstft.materialmensa.services.MyService;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
@@ -23,12 +25,17 @@ import de.prttstft.materialmensa.fragments.FragmentToday;
 import de.prttstft.materialmensa.fragments.FragmentTomorrow;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.fragments.FragmentDrawer;
+import me.tatarka.support.job.JobInfo;
+import me.tatarka.support.job.JobScheduler;
+import me.tatarka.support.os.PersistableBundle;
 
 public class ActivityMain extends AppCompatActivity implements MaterialTabListener {
 
+    private static final int JOB_ID = 100;
     private Toolbar toolbar;
     private MaterialTabHost tabHost;
     private ViewPager mPager;
+    private JobScheduler mJobScheduler;
     public static final int DAYS_TODAY = 0;
     public static final int DAYS_TOMORROW = 1;
     public static int mensaID = 0;
@@ -39,6 +46,8 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mJobScheduler = JobScheduler.getInstance(this);
+        constructJob();
 
         // Calendar
         Calendar c = Calendar.getInstance();
@@ -85,6 +94,15 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
                             .setTabListener(this));
         }
 
+    }
+
+    private void constructJob() {
+        JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, MyService.class));
+        //builder.setPeriodic(2000)
+                builder.setPeriodic(86400000)
+                //.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED);
+                .setPersisted(true);
+        mJobScheduler.schedule(builder.build());
     }
 
     // Options

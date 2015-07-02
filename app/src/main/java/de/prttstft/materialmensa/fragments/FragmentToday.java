@@ -54,6 +54,7 @@ import de.prttstft.materialmensa.pojo.Meal;
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.*;
 
 public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickListener {
+    private static final String STATE_MEALS = "state_meals";
     private RequestQueue requestQueue;
     public ArrayList<Meal> listMeals = new ArrayList<>();
     private TextView textVolleyError;
@@ -67,6 +68,12 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     }
 
     public FragmentToday() {
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(STATE_MEALS, listMeals);
     }
 
     @Override
@@ -91,7 +98,13 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        sendJsonRequest();
+        if (savedInstanceState != null) {
+            listMeals = savedInstanceState.getParcelableArrayList(STATE_MEALS);
+            adapter.setMealList(listMeals);
+        } else {
+            sendJsonRequest();
+        }
+
         return view;
     }
 
@@ -107,7 +120,6 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         if (actionMode == null) {
             actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
         }
-
 
         toggleSelection(position);
 

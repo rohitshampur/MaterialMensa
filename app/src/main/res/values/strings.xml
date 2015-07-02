@@ -10,7 +10,7 @@
     <string name="about_icons" translatable="false">Icons</string>
     <string name="about_iconsText">Most of the icons were downloaded from </string>
     <string name="about_libraries">Open Source libraries used in this project:</string>
-    <string name="about_librariesText" translatable="false"><a href="https://commons.apache.org/proper/commons-io/">Commons IO</a>\n<a href="https://developer.android.com/tools/support-library/features.html">Android Support Library: AppCompat</a>\n<a href="https://developer.android.com/tools/support-library/features.html">Android Support Library: RecyclerView</a>\n<a href="https://github.com/mcxiaoke/android-volley">Android-Volley</a>\n<a href="https://github.com/neokree/MaterialTabs">MaterialTabs</a>\n<a href="https://github.com/Pkmmte/CircularImageView">CircularImageView</a></string>
+    <string name="about_librariesText" translatable="false"><a href="https://commons.apache.org/proper/commons-io/">Commons IO</a>\n<a href="https://developer.android.com/tools/support-library/features.html">Android Support Library: AppCompat</a>\n<a href="https://developer.android.com/tools/support-library/features.html">Android Support Library: RecyclerView</a>\n<a href="https://github.com/mcxiaoke/android-volley">Android-Volley</a>\n<a href="https://github.com/neokree/MaterialTabs">MaterialTabs</a>\n<a href="https://github.com/Pkmmte/CircularImageView">CircularImageView</a>\n<a href="https://github.com/evant/JobSchedulerCompat">JobSchedularCompat</a></string>
     <string name="about_api">API</string>
     <string name="about_apiText">API provided by <a href="http://www.studentenwerk-pb.de/gastronomie/rahmenbedingungen-fuer-speiseplan-nutzung/">Studentenwerk Paderborn</a>.</string>
 

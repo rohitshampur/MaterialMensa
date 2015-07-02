@@ -28,7 +28,6 @@ public class Meal implements Parcelable {
     Integer badgeIcon;
 
     public Meal() {
-
     }
 
     public Meal(Parcel input) {
@@ -37,9 +36,13 @@ public class Meal implements Parcelable {
         price_students = input.readString();
         price_staff = input.readString();
         price_guests = input.readString();
+        priceOutput = input.readString();
+        input.readStringList(allergens);
+        input.readStringList(allergens_spelledout);
         badge = input.readString();
         order_info = input.readInt();
         tara = input.readInt() == 1;
+        badgeIcon = input.readInt();
     }
 
     public Meal(String name,
@@ -215,6 +218,9 @@ public class Meal implements Parcelable {
         dest.writeString(price_students);
         dest.writeString(price_staff);
         dest.writeString(price_guests);
+        dest.writeString(priceOutput);
+        dest.writeStringList(allergens);
+        dest.writeStringList(allergens_spelledout);
         dest.writeString(badge);
         dest.writeInt(order_info);
         if (tara) {
@@ -222,7 +228,7 @@ public class Meal implements Parcelable {
         } else {
             dest.writeInt(0);
         }
-
+        dest.writeInt(badgeIcon);
     }
 
     public boolean containsAllergens(String[] allergens) {
