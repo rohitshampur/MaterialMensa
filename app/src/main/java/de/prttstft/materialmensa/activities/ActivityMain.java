@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import de.prttstft.materialmensa.database.DBMeals;
+import de.prttstft.materialmensa.materialmensa.MyApplication;
 import de.prttstft.materialmensa.services.MyService;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -43,7 +44,8 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
     public static int mensaID = 0;
     public static String today;
     public static String tomorrow;
-    DBMeals dbMeals;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         setContentView(R.layout.activity_main);
         mJobScheduler = JobScheduler.getInstance(this);
         constructJob();
+
 
 
 
