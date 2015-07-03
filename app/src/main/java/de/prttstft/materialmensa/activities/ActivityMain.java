@@ -1,6 +1,7 @@
 package de.prttstft.materialmensa.activities;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -16,10 +17,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import de.prttstft.materialmensa.database.DBMeals;
+import de.prttstft.materialmensa.database.DatabaseHandler;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.materialmensa.MyApplication;
+import de.prttstft.materialmensa.pojo.Contact;
 import de.prttstft.materialmensa.services.MyService;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -44,6 +50,10 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
     public static int mensaID = 0;
     public static String today;
     public static String tomorrow;
+    Context context;
+
+    List<Contact> Contacts = new ArrayList<Contact>();
+    DatabaseHandler dbHandler;
 
 
 
@@ -54,7 +64,14 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         mJobScheduler = JobScheduler.getInstance(this);
         constructJob();
 
+        dbHandler = new DatabaseHandler(this);
 
+        Contact contact1 = new Contact(dbHandler.getMealsCount(), "Peter", 99);
+        Contact contact2 = new Contact(dbHandler.getMealsCount(), "Hans", 77);
+        dbHandler.createMeal(contact1);
+        dbHandler.createMeal(contact2);
+        Contacts.add(contact1);
+        Contacts.add(contact2);
 
 
 
