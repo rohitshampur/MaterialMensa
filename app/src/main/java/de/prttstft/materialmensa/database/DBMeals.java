@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 
+import java.io.Serializable;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
@@ -93,6 +94,7 @@ public class DBMeals {
                 meal.setPriceGuests(cursor.getString(cursor.getColumnIndex(MealHelper.COLUMN_PRICE_GUESTS)));
                 meal.setPriceOutput(cursor.getString(cursor.getColumnIndex(MealHelper.COLUMN_PRICEOUTPUT)));
                 meal.setAllergens(cursor.getBlob(cursor.getColumnIndex(MealHelper.COLUMN_ALLERGENS)));
+                Blob test =
                 meal.setAllergensSpelledOut(cursor.getString(cursor.getColumnIndex(MealHelper.COLUMN_ALLERGENS_SPELLEDOUT)));
                 meal.setBadge(cursor.getString(cursor.getColumnIndex(MealHelper.COLUMN_BADGE)));
                 meal.setOrderInfo(cursor.getInt(cursor.getColumnIndex(MealHelper.COLUMN_ORDER_INFO)));
