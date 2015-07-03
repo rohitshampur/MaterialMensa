@@ -36,6 +36,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:+'
     compile 'com.mcxiaoke.volley:library:1.0.+'
     compile 'it.neokree:MaterialTabs:0.11'
+    compile 'com.google.code.gson:gson:2.2.+'
     compile 'com.pkmmte.view:circularimageview:1.1'
     //ToDo: Add to About
     compile 'me.tatarka.support:jobscheduler:0.1.1'

@@ -8,13 +8,20 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.pojo.Meal;
+
 
 public class DBMeals {
     public static final int TODAY = 0;
@@ -47,11 +54,30 @@ public class DBMeals {
             statement.bindString(4, currentMeal.getPriceStudents());
             statement.bindString(5, currentMeal.getPriceStaff());
             statement.bindString(6, currentMeal.getPriceGuests());
-            statement.bindString(7, currentMeal.getAllergens());
-            statement.bindString(8, currentMeal.getAllergensSpelledOut());
+            statement.bindString(7, currentMeal.getPriceOutput());
+
+            ArrayList<String> inputArrayAllergens = new ArrayList<String>(currentMeal.getAllergens().size());
+            inputArrayAllergens.addAll(currentMeal.getAllergens());
+            Gson gsonAllergens = new Gson();
+            String inputStringAllergens = gsonAllergens.toJson(inputArrayAllergens);
+
+            statement.bindString(8, inputStringAllergens);
+
+            ArrayList<String> inputArrayAllergensSpelledOut = new ArrayList<String>(currentMeal.getAllergensSpelledOut().size());
+            inputArrayAllergensSpelledOut.addAll(currentMeal.getAllergensSpelledOut());
+            Gson gsonAllergensSpelledOut = new Gson();
+            String inputStringAllergensSpelledOut = gsonAllergensSpelledOut.toJson(inputArrayAllergensSpelledOut);
+
+            statement.bindString(9, inputStringAllergensSpelledOut);
+
+
             if (currentMeal.getTara()) {
-                statement.bi(9, 1);
+                statement.bindLong(10, 1);
+            } else {
+                statement.bindLong(10, 0);
             }
+
+            statement.bindLong(11, currentMeal.getBadgeIcon());
 
             statement.execute();
         }
@@ -93,9 +119,24 @@ public class DBMeals {
                 meal.setPriceStaff(cursor.getString(cursor.getColumnIndex(MealHelper.COLUMN_PRICE_STAFF)));
                 meal.setPriceGuests(cursor.getString(cursor.getColumnIndex(MealHelper.COLUMN_PRICE_GUESTS)));
                 meal.setPriceOutput(cursor.getString(cursor.getColumnIndex(MealHelper.COLUMN_PRICEOUTPUT)));
-                meal.setAllergens(cursor.getBlob(cursor.getColumnIndex(MealHelper.COLUMN_ALLERGENS)));
-                Blob test =
-                meal.setAllergensSpelledOut(cursor.getString(cursor.getColumnIndex(MealHelper.COLUMN_ALLERGENS_SPELLEDOUT)));
+
+                Type type = new TypeToken<ArrayList<String>>() {
+                }.getType();
+
+                Gson gsonAllergens = new Gson();
+                String outputArrayAllergens = cursor.getString(cursor.getColumnIndex(MealHelper.COLUMN_ALLERGENS));
+                ArrayList<String> finalOutputStringAllergens = gsonAllergens.fromJson(outputArrayAllergens, type);
+                List<String> listAllergens = new ArrayList<String>();
+                listAllergens.addAll(finalOutputStringAllergens);
+                meal.setAllergens(listAllergens);
+
+                Gson gsonAllergensSpelledOut = new Gson();
+                String outputArrayAllergensSpelledOut = cursor.getString(cursor.getColumnIndex(MealHelper.COLUMN_ALLERGENS_SPELLEDOUT));
+                ArrayList<String> finalOutputStringAllergensSpelledOut = gsonAllergensSpelledOut.fromJson(outputArrayAllergensSpelledOut, type);
+                List<String> listAllergensSpelledOut = new ArrayList<String>();
+                listAllergens.addAll(finalOutputStringAllergensSpelledOut);
+                meal.setAllergens(listAllergensSpelledOut);
+
                 meal.setBadge(cursor.getString(cursor.getColumnIndex(MealHelper.COLUMN_BADGE)));
                 meal.setOrderInfo(cursor.getInt(cursor.getColumnIndex(MealHelper.COLUMN_ORDER_INFO)));
                 if (cursor.getInt(cursor.getColumnIndex(MealHelper.COLUMN_TARA)) == 1) {
