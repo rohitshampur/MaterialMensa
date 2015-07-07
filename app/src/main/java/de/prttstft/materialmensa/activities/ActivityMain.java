@@ -41,7 +41,6 @@ import me.tatarka.support.os.PersistableBundle;
 public class ActivityMain extends AppCompatActivity implements MaterialTabListener {
 
     private static final int JOB_ID = 100;
-    private Toolbar toolbar;
     private MaterialTabHost tabHost;
     private ViewPager mPager;
     private JobScheduler mJobScheduler;
@@ -54,7 +53,8 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
 
     List<Contact> Contacts = new ArrayList<Contact>();
     DatabaseHandler dbHandler;
-
+    List<String> allergensList = new ArrayList<String>();
+    List<String> allergensFullList = new ArrayList<String>();
 
 
     @Override
@@ -63,19 +63,38 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         setContentView(R.layout.activity_main);
         mJobScheduler = JobScheduler.getInstance(this);
         constructJob();
-
+        this.deleteDatabase("mealDatabase.db");
+        this.deleteDatabase("mealDatabase");
         dbHandler = new DatabaseHandler(this);
 
-        Contact contact1 = new Contact(dbHandler.getMealsCount(), "Peter", 99);
-        Contact contact2 = new Contact(dbHandler.getMealsCount(), "Hans", 77);
+        allergensList.add("1");
+        allergensList.add("2");
+        allergensList.add("3");
+
+        allergensFullList.add("Fleisch");
+        allergensFullList.add("Fisch");
+        allergensFullList.add("Käse");
+
+        Contact contact1 = new Contact(2, "Schnitzel", "Hauptspeise", "3,80", "4,80", "5,80", allergensList, allergensFullList);
         dbHandler.createMeal(contact1);
-        dbHandler.createMeal(contact2);
-        Contacts.add(contact1);
-        Contacts.add(contact2);
+//        Contacts.add(contact1);
+
+        //Contact contact2 = new Contact(dbHandler.getMealsCount(), "Hans", 77);
+        //dbHandler.createMeal(contact2);
+
+        L.t(this, String.valueOf(dbHandler.getMealsCount()));
+        Contacts.add(dbHandler.getMeal(1));
+        L.t(this, Contacts.toString());
+/*
+        if (dbHandler.getMealsCount() != 0) {
+            Contacts.add(dbHandler.getMeal(1));
+        }
 
 
-
-
+        if (Contacts.size() > 0) {
+            L.t(this, Contacts.toString());
+        }
+*/
         // Calendar
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -88,7 +107,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         tomorrow = dfd.format(d.getTime());
 
         // Adding the Toolbar
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         if (Build.VERSION.SDK_INT >= 21) {
             toolbar.setElevation(4);
         }
@@ -126,7 +145,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
     private void constructJob() {
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, MyService.class));
         //builder.setPeriodic(2000)
-                builder.setPeriodic(86400000)
+        builder.setPeriodic(86400000)
                 //.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED);
                 .setPersisted(true);
         mJobScheduler.schedule(builder.build());
