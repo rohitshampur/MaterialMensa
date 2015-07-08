@@ -25,8 +25,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             COLUMN_PRICE_STUDENTS = "price_students",
             COLUMN_PRICE_STAFF = "price_staff",
             COLUMN_PRICE_GUESTS = "price_guests",
+            COLUMN_PRICE_OUTPUT = "price_output",
             COLUMN_ALLERGENS = "allergens",
-            COLUMN_ALLERGENS_FULL = "allergens_full";
+            COLUMN_ALLERGENS_FULL = "allergens_full",
+            COLUMN_BADGE = "badge",
+            COLUMN_ORDER_INFO = "order_info",
+            COLUMN_TARA = "tara",
+            COLUMN_BADGE_ICON = "badge_icon";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -41,8 +46,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 COLUMN_PRICE_STUDENTS + " TEXT," +
                 COLUMN_PRICE_STAFF + " TEXT," +
                 COLUMN_PRICE_GUESTS + " TEXT," +
+                COLUMN_PRICE_OUTPUT + " TEXT," +
                 COLUMN_ALLERGENS + " TEXT," +
-                COLUMN_ALLERGENS_FULL + " TEXT" + ")");
+                COLUMN_ALLERGENS_FULL + " TEXT," +
+                COLUMN_BADGE + " TEXT," +
+                COLUMN_ORDER_INFO + " INTEGER," +
+                COLUMN_TARA + " INTEGER," +
+                COLUMN_BADGE_ICON + " TEXT" +
+                ")");
     }
 
     @Override
@@ -63,8 +74,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(COLUMN_PRICE_STUDENTS, contact.getPrice_students());
         values.put(COLUMN_PRICE_STAFF, contact.getPrice_staff());
         values.put(COLUMN_PRICE_GUESTS, contact.getPrice_guests());
+        values.put(COLUMN_PRICE_OUTPUT, contact.getPriceOutput());
         values.put(COLUMN_ALLERGENS, convertListToString(contact.getAllergens().size(), contact.getAllergens()));
         values.put(COLUMN_ALLERGENS_FULL, convertListToString(contact.getAllergens_full().size(), contact.getAllergens_full()));
+        values.put(COLUMN_BADGE, contact.getBadge());
+        values.put(COLUMN_ORDER_INFO, contact.getOrder_info());
+        values.put(COLUMN_TARA, convertBooleanToInt(contact.getTara()));
+        values.put(COLUMN_BADGE_ICON, convertIntegerToString(contact.getBadgeIcon()));
 
         db.insert(TABLE_TODAY, null, values);
         db.close();
@@ -74,7 +90,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public Contact getMeal(int id) {
         SQLiteDatabase db = getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_TODAY, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_CATEGORY, COLUMN_PRICE_STUDENTS, COLUMN_PRICE_STAFF, COLUMN_PRICE_GUESTS, COLUMN_ALLERGENS, COLUMN_ALLERGENS_FULL}, COLUMN_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
+        Cursor cursor = db.query(TABLE_TODAY, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_CATEGORY, COLUMN_PRICE_STUDENTS, COLUMN_PRICE_STAFF, COLUMN_PRICE_GUESTS, COLUMN_PRICE_OUTPUT, COLUMN_ALLERGENS, COLUMN_ALLERGENS_FULL, COLUMN_BADGE, COLUMN_ORDER_INFO, COLUMN_TARA, COLUMN_BADGE_ICON}, COLUMN_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
 
 
         if (cursor != null) {
@@ -88,8 +104,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 cursor.getString(3), // price_students
                 cursor.getString(4), // price_staff
                 cursor.getString(5), // price_guests
-                convertStringToList(cursor.getString(6)), // allergens
-                convertStringToList(cursor.getString(7))); // allergens_full
+                cursor.getString(6), // price_output
+                convertStringToList(cursor.getString(7)), // allergens
+                convertStringToList(cursor.getString(8)), // allergens_full
+                cursor.getString(9), // badge
+                Integer.parseInt(cursor.getString(10)), // order_info
+                convertInToBoolean(Integer.parseInt(cursor.getString(11))), // tara
+                convertStringtoInteger(cursor.getString(12)) // badgeIcon
+        );
 
         db.close();
         cursor.close();
@@ -126,8 +148,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(COLUMN_PRICE_STUDENTS, contact.getPrice_students());
         values.put(COLUMN_PRICE_STAFF, contact.getPrice_staff());
         values.put(COLUMN_PRICE_GUESTS, contact.getPrice_guests());
+        values.put(COLUMN_PRICE_OUTPUT, contact.getPriceOutput());
         values.put(COLUMN_ALLERGENS, convertListToString(contact.getAllergens().size(), contact.getAllergens()));
         values.put(COLUMN_ALLERGENS_FULL, convertListToString(contact.getAllergens_full().size(), contact.getAllergens_full()));
+        values.put(COLUMN_BADGE, contact.getBadge());
+        values.put(COLUMN_ORDER_INFO, contact.getOrder_info());
+        values.put(COLUMN_TARA, convertBooleanToInt(contact.getTara()));
+        values.put(COLUMN_BADGE_ICON, convertIntegerToString(contact.getBadgeIcon()));
 
         return db.update(TABLE_TODAY, values, COLUMN_ID + "=?", new String[]{String.valueOf(contact.getId())});
     }
@@ -146,8 +173,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         cursor.getString(3), // price_students
                         cursor.getString(4), // price_staff
                         cursor.getString(5), // price_guests
-                        convertStringToList(cursor.getString(6)), // allergens
-                        convertStringToList(cursor.getString(7))); // allergens_full
+                        cursor.getString(6), // price_output
+                        convertStringToList(cursor.getString(7)), // allergens
+                        convertStringToList(cursor.getString(8)), // allergens_full
+                        cursor.getString(9), // badge
+                        Integer.parseInt(cursor.getString(10)), // order_info
+                        convertInToBoolean(Integer.parseInt(cursor.getString(11))), // tara
+                        convertStringtoInteger(cursor.getString(12)) // badgeIcon
+                );
                 meals.add(contact);
             } while (cursor.moveToNext());
         }
@@ -182,5 +215,37 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         listAllergens.addAll(list);
 
         return list;
+    }
+
+    /**
+     * This Method takes a Boolean and converts it into an int.
+     */
+    private int convertBooleanToInt(boolean input) {
+        if (input) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * This Method takes an int and converts it into an Boolean.
+     */
+    private boolean convertInToBoolean(int input) {
+        return input == 1;
+    }
+
+    /**
+     * This Method takes an Integer and converts it into an String.
+     */
+    private String convertIntegerToString(Integer input) {
+        return String.valueOf(input);
+    }
+
+    /**
+     * This Method takes an String and converts it into an Integer.
+     */
+    public Integer convertStringtoInteger(String input) {
+        return Integer.valueOf(input);
     }
 }

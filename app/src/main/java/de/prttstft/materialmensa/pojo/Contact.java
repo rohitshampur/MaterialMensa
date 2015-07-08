@@ -11,24 +11,41 @@ public class Contact {
     private String price_students;
     private String price_staff;
     private String price_guests;
-    //private String priceOutput;
+    private String priceOutput;
     private List<String> allergens = new ArrayList<String>();
     private List<String> allergens_full = new ArrayList<String>();
-    //private String badge;
-    //private int order_info;
-    //private boolean tara;
-    //private Integer badgeIcon;
+    private String badge;
+    private int order_info;
+    private boolean tara;
+    private Integer badgeIcon;
 
 
-    public Contact(int id, String name, String category, String price_students, String price_staff, String price_guests, List<String> allergens, List<String> allergens_full) {
+    public Contact(int id,
+                   String name,
+                   String category,
+                   String price_students,
+                   String price_staff,
+                   String price_guests,
+                   String priceOutput,
+                   List<String> allergens,
+                   List<String> allergens_full,
+                   String badge,
+                   int order_info,
+                   boolean tara,
+                   Integer badgeIcon) {
         this._id = id;
         this.name = name;
         this.category = category;
         this.price_students = price_students;
         this.price_staff = price_staff;
         this.price_guests = price_guests;
+        this.priceOutput = priceOutput;
         this.allergens = allergens;
         this.allergens_full = allergens_full;
+        this.badge = badge;
+        this.order_info = order_info;
+        this.tara = tara;
+        this.badgeIcon = badgeIcon;
     }
 
     public int getId() {
@@ -79,6 +96,14 @@ public class Contact {
         this.price_guests = price_guests;
     }
 
+    public String getPriceOutput() {
+        return priceOutput;
+    }
+
+    public void setPriceOutput(String priceOutput) {
+        this.priceOutput = priceOutput;
+    }
+
     public List<String> getAllergens() {
         return allergens;
     }
@@ -95,21 +120,55 @@ public class Contact {
         this.allergens_full = allergens_full;
     }
 
+    public String getBadge() {
+        return badge;
+    }
+
+    public void setBadge(String badge) {
+        this.badge = badge;
+    }
+
+    public int getOrder_info() {
+        return order_info;
+    }
+
+    public void setOrder_info(int order_info) {
+        this.order_info = order_info;
+    }
+
+    public boolean getTara() {
+        return tara;
+    }
+
+    public void setTara(boolean tara) {
+        this.tara = tara;
+    }
+
+    public Integer getBadgeIcon() {
+        return badgeIcon;
+    }
+
+    public void setBadgeIcon(Integer badgeIcon) {
+        this.badgeIcon = badgeIcon;
+    }
+
     public String toString() {
         return "Name: " + name +
                 " Category: " + category +
                 " Price Students: " + price_students +
                 " Price Staff: " + price_staff +
                 " Price Guests: " + price_guests +
+                " PriceOutput: " + priceOutput +
                 " Allergens: " + deleteBrackets(allergens.toString()) +
-                " Allergens Full: " + deleteBrackets(allergens_full.toString())
+                " Allergens Full: " + deleteBrackets(allergens_full.toString()) +
+                " Badge: " + badge +
+                " Order Info: " + order_info +
+                " Tara: " + tara +
+                " BadgeIcon: " + String.valueOf(badgeIcon)
                 ;
     }
 
     private String deleteBrackets(String input) {
         return input.replace("[", "").replace("]", "");
     }
-
-
-
 }

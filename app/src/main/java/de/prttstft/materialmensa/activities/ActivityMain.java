@@ -75,7 +75,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         allergensFullList.add("Fisch");
         allergensFullList.add("Käse");
 
-        Contact contact1 = new Contact(2, "Schnitzel", "Hauptspeise", "3,80", "4,80", "5,80", allergensList, allergensFullList);
+        Contact contact1 = new Contact(2, "Schnitzel", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
         dbHandler.createMeal(contact1);
 //        Contacts.add(contact1);
 
