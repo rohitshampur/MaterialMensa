@@ -52,7 +52,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 COLUMN_BADGE + " TEXT," +
                 COLUMN_ORDER_INFO + " INTEGER," +
                 COLUMN_TARA + " INTEGER," +
-                COLUMN_BADGE_ICON + " TEXT" +
+                //COLUMN_BADGE_ICON + " TEXT" +
+                COLUMN_BADGE_ICON + " INTEGER" +
                 ")");
     }
 
@@ -80,7 +81,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(COLUMN_BADGE, contact.getBadge());
         values.put(COLUMN_ORDER_INFO, contact.getOrder_info());
         values.put(COLUMN_TARA, convertBooleanToInt(contact.getTara()));
-        values.put(COLUMN_BADGE_ICON, convertIntegerToString(contact.getBadgeIcon()));
+        //values.put(COLUMN_BADGE_ICON, convertIntegerToString(contact.getBadgeIcon()));
+        values.put(COLUMN_BADGE_ICON, contact.getBadgeIcon());
 
         db.insert(TABLE_TODAY, null, values);
         db.close();
@@ -90,7 +92,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public Contact getMeal(int id) {
         SQLiteDatabase db = getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_TODAY, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_CATEGORY, COLUMN_PRICE_STUDENTS, COLUMN_PRICE_STAFF, COLUMN_PRICE_GUESTS, COLUMN_PRICE_OUTPUT, COLUMN_ALLERGENS, COLUMN_ALLERGENS_FULL, COLUMN_BADGE, COLUMN_ORDER_INFO, COLUMN_TARA, COLUMN_BADGE_ICON}, COLUMN_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
+        Cursor cursor = db.query(TABLE_TODAY, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_CATEGORY, COLUMN_PRICE_STUDENTS, COLUMN_PRICE_STAFF, COLUMN_PRICE_GUESTS, COLUMN_PRICE_OUTPUT, COLUMN_ALLERGENS, COLUMN_ALLERGENS_FULL, COLUMN_BADGE, COLUMN_ORDER_INFO, COLUMN_TARA, String.valueOf(COLUMN_BADGE_ICON)}, COLUMN_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
 
 
         if (cursor != null) {
@@ -110,7 +112,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 cursor.getString(9), // badge
                 Integer.parseInt(cursor.getString(10)), // order_info
                 convertInToBoolean(Integer.parseInt(cursor.getString(11))), // tara
-                convertStringtoInteger(cursor.getString(12)) // badgeIcon
+                //convertStringtoInteger(cursor.getString(12)) // badgeIcon
+                Integer.parseInt(cursor.getString(12))
         );
 
         db.close();
@@ -154,7 +157,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(COLUMN_BADGE, contact.getBadge());
         values.put(COLUMN_ORDER_INFO, contact.getOrder_info());
         values.put(COLUMN_TARA, convertBooleanToInt(contact.getTara()));
-        values.put(COLUMN_BADGE_ICON, convertIntegerToString(contact.getBadgeIcon()));
+        //values.put(COLUMN_BADGE_ICON, convertIntegerToString(contact.getBadgeIcon()));
+        values.put(COLUMN_BADGE_ICON, contact.getBadgeIcon());
 
         return db.update(TABLE_TODAY, values, COLUMN_ID + "=?", new String[]{String.valueOf(contact.getId())});
     }
@@ -179,7 +183,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         cursor.getString(9), // badge
                         Integer.parseInt(cursor.getString(10)), // order_info
                         convertInToBoolean(Integer.parseInt(cursor.getString(11))), // tara
-                        convertStringtoInteger(cursor.getString(12)) // badgeIcon
+                        //convertStringtoInteger(cursor.getString(12)) // badgeIcon
+                        Integer.parseInt(cursor.getString(12))
                 );
                 meals.add(contact);
             } while (cursor.moveToNext());
