@@ -3,7 +3,6 @@ package de.prttstft.materialmensa.activities;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,11 +20,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import de.prttstft.materialmensa.database.DBMeals;
-import de.prttstft.materialmensa.database.DatabaseHandler;
+import de.prttstft.materialmensa.database.DatabaseHandlerMeals;
 import de.prttstft.materialmensa.logging.L;
-import de.prttstft.materialmensa.materialmensa.MyApplication;
 import de.prttstft.materialmensa.pojo.Contact;
+import de.prttstft.materialmensa.pojo.Meal;
 import de.prttstft.materialmensa.services.MyService;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -36,7 +34,6 @@ import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.fragments.FragmentDrawer;
 import me.tatarka.support.job.JobInfo;
 import me.tatarka.support.job.JobScheduler;
-import me.tatarka.support.os.PersistableBundle;
 
 public class ActivityMain extends AppCompatActivity implements MaterialTabListener {
 
@@ -51,7 +48,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
     public static String tomorrow;
     Context context;
 
-    DatabaseHandler dbHandler;
+    DatabaseHandlerMeals dbHandler;
     List<String> allergensList = new ArrayList<String>();
     List<String> allergensFullList = new ArrayList<String>();
 
@@ -62,48 +59,8 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         setContentView(R.layout.activity_main);
         mJobScheduler = JobScheduler.getInstance(this);
         constructJob();
-        this.deleteDatabase("mealDatabase.db");
-        this.deleteDatabase("mealDatabase");
-        dbHandler = new DatabaseHandler(this);
-
-        allergensList.add("1");
-        allergensList.add("2");
-        allergensList.add("3");
-
-        allergensFullList.add("Fleisch");
-        allergensFullList.add("Fisch");
-        allergensFullList.add("Käse");
-
-        ArrayList<Contact> contacts = new ArrayList<Contact>();
-
-        Contact contact1 = new Contact("Schnitzel", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        Contact contact2 = new Contact("Pimmel", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        Contact contact3 = new Contact("Testtt", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        Contact contact4 = new Contact("Yo", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        Contact contact5 = new Contact("Ha", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        Contact contact6 = new Contact("Hmm", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        Contact contact7 = new Contact("Ficken", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        Contact contact8 = new Contact("Düdeldü", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-
-        contacts.add(contact1);
-        contacts.add(contact2);
-        contacts.add(contact3);
-        contacts.add(contact4);
-        contacts.add(contact5);
-        contacts.add(contact6);
-        contacts.add(contact7);
-        contacts.add(contact8);
-
-
-        dbHandler.insertMeals(contacts, false);
-        //L.t(this, String.valueOf(dbHandler.getMeal(5)));
-
-        ArrayList<Contact> contactsFromDB = new ArrayList<Contact>();
-        contactsFromDB = dbHandler.getAllMeals();
-
-        L.t(this, String.valueOf(contactsFromDB.get(5)));
-
-
+        this.deleteDatabase("mealDB.db");
+        this.deleteDatabase("mealDB");
 
         // Calendar
         Calendar c = Calendar.getInstance();

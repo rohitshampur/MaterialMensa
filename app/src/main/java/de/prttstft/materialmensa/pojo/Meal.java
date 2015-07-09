@@ -30,37 +30,30 @@ public class Meal implements Parcelable {
     public Meal() {
     }
 
-    public Meal(Parcel input) {
-        name = input.readString();
-        category = input.readString();
-        price_students = input.readString();
-        price_staff = input.readString();
-        price_guests = input.readString();
-        priceOutput = input.readString();
-        input.readStringList(allergens);
-        input.readStringList(allergens_spelledout);
-        badge = input.readString();
-        order_info = input.readInt();
-        tara = input.readInt() == 1;
-        badgeIcon = input.readInt();
-    }
-
     public Meal(String name,
                 String category,
                 String price_students,
                 String price_staff,
                 String price_guests,
+                String priceOutput,
+                List<String> allergens,
+                List<String> allergens_spelledout,
                 String badge,
                 int order_info,
-                boolean tara) {
+                boolean tara,
+                Integer badgeIcon) {
         this.name = name;
         this.category = category;
         this.price_students = price_students;
         this.price_staff = price_staff;
         this.price_guests = price_guests;
+        this.priceOutput = priceOutput;
+        this.allergens = allergens;
+        this.allergens_spelledout = allergens_spelledout;
         this.badge = badge;
         this.order_info = order_info;
         this.tara = tara;
+        this.badgeIcon = badgeIcon;
     }
 
     public String getName() {
@@ -206,31 +199,6 @@ public class Meal implements Parcelable {
                 "\n";
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(category);
-        dest.writeString(price_students);
-        dest.writeString(price_staff);
-        dest.writeString(price_guests);
-        dest.writeString(priceOutput);
-        dest.writeStringList(allergens);
-        dest.writeStringList(allergens_spelledout);
-        dest.writeString(badge);
-        dest.writeInt(order_info);
-        if (tara) {
-            dest.writeInt(1);
-        } else {
-            dest.writeInt(0);
-        }
-        dest.writeInt(badgeIcon);
-    }
-
     public boolean containsAllergens(String[] allergens) {
         List<String> myAllergens = getAllergens();
         if (!myAllergens.isEmpty()) {
@@ -271,9 +239,45 @@ public class Meal implements Parcelable {
         return getBadge().equals("vegan");
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.category);
+        dest.writeString(this.price_students);
+        dest.writeString(this.price_staff);
+        dest.writeString(this.price_guests);
+        dest.writeString(this.priceOutput);
+        dest.writeStringList(this.allergens);
+        dest.writeStringList(this.allergens_spelledout);
+        dest.writeString(this.badge);
+        dest.writeInt(this.order_info);
+        dest.writeByte(tara ? (byte) 1 : (byte) 0);
+        dest.writeValue(this.badgeIcon);
+    }
+
+    protected Meal(Parcel in) {
+        this.name = in.readString();
+        this.category = in.readString();
+        this.price_students = in.readString();
+        this.price_staff = in.readString();
+        this.price_guests = in.readString();
+        this.priceOutput = in.readString();
+        this.allergens = in.createStringArrayList();
+        this.allergens_spelledout = in.createStringArrayList();
+        this.badge = in.readString();
+        this.order_info = in.readInt();
+        this.tara = in.readByte() != 0;
+        this.badgeIcon = (Integer) in.readValue(Integer.class.getClassLoader());
+    }
+
     public static final Parcelable.Creator<Meal> CREATOR = new Parcelable.Creator<Meal>() {
-        public Meal createFromParcel(Parcel in) {
-            return new Meal(in);
+        public Meal createFromParcel(Parcel source) {
+            return new Meal(source);
         }
 
         public Meal[] newArray(int size) {

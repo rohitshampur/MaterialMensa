@@ -45,9 +45,11 @@ import java.util.regex.Pattern;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.adapters.Adapter;
 import de.prttstft.materialmensa.adapterExtras.DividerItemDecoration;
+import de.prttstft.materialmensa.database.DatabaseHandlerMeals;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.extras.URLBuilder;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 
@@ -62,6 +64,8 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     private Adapter adapter;
     private ActionModeCallback actionModeCallback = new ActionModeCallback();
     private ActionMode actionMode;
+
+    DatabaseHandlerMeals dbHandler;
 
     public static FragmentToday newInstance() {
         return new FragmentToday();
@@ -82,6 +86,8 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         VolleySingleton volleySingleton = VolleySingleton.getInstance();
         requestQueue = volleySingleton.getRequestQueue();
         sendJsonRequest();
+
+
     }
 
     @Override
@@ -98,9 +104,12 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        dbHandler = new DatabaseHandlerMeals(getActivity());
+
         if (savedInstanceState != null) {
             listMeals = savedInstanceState.getParcelableArrayList(STATE_MEALS);
             adapter.setMealList(listMeals);
+
         } else {
             sendJsonRequest();
         }
@@ -266,7 +275,8 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
                     public void onResponse(JSONArray response) {
                         textVolleyError.setVisibility(View.GONE);
                         listMeals = parseJSONResponse(response);
-                        adapter.setMealList(setUpAndFilterMealList(listMeals));
+                        dbHandler.insertMeals(listMeals, false);
+                        adapter.setMealList(setUpAndFilterMealList(dbHandler.getAllMeals()));
                     }
                 }, new Response.ErrorListener() {
             @Override

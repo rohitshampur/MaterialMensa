@@ -14,11 +14,11 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.prttstft.materialmensa.pojo.Contact;
+import de.prttstft.materialmensa.pojo.Meal;
 
-public class DatabaseHandler extends SQLiteOpenHelper {
+public class DatabaseHandlerMeals extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "mealDatabase",
+    private static final String DATABASE_NAME = "mealDB",
             TABLE_TODAY = "today",
             COLUMN_ID = "_id",
             COLUMN_NAME = "name",
@@ -35,7 +35,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             COLUMN_BADGE_ICON = "badge_icon";
 
 
-    public DatabaseHandler(Context context) {
+    public DatabaseHandlerMeals(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -66,43 +66,43 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertMeals(ArrayList<Contact> contacts, boolean clearPrevious) {
+    public void insertMeals(ArrayList<Meal> meals, boolean clearPrevious) {
         /*
         if (clearPrevious) {
             /////////deleteDatabase
         }
         */
 
-        for (int i = 0; i < contacts.size(); i++) {
-            createMeal(contacts.get(i));
+        for (int i = 0; i < meals.size(); i++) {
+            createMeal(meals.get(i));
         }
     }
 
-    public void createMeal(Contact contact) {
+    public void createMeal(Meal meal) {
 
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-        values.put(COLUMN_NAME, contact.getName());
-        values.put(COLUMN_CATEGORY, contact.getCategory());
-        values.put(COLUMN_PRICE_STUDENTS, contact.getPrice_students());
-        values.put(COLUMN_PRICE_STAFF, contact.getPrice_staff());
-        values.put(COLUMN_PRICE_GUESTS, contact.getPrice_guests());
-        values.put(COLUMN_PRICE_OUTPUT, contact.getPriceOutput());
-        values.put(COLUMN_ALLERGENS, convertListToString(contact.getAllergens().size(), contact.getAllergens()));
-        values.put(COLUMN_ALLERGENS_FULL, convertListToString(contact.getAllergens_full().size(), contact.getAllergens_full()));
-        values.put(COLUMN_BADGE, contact.getBadge());
-        values.put(COLUMN_ORDER_INFO, contact.getOrder_info());
-        values.put(COLUMN_TARA, convertBooleanToInt(contact.getTara()));
-        //values.put(COLUMN_BADGE_ICON, convertIntegerToString(contact.getBadgeIcon()));
-        values.put(COLUMN_BADGE_ICON, contact.getBadgeIcon());
+        values.put(COLUMN_NAME, meal.getName());
+        values.put(COLUMN_CATEGORY, meal.getCategory());
+        values.put(COLUMN_PRICE_STUDENTS, meal.getPriceStudents());
+        values.put(COLUMN_PRICE_STAFF, meal.getPriceStaff());
+        values.put(COLUMN_PRICE_GUESTS, meal.getPriceGuests());
+        values.put(COLUMN_PRICE_OUTPUT, meal.getPriceOutput());
+        values.put(COLUMN_ALLERGENS, convertListToString(meal.getAllergens().size(), meal.getAllergens()));
+        values.put(COLUMN_ALLERGENS_FULL, convertListToString(meal.getAllergensSpelledOut().size(), meal.getAllergensSpelledOut()));
+        values.put(COLUMN_BADGE, meal.getBadge());
+        values.put(COLUMN_ORDER_INFO, meal.getOrderInfo());
+        values.put(COLUMN_TARA, convertBooleanToInt(meal.getTara()));
+        //values.put(COLUMN_BADGE_ICON, convertIntegerToString(meal.getBadgeIcon()));
+        values.put(COLUMN_BADGE_ICON, meal.getBadgeIcon());
 
         db.insert(TABLE_TODAY, null, values);
         db.close();
     }
 
-    public Contact getMeal(int id) {
+    public Meal getMeal(int id) {
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_TODAY, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_CATEGORY, COLUMN_PRICE_STUDENTS, COLUMN_PRICE_STAFF, COLUMN_PRICE_GUESTS, COLUMN_PRICE_OUTPUT, COLUMN_ALLERGENS, COLUMN_ALLERGENS_FULL, COLUMN_BADGE, COLUMN_ORDER_INFO, COLUMN_TARA, String.valueOf(COLUMN_BADGE_ICON)}, COLUMN_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
@@ -113,7 +113,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         //Integer.parseInt(cursor.getString(2))
 
-        Contact contact = new Contact(cursor.getString(1), // name
+        Meal meal = new Meal(cursor.getString(1), // name
                 cursor.getString(2), // category
                 cursor.getString(3), // price_students
                 cursor.getString(4), // price_staff
@@ -131,11 +131,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         cursor.close();
 
-        return contact;
+        return meal;
     }
 
 
-    public void deleteMeal(Contact contact, int id) {
+    public void deleteMeal(Meal meal, int id) {
         SQLiteDatabase db = getWritableDatabase();
 
         db.delete(TABLE_TODAY, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
@@ -154,36 +154,36 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return count;
     }
 
-    public int updateMeal(Contact contact, int id) {
+    public int updateMeal(Meal meal, int id) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_NAME, contact.getName());
-        values.put(COLUMN_CATEGORY, contact.getCategory());
-        values.put(COLUMN_PRICE_STUDENTS, contact.getPrice_students());
-        values.put(COLUMN_PRICE_STAFF, contact.getPrice_staff());
-        values.put(COLUMN_PRICE_GUESTS, contact.getPrice_guests());
-        values.put(COLUMN_PRICE_OUTPUT, contact.getPriceOutput());
-        values.put(COLUMN_ALLERGENS, convertListToString(contact.getAllergens().size(), contact.getAllergens()));
-        values.put(COLUMN_ALLERGENS_FULL, convertListToString(contact.getAllergens_full().size(), contact.getAllergens_full()));
-        values.put(COLUMN_BADGE, contact.getBadge());
-        values.put(COLUMN_ORDER_INFO, contact.getOrder_info());
-        values.put(COLUMN_TARA, convertBooleanToInt(contact.getTara()));
-        //values.put(COLUMN_BADGE_ICON, convertIntegerToString(contact.getBadgeIcon()));
-        values.put(COLUMN_BADGE_ICON, contact.getBadgeIcon());
+        values.put(COLUMN_NAME, meal.getName());
+        values.put(COLUMN_CATEGORY, meal.getCategory());
+        values.put(COLUMN_PRICE_STUDENTS, meal.getPriceStudents());
+        values.put(COLUMN_PRICE_STAFF, meal.getPriceStaff());
+        values.put(COLUMN_PRICE_GUESTS, meal.getPriceGuests());
+        values.put(COLUMN_PRICE_OUTPUT, meal.getPriceOutput());
+        values.put(COLUMN_ALLERGENS, convertListToString(meal.getAllergens().size(), meal.getAllergens()));
+        values.put(COLUMN_ALLERGENS_FULL, convertListToString(meal.getAllergensSpelledOut().size(), meal.getAllergensSpelledOut()));
+        values.put(COLUMN_BADGE, meal.getBadge());
+        values.put(COLUMN_ORDER_INFO, meal.getOrderInfo());
+        values.put(COLUMN_TARA, convertBooleanToInt(meal.getTara()));
+        //values.put(COLUMN_BADGE_ICON, convertIntegerToString(meal.getBadgeIcon()));
+        values.put(COLUMN_BADGE_ICON, meal.getBadgeIcon());
 
         return db.update(TABLE_TODAY, values, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
     }
 
-    public ArrayList<Contact> getAllMeals() {
-        ArrayList<Contact> meals = new ArrayList<Contact>();
+    public ArrayList<Meal> getAllMeals() {
+        ArrayList<Meal> meals = new ArrayList<Meal>();
 
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TODAY, null);
 
         if (cursor.moveToFirst()) {
             do {
-                Contact contact = new Contact(cursor.getString(1), // name
+                Meal meal = new Meal(cursor.getString(1), // name
                         cursor.getString(2), // category
                         cursor.getString(3), // price_students
                         cursor.getString(4), // price_staff
@@ -195,9 +195,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         Integer.parseInt(cursor.getString(10)), // order_info
                         convertInToBoolean(Integer.parseInt(cursor.getString(11))), // tara
                         //convertStringtoInteger(cursor.getString(12)) // badgeIcon
-                        Integer.parseInt(cursor.getString(12))
+                        Integer.parseInt(cursor.getString(12)) // badgeIcon
                 );
-                meals.add(contact);
+                meals.add(meal);
             } while (cursor.moveToNext());
         }
 
