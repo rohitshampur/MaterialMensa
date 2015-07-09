@@ -76,14 +76,14 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
 
         ArrayList<Contact> contacts = new ArrayList<Contact>();
 
-        Contact contact1 = new Contact(2, "Schnitzel", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        Contact contact2 = new Contact(2, "Pimmel", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        Contact contact3 = new Contact(2, "Testtt", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        Contact contact4 = new Contact(2, "Yo", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        Contact contact5 = new Contact(2, "Ha", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        Contact contact6 = new Contact(2, "Hmm", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        Contact contact7 = new Contact(2, "Ficken", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        Contact contact8 = new Contact(2, "Düdeldü", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
+        Contact contact1 = new Contact("Schnitzel", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
+        Contact contact2 = new Contact("Pimmel", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
+        Contact contact3 = new Contact("Testtt", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
+        Contact contact4 = new Contact("Yo", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
+        Contact contact5 = new Contact("Ha", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
+        Contact contact6 = new Contact("Hmm", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
+        Contact contact7 = new Contact("Ficken", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
+        Contact contact8 = new Contact("Düdeldü", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
 
         contacts.add(contact1);
         contacts.add(contact2);
@@ -101,7 +101,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         ArrayList<Contact> contactsFromDB = new ArrayList<Contact>();
         contactsFromDB = dbHandler.getAllMeals();
 
-        L.t(this, String.valueOf(contactsFromDB.get(1)));
+        L.t(this, String.valueOf(contactsFromDB.get(5)));
 
 
 

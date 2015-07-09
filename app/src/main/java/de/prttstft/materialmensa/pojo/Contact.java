@@ -5,7 +5,6 @@ import java.util.List;
 
 
 public class Contact {
-    private int _id;
     private String name;
     private String category;
     private String price_students;
@@ -20,8 +19,7 @@ public class Contact {
     private Integer badgeIcon;
 
 
-    public Contact(int id,
-                   String name,
+    public Contact(String name,
                    String category,
                    String price_students,
                    String price_staff,
@@ -33,7 +31,6 @@ public class Contact {
                    int order_info,
                    boolean tara,
                    Integer badgeIcon) {
-        this._id = id;
         this.name = name;
         this.category = category;
         this.price_students = price_students;
@@ -46,14 +43,6 @@ public class Contact {
         this.order_info = order_info;
         this.tara = tara;
         this.badgeIcon = badgeIcon;
-    }
-
-    public int getId() {
-        return _id;
-    }
-
-    public void setId(int _id) {
-        this._id = _id;
     }
 
     public String getName() {

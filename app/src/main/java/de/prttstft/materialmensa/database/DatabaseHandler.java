@@ -113,8 +113,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         //Integer.parseInt(cursor.getString(2))
 
-        Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), // _ID
-                cursor.getString(1), // name
+        Contact contact = new Contact(cursor.getString(1), // name
                 cursor.getString(2), // category
                 cursor.getString(3), // price_students
                 cursor.getString(4), // price_staff
@@ -136,10 +135,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public void deleteMeal(Contact contact) {
+    public void deleteMeal(Contact contact, int id) {
         SQLiteDatabase db = getWritableDatabase();
 
-        db.delete(TABLE_TODAY, COLUMN_ID + "=?", new String[]{String.valueOf(contact.getId())});
+        db.delete(TABLE_TODAY, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
         db.close();
     }
 
@@ -155,7 +154,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return count;
     }
 
-    public int updateMeal(Contact contact) {
+    public int updateMeal(Contact contact, int id) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -173,7 +172,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //values.put(COLUMN_BADGE_ICON, convertIntegerToString(contact.getBadgeIcon()));
         values.put(COLUMN_BADGE_ICON, contact.getBadgeIcon());
 
-        return db.update(TABLE_TODAY, values, COLUMN_ID + "=?", new String[]{String.valueOf(contact.getId())});
+        return db.update(TABLE_TODAY, values, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
     }
 
     public ArrayList<Contact> getAllMeals() {
@@ -184,8 +183,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), // _ID
-                        cursor.getString(1), // name
+                Contact contact = new Contact(cursor.getString(1), // name
                         cursor.getString(2), // category
                         cursor.getString(3), // price_students
                         cursor.getString(4), // price_staff
