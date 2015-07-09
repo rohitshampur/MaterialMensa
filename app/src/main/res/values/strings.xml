@@ -6,7 +6,7 @@
 
     // About
     <string name="about_about">About</string>
-    <string name="about_aboutText">MaterialMensa was developed by <a href="http://www.prttstft.de">Max Karadeniz</a>. A lot of tutorials and code snippets were used. Including from: <a href="http://www.youtube.com/slidenerd">Slidenerd</a>, <a href="http://www.enoent.fr/">enoent</a>, and <a href="http://www.android4devs.com/">AndroidForDevs</a>. You can find the messy and barely commented source code on <a href="https://github.com/prttstft/MaterialMensa">Github</a>. With thanks to <a href="http://lucahammer.com/">Luca</a>, Robin, Schmanu.</string>
+    <string name="about_aboutText">MaterialMensa was developed by <a href="http://www.prttstft.de">Max Karadeniz</a>. A lot of tutorials and code snippets were used. Including from: <a href="http://www.youtube.com/slidenerd">Slidenerd</a>, <a href="http://www.enoent.fr/">enoent</a>, <a href="https://github.com/rcrosbourne">rcrosbourne</a>, and <a href="http://www.android4devs.com/">AndroidForDevs</a>. You can find the messy and barely commented source code on <a href="https://github.com/prttstft/MaterialMensa">Github</a>. With thanks to <a href="http://lucahammer.com/">Luca</a>, Robin, Schmanu.</string>
     <string name="about_icons" translatable="false">Icons</string>
     <string name="about_iconsText">Most of the icons were downloaded from </string>
     <string name="about_libraries">Open Source libraries used in this project:</string>

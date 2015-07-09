@@ -28,6 +28,8 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,17 +45,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.prttstft.materialmensa.R;
+import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapters.Adapter;
 import de.prttstft.materialmensa.adapterExtras.DividerItemDecoration;
 import de.prttstft.materialmensa.database.DatabaseHandlerMeals;
+import de.prttstft.materialmensa.events.MealsLoadedEvent;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.extras.URLBuilder;
+import de.prttstft.materialmensa.json.JSONHelper;
 import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.materialmensa.MyApplication;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
 import de.prttstft.materialmensa.services.MyService;
+import de.prttstft.materialmensa.tasks.MyManualTask;
 
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.*;
 
@@ -66,6 +72,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     private Adapter adapter;
     private ActionModeCallback actionModeCallback = new ActionModeCallback();
     private ActionMode actionMode;
+    private Bus bus;
 
     DatabaseHandlerMeals dbHandler;
 
@@ -85,10 +92,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //sendJsonRequest();
-
-
+        bus = MyApplication.getBus();
     }
 
     @Override
@@ -96,7 +100,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today, container, false);
         textVolleyError = (TextView) view.findViewById(R.id.textVolleyError);
-
+        JSONHelper jsonHelper = new JSONHelper();
         adapter = new Adapter(this);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -108,14 +112,16 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         dbHandler = new DatabaseHandlerMeals(getActivity());
 
 
-
         if (savedInstanceState != null) {
             listMeals = savedInstanceState.getParcelableArrayList(STATE_MEALS);
         } else {
             listMeals = MyApplication.getWritableDatabase().getAllMeals();
+            if (listMeals.size() == 0) {
+                new MyManualTask(getActivity()).execute();
+            }
         }
 
-        adapter.setMealList(setUpAndFilterMealList(listMeals));
+        adapter.setMealList(jsonHelper.setUpAndFilterMealList(listMeals,getActivity()));
 
         return view;
     }
@@ -187,6 +193,28 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        bus.unregister(this);
+    }
+
+    @Subscribe
+    public void onMealsLoaded(MealsLoadedEvent event){
+        //if fragment is visible update ui
+        if(getUserVisibleHint()){
+            adapter.setMealList(event.meals);
+        }
+        //otherwise we don't care
+    }
+
+
     // Share Intent
     private void shareIntent() {
         Intent shareIntent = new Intent();
@@ -197,81 +225,5 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         adapter.emptySelectedMealNameList();
     }
 
-    public ArrayList<Meal> setUpAndFilterMealList(ArrayList<Meal> unfilteredMealList) {
-        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String personCategory = SP.getString("prefPersonCategory", "1");
-        String lifeStyle = SP.getString("prefLifestyle", "1");
-        Set<String> selectionsAllergens = SP.getStringSet("prefAllergens", Collections.<String>emptySet());
-        Set<String> selectionsAdditives = SP.getStringSet("prefAdditives", Collections.<String>emptySet());
-        String[] selectedAllergens = selectionsAllergens.toArray(new String[selectionsAllergens.size()]);
-        String[] selectedAdditives = selectionsAdditives.toArray(new String[selectionsAdditives.size()]);
-        ArrayList<Meal> filteredMealList = new ArrayList<>();
 
-        for (Meal nextMeal : unfilteredMealList) {
-            String getBadge = nextMeal.getBadge();
-            String getPrices = nextMeal.getPrices();
-            String getPricesDe = nextMeal.getPricesDe();
-            String getStudentPrice = nextMeal.getPriceStudents();
-            String getStaffPrice = nextMeal.getPriceStaff();
-            String getGuestPrice = nextMeal.getPriceGuests();
-            Boolean isCleared = true;
-
-            switch (getBadge) {
-                case "vegetarian":
-                    nextMeal.setBadgeIcon(R.drawable.ic_vegeterian);
-                    break;
-                case "vegan":
-                    nextMeal.setBadgeIcon(R.drawable.ic_vegan);
-                    break;
-                case "lactose-free":
-                    nextMeal.setBadgeIcon(R.drawable.ic_lactose_free);
-                    break;
-                case "low-calorie":
-                    nextMeal.setBadgeIcon(R.drawable.ic_low_calorie);
-                    break;
-                case "vital-food":
-                    nextMeal.setBadgeIcon(R.drawable.ic_vital_food);
-                    break;
-                case "nonfat":
-                    nextMeal.setBadgeIcon(R.drawable.ic_nonfat);
-                    break;
-                default:
-                    nextMeal.setBadgeIcon(R.drawable.ic_transparent);
-                    break;
-            }
-
-            if (personCategory != null) {
-                switch (personCategory) {
-                    case "2":
-                        nextMeal.setPriceOutput(getStudentPrice);
-                        break;
-                    case "3":
-                        nextMeal.setPriceOutput(getStaffPrice);
-                        break;
-                    case "4":
-                        nextMeal.setPriceOutput(getGuestPrice);
-                        break;
-                    default:
-                        if (Locale.getDefault().getISO3Language().equals("deu")) {
-                            nextMeal.setPriceOutput(getPricesDe);
-                        } else {
-                            nextMeal.setPriceOutput(getPrices);
-                        }
-                        break;
-                }
-            }
-
-            if (nextMeal.containsAllergens(selectedAllergens)) isCleared = false;
-
-            if (nextMeal.containsAdditives(selectedAdditives)) isCleared = false;
-
-            if (lifeStyle.equals("2") & !nextMeal.isVegetarian()) isCleared = false;
-
-            if (lifeStyle.equals("3") & !nextMeal.isVegan()) isCleared = false;
-
-            if (isCleared) filteredMealList.add(nextMeal);
-
-        }
-        return filteredMealList;
-    }
 }
