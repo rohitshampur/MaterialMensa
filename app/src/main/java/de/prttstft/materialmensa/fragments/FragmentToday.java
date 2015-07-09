@@ -181,9 +181,10 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
     @Subscribe
     public void onMealsLoaded(MealsLoadedEvent event) {
+        JSONHelper jsonHelper = new JSONHelper();
         //if fragment is visible update ui
         if (getUserVisibleHint()) {
-            adapter.setMealList(event.meals);
+            adapter.setMealList(jsonHelper.setUpAndFilterMealList(event.meals, getActivity()));
         }
         //otherwise we don't care
     }
