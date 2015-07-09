@@ -1,17 +1,13 @@
 package de.prttstft.materialmensa.pojo;
 
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import de.prttstft.materialmensa.R;
-import de.prttstft.materialmensa.logging.L;
 
 public class Meal implements Parcelable {
     private String name;

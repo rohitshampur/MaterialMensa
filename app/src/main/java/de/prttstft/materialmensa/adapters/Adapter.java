@@ -2,6 +2,7 @@ package de.prttstft.materialmensa.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,9 @@ import java.util.Locale;
 import java.util.Set;
 
 import de.prttstft.materialmensa.R;
+import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapterExtras.SelectableAdapter;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.pojo.Meal;
 
 public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
@@ -42,11 +45,13 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-
         Meal currentMeal = items.get(position);
 
         holder.meal_name.setText(currentMeal.getName());
         holder.meal_typeicon.setImageResource(currentMeal.getBadgeIcon());
+        L.m("Logtag | " + "Name: " + String.valueOf(currentMeal.getName()));
+        L.m("Logtag | " + "Price Students: " + String.valueOf(currentMeal.getPriceStudents()));
+        L.m("Logtag | " + "Price Output: " + String.valueOf(currentMeal.getPriceOutput()));
         holder.meal_price.setText(currentMeal.getPriceOutput());
 
         holder.meal_item.setBackgroundResource(isSelected(position) ? R.drawable.custom_bg_selected : R.drawable.custom_bg);

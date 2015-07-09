@@ -75,34 +75,4 @@ public class MyService extends JobService {
             myService.jobFinished(jobParameters, false);
         }
     }
-
-    /*
-    public class MyManualTask extends AsyncTask<Void, Void, ArrayList<Meal>> {
-
-        MyManualTask() {
-            VolleySingleton volleySingleton = VolleySingleton.getInstance();
-            requestQueue = volleySingleton.getRequestQueue();
-        }
-
-        @Override
-        protected ArrayList<Meal> doInBackground(Void... voids) {
-            JSONArray response = sendJsonRequest();
-            ArrayList<Meal> listMeals = parseJSONResponse(response);
-            MyApplication.getWritableDatabase().insertMeals(setUpAndFilterMealList(listMeals), false, getApplicationContext());
-
-            return listMeals;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Meal> meals) {
-            super.onPostExecute(meals);
-        }
-    }
-    */
-
-
-
-
-
-
 }

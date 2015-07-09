@@ -17,51 +17,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import de.prttstft.materialmensa.R;
-import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapters.Adapter;
-import de.prttstft.materialmensa.adapterExtras.DividerItemDecoration;
 import de.prttstft.materialmensa.database.DatabaseHandlerMeals;
 import de.prttstft.materialmensa.events.MealsLoadedEvent;
-import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.MealSorter;
-import de.prttstft.materialmensa.extras.URLBuilder;
 import de.prttstft.materialmensa.json.JSONHelper;
 import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.materialmensa.MyApplication;
-import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
-import de.prttstft.materialmensa.services.MyService;
 import de.prttstft.materialmensa.tasks.MyManualTask;
-
-import static de.prttstft.materialmensa.extras.Keys.EndpointToday.*;
 
 public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickListener {
     private static final String STATE_MEALS = "state_meals";
@@ -118,10 +89,13 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
             listMeals = MyApplication.getWritableDatabase().getAllMeals();
             if (listMeals.size() == 0) {
                 new MyManualTask(getActivity()).execute();
+                if (listMeals.size()==0) {
+                    L.t(getActivity(), "Hö?");
+                }
             }
         }
 
-        adapter.setMealList(jsonHelper.setUpAndFilterMealList(listMeals,getActivity()));
+        adapter.setMealList(jsonHelper.setUpAndFilterMealList(listMeals, getActivity()));
 
         return view;
     }
@@ -206,9 +180,9 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     }
 
     @Subscribe
-    public void onMealsLoaded(MealsLoadedEvent event){
+    public void onMealsLoaded(MealsLoadedEvent event) {
         //if fragment is visible update ui
-        if(getUserVisibleHint()){
+        if (getUserVisibleHint()) {
             adapter.setMealList(event.meals);
         }
         //otherwise we don't care

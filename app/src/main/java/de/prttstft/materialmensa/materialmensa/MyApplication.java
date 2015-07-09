@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.squareup.otto.Bus;
 
-import de.prttstft.materialmensa.database.DBMeals;
 import de.prttstft.materialmensa.database.DatabaseHandlerMeals;
 
 public class MyApplication extends Application {
@@ -38,7 +37,6 @@ public class MyApplication extends Application {
         if (mDatabase == null) {
             mDatabase = new DatabaseHandlerMeals(getAppContext());
         }
-
         return mDatabase;
     }
 }
