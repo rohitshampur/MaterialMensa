@@ -15,7 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 import com.android.volley.RequestQueue;
 import com.squareup.otto.Bus;
@@ -29,17 +29,14 @@ import de.prttstft.materialmensa.database.DatabaseHandlerMeals;
 import de.prttstft.materialmensa.events.MealsLoadedEvent;
 import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.json.JSONHelper;
-import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.materialmensa.MyApplication;
 import de.prttstft.materialmensa.pojo.Meal;
 import de.prttstft.materialmensa.tasks.MyManualTask;
 
 public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickListener {
     private static final String STATE_MEALS = "state_meals";
-    private RequestQueue requestQueue;
     public ArrayList<Meal> listMeals = new ArrayList<>();
-    private TextView textVolleyError;
-    private MealSorter mSorter = new MealSorter();
+    private RelativeLayout progressBar;
     private Adapter adapter;
     private ActionModeCallback actionModeCallback = new ActionModeCallback();
     private ActionMode actionMode;
@@ -70,7 +67,9 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today, container, false);
-        textVolleyError = (TextView) view.findViewById(R.id.textVolleyError);
+
+        progressBar = (RelativeLayout) view.findViewById(R.id.loadingPanel);
+
         JSONHelper jsonHelper = new JSONHelper();
         adapter = new Adapter(this);
 
@@ -89,6 +88,12 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
             listMeals = MyApplication.getWritableDatabase().getAllMeals();
             if (listMeals.size() == 0) {
                 new MyManualTask(getActivity()).execute();
+            }
+
+            if (dbHandler.getMealsCount()>0) {
+                progressBar.setVisibility(View.GONE);
+            } else {
+                progressBar.setVisibility(View.VISIBLE);
             }
         }
 
@@ -182,10 +187,10 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         //if fragment is visible update ui
         if (getUserVisibleHint()) {
             adapter.setMealList(jsonHelper.setUpAndFilterMealList(event.meals, getActivity()));
+            progressBar.setVisibility(View.GONE);
         }
         //otherwise we don't care
     }
-
 
     // Share Intent
     private void shareIntent() {
@@ -196,6 +201,4 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         startActivity(Intent.createChooser(shareIntent, "Share"));
         adapter.emptySelectedMealNameList();
     }
-
-
 }

@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,7 +55,6 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         setContentView(R.layout.activity_main);
         mJobScheduler = JobScheduler.getInstance(this);
         constructJob();
-
 
         // Calendar
         Calendar c = Calendar.getInstance();
