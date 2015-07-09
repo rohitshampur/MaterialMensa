@@ -51,7 +51,6 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
     public static String tomorrow;
     Context context;
 
-    List<Contact> Contacts = new ArrayList<Contact>();
     DatabaseHandler dbHandler;
     List<String> allergensList = new ArrayList<String>();
     List<String> allergensFullList = new ArrayList<String>();
@@ -75,26 +74,37 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         allergensFullList.add("Fisch");
         allergensFullList.add("Käse");
 
+        ArrayList<Contact> contacts = new ArrayList<Contact>();
+
         Contact contact1 = new Contact(2, "Schnitzel", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
-        dbHandler.createMeal(contact1);
-//        Contacts.add(contact1);
+        Contact contact2 = new Contact(2, "Pimmel", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
+        Contact contact3 = new Contact(2, "Testtt", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
+        Contact contact4 = new Contact(2, "Yo", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
+        Contact contact5 = new Contact(2, "Ha", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
+        Contact contact6 = new Contact(2, "Hmm", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
+        Contact contact7 = new Contact(2, "Ficken", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
+        Contact contact8 = new Contact(2, "Düdeldü", "Hauptspeise", "3,80", "4,80", "5,80", "Students this, Staff that", allergensList, allergensFullList, "Vegan", 1, true, R.drawable.ic_transparent);
 
-        //Contact contact2 = new Contact(dbHandler.getMealsCount(), "Hans", 77);
-        //dbHandler.createMeal(contact2);
-
-        L.t(this, String.valueOf(dbHandler.getMealsCount()));
-        Contacts.add(dbHandler.getMeal(1));
-        L.t(this, Contacts.toString());
-/*
-        if (dbHandler.getMealsCount() != 0) {
-            Contacts.add(dbHandler.getMeal(1));
-        }
+        contacts.add(contact1);
+        contacts.add(contact2);
+        contacts.add(contact3);
+        contacts.add(contact4);
+        contacts.add(contact5);
+        contacts.add(contact6);
+        contacts.add(contact7);
+        contacts.add(contact8);
 
 
-        if (Contacts.size() > 0) {
-            L.t(this, Contacts.toString());
-        }
-*/
+        dbHandler.insertMeals(contacts, false);
+        //L.t(this, String.valueOf(dbHandler.getMeal(5)));
+
+        ArrayList<Contact> contactsFromDB = new ArrayList<Contact>();
+        contactsFromDB = dbHandler.getAllMeals();
+
+        L.t(this, String.valueOf(contactsFromDB.get(1)));
+
+
+
         // Calendar
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");

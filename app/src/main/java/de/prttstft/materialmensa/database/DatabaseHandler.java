@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,6 +33,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             COLUMN_ORDER_INFO = "order_info",
             COLUMN_TARA = "tara",
             COLUMN_BADGE_ICON = "badge_icon";
+
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -64,6 +66,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void insertMeals(ArrayList<Contact> contacts, boolean clearPrevious) {
+        /*
+        if (clearPrevious) {
+            /////////deleteDatabase
+        }
+        */
+
+        for (int i = 0; i < contacts.size(); i++) {
+            createMeal(contacts.get(i));
+        }
+    }
+
     public void createMeal(Contact contact) {
 
         SQLiteDatabase db = getWritableDatabase();
@@ -87,7 +101,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(TABLE_TODAY, null, values);
         db.close();
     }
-
 
     public Contact getMeal(int id) {
         SQLiteDatabase db = getReadableDatabase();
@@ -163,8 +176,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return db.update(TABLE_TODAY, values, COLUMN_ID + "=?", new String[]{String.valueOf(contact.getId())});
     }
 
-    public List<Contact> getAllMeals() {
-        List<Contact> meals = new ArrayList<Contact>();
+    public ArrayList<Contact> getAllMeals() {
+        ArrayList<Contact> meals = new ArrayList<Contact>();
 
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TODAY, null);
