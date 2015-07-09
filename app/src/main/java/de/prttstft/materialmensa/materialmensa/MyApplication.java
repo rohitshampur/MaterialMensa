@@ -4,10 +4,11 @@ import android.app.Application;
 import android.content.Context;
 
 import de.prttstft.materialmensa.database.DBMeals;
+import de.prttstft.materialmensa.database.DatabaseHandlerMeals;
 
 public class MyApplication extends Application {
     private static MyApplication sInstance;
-    private static DBMeals dbMeals;
+    private static DatabaseHandlerMeals mDatabase;
 
     @Override
     public void onCreate() {
@@ -23,11 +24,11 @@ public class MyApplication extends Application {
         return sInstance.getApplicationContext();
     }
 
-    public synchronized static DBMeals getWritableDatabase() {
-        if (dbMeals == null) {
-            dbMeals = new DBMeals(getAppContext());
+    public synchronized static DatabaseHandlerMeals getWritableDatabase() {
+        if (mDatabase == null) {
+            mDatabase = new DatabaseHandlerMeals(getAppContext());
         }
 
-        return dbMeals;
+        return mDatabase;
     }
 }

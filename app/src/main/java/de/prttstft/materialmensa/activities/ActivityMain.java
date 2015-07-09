@@ -48,19 +48,13 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
     public static String tomorrow;
     Context context;
 
-    DatabaseHandlerMeals dbHandler;
-    List<String> allergensList = new ArrayList<String>();
-    List<String> allergensFullList = new ArrayList<String>();
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mJobScheduler = JobScheduler.getInstance(this);
         constructJob();
-        this.deleteDatabase("mealDB.db");
-        this.deleteDatabase("mealDB");
+
 
         // Calendar
         Calendar c = Calendar.getInstance();
@@ -111,8 +105,8 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
 
     private void constructJob() {
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, MyService.class));
-        //builder.setPeriodic(2000)
-        builder.setPeriodic(86400000)
+        builder.setPeriodic(2000)
+        //builder.setPeriodic(86400000)
                 //.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED);
                 .setPersisted(true);
         mJobScheduler.schedule(builder.build());

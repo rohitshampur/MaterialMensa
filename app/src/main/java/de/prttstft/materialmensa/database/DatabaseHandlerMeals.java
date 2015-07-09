@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -54,7 +53,6 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
                 COLUMN_BADGE + " TEXT," +
                 COLUMN_ORDER_INFO + " INTEGER," +
                 COLUMN_TARA + " INTEGER," +
-                //COLUMN_BADGE_ICON + " TEXT" +
                 COLUMN_BADGE_ICON + " INTEGER" +
                 ")");
     }
@@ -66,12 +64,12 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertMeals(ArrayList<Meal> meals, boolean clearPrevious) {
-        /*
+    public void insertMeals(ArrayList<Meal> meals, boolean clearPrevious, Context context) {
         if (clearPrevious) {
-            /////////deleteDatabase
+            context.deleteDatabase("mealDB");
+            context.deleteDatabase("mealDB.db");
         }
-        */
+
 
         for (int i = 0; i < meals.size(); i++) {
             createMeal(meals.get(i));
@@ -95,7 +93,6 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
         values.put(COLUMN_BADGE, meal.getBadge());
         values.put(COLUMN_ORDER_INFO, meal.getOrderInfo());
         values.put(COLUMN_TARA, convertBooleanToInt(meal.getTara()));
-        //values.put(COLUMN_BADGE_ICON, convertIntegerToString(meal.getBadgeIcon()));
         values.put(COLUMN_BADGE_ICON, meal.getBadgeIcon());
 
         db.insert(TABLE_TODAY, null, values);
@@ -111,7 +108,6 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
         if (cursor != null) {
             cursor.moveToFirst();
         }
-        //Integer.parseInt(cursor.getString(2))
 
         Meal meal = new Meal(cursor.getString(1), // name
                 cursor.getString(2), // category
@@ -124,7 +120,6 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
                 cursor.getString(9), // badge
                 Integer.parseInt(cursor.getString(10)), // order_info
                 convertInToBoolean(Integer.parseInt(cursor.getString(11))), // tara
-                //convertStringtoInteger(cursor.getString(12)) // badgeIcon
                 Integer.parseInt(cursor.getString(12))
         );
 
@@ -169,7 +164,6 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
         values.put(COLUMN_BADGE, meal.getBadge());
         values.put(COLUMN_ORDER_INFO, meal.getOrderInfo());
         values.put(COLUMN_TARA, convertBooleanToInt(meal.getTara()));
-        //values.put(COLUMN_BADGE_ICON, convertIntegerToString(meal.getBadgeIcon()));
         values.put(COLUMN_BADGE_ICON, meal.getBadgeIcon());
 
         return db.update(TABLE_TODAY, values, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
@@ -194,7 +188,6 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
                         cursor.getString(9), // badge
                         Integer.parseInt(cursor.getString(10)), // order_info
                         convertInToBoolean(Integer.parseInt(cursor.getString(11))), // tara
-                        //convertStringtoInteger(cursor.getString(12)) // badgeIcon
                         Integer.parseInt(cursor.getString(12)) // badgeIcon
                 );
                 meals.add(meal);
@@ -249,19 +242,5 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
      */
     private boolean convertInToBoolean(int input) {
         return input == 1;
-    }
-
-    /**
-     * This Method takes an Integer and converts it into an String.
-     */
-    private String convertIntegerToString(Integer input) {
-        return String.valueOf(input);
-    }
-
-    /**
-     * This Method takes an String and converts it into an Integer.
-     */
-    public Integer convertStringtoInteger(String input) {
-        return Integer.valueOf(input);
     }
 }

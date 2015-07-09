@@ -50,8 +50,10 @@ import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.extras.URLBuilder;
 import de.prttstft.materialmensa.logging.L;
+import de.prttstft.materialmensa.materialmensa.MyApplication;
 import de.prttstft.materialmensa.network.VolleySingleton;
 import de.prttstft.materialmensa.pojo.Meal;
+import de.prttstft.materialmensa.services.MyService;
 
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.*;
 
@@ -83,9 +85,8 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        VolleySingleton volleySingleton = VolleySingleton.getInstance();
-        requestQueue = volleySingleton.getRequestQueue();
-        sendJsonRequest();
+
+        //sendJsonRequest();
 
 
     }
@@ -106,13 +107,15 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
         dbHandler = new DatabaseHandlerMeals(getActivity());
 
+
+
         if (savedInstanceState != null) {
             listMeals = savedInstanceState.getParcelableArrayList(STATE_MEALS);
-            adapter.setMealList(listMeals);
-
         } else {
-            sendJsonRequest();
+            listMeals = MyApplication.getWritableDatabase().getAllMeals();
         }
+
+        adapter.setMealList(setUpAndFilterMealList(listMeals));
 
         return view;
     }
@@ -194,243 +197,6 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         adapter.emptySelectedMealNameList();
     }
 
-    private String getAllergens(String allergen) {
-        switch (allergen) {
-            case "A1":
-                return getResources().getString(R.string.gluten);
-            case "A2":
-                return getResources().getString(R.string.crab);
-            case "A3":
-                return getResources().getString(R.string.egg);
-            case "A4":
-                return getResources().getString(R.string.fish);
-            case "A5":
-                return getResources().getString(R.string.peanuts);
-            case "A6":
-                return getResources().getString(R.string.soy);
-            case "A7":
-                return getResources().getString(R.string.milk);
-            case "A8":
-                return getResources().getString(R.string.nuts);
-            case "A9":
-                return getResources().getString(R.string.celery);
-            case "A10":
-                return getResources().getString(R.string.mustard);
-            case "A11":
-                return getResources().getString(R.string.sesame);
-            case "A12":
-                return getResources().getString(R.string.sulphites);
-            case "A13":
-                return getResources().getString(R.string.lupins);
-            case "A14":
-                return getResources().getString(R.string.molluscs);
-            default:
-                return "";
-        }
-    }
-
-    private String getAdditives(String additive) {
-        switch (additive) {
-            case "1":
-                return getResources().getString(R.string.dyes);
-            case "2":
-                return getResources().getString(R.string.preservatives);
-            case "3":
-                return getResources().getString(R.string.antioxidant);
-            case "4":
-                return getResources().getString(R.string.flavorenhancers);
-            case "5":
-                return getResources().getString(R.string.phosphate);
-            case "6":
-                return getResources().getString(R.string.sulphurised);
-            case "7":
-                return getResources().getString(R.string.waxed);
-            case "8":
-                return getResources().getString(R.string.blackend);
-            case "9":
-                return getResources().getString(R.string.sweeteners);
-            case "10":
-                return getResources().getString(R.string.phenylalanine);
-            case "11":
-                return getResources().getString(R.string.taurine);
-            case "12":
-                return getResources().getString(R.string.nitratesaltingmix);
-            case "13":
-                return getResources().getString(R.string.caffeine);
-            case "14":
-                return getResources().getString(R.string.quinine);
-            case "15":
-                return getResources().getString(R.string.milkprotein);
-            default:
-                return "";
-        }
-    }
-
-    private void sendJsonRequest() {
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
-                URLBuilder.getRequestUrl(),
-                (String) null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        textVolleyError.setVisibility(View.GONE);
-                        listMeals = parseJSONResponse(response);
-                        dbHandler.insertMeals(listMeals, false);
-                        adapter.setMealList(setUpAndFilterMealList(dbHandler.getAllMeals()));
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                handleVolleyError(error);
-            }
-        });
-        requestQueue.add(request);
-    }
-
-    private ArrayList<Meal> parseJSONResponse(JSONArray response) {
-
-        ArrayList<Meal> listMeals = new ArrayList<>();
-        if (response != null || response.length() > 0) {
-
-            try {
-                StringBuilder data = new StringBuilder();
-
-                for (int i = 0; i < response.length(); i++) {
-                    String name = Constants.NA;
-                    String category = Constants.NA;
-                    Boolean tara = false;
-                    String price_students = Constants.NA;
-                    String price_staff = Constants.NA;
-                    String price_guests = Constants.NA;
-                    List<String> allergens = new ArrayList<String>();
-                    List<String> allergens_spelledout = new ArrayList<String>();
-                    String badge = "";
-                    int order_info = 0;
-                    SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    String ls = SP.getString("prefLifestyle", "1");
-
-                    JSONObject currentMeal = response.getJSONObject(i);
-
-                    if (currentMeal.has(KEY_NAME_DE) && !currentMeal.isNull(KEY_NAME_DE)) {
-                        if (Locale.getDefault().getISO3Language().equals("deu")) {
-                            name = currentMeal.getString(KEY_NAME_DE);
-                        } else {
-                            name = currentMeal.getString(KEY_NAME_EN);
-                        }
-                    }
-
-                    if (currentMeal.has(KEY_CATEGORY) && !currentMeal.isNull(KEY_CATEGORY)) {
-                        category = currentMeal.getString(KEY_CATEGORY);
-                        switch (category) {
-                            case "dish-default":
-                                order_info = 1;
-                                break;
-                            case "dish-pasta":
-                                order_info = 2;
-                                break;
-                            case "dish-wok":
-                                order_info = 3;
-                                break;
-                            case "dish-grill":
-                                order_info = 4;
-                                break;
-                            case "sidedish":
-                                order_info = 5;
-                                break;
-                            case "soups":
-                                order_info = 6;
-                                break;
-                            default:
-                                order_info = 7;
-                                break;
-                        }
-                    }
-
-                    if (currentMeal.has(KEY_STUDENTS) && !currentMeal.isNull(KEY_STUDENTS)) {
-                        price_students = formatCurrency(currentMeal.getString(KEY_STUDENTS));
-                    }
-
-                    if (currentMeal.has(KEY_STAFF) && !currentMeal.isNull(KEY_STAFF)) {
-                        price_staff = formatCurrency(currentMeal.getString(KEY_STAFF));
-                    }
-
-                    if (currentMeal.has(KEY_GUESTS) && !currentMeal.isNull(KEY_GUESTS)) {
-                        price_guests = formatCurrency(currentMeal.getString(KEY_GUESTS));
-                    }
-
-                    if (currentMeal.has(KEY_ALLERGENS) && !currentMeal.isNull(KEY_ALLERGENS)) {
-                        JSONArray arrayAllergens = currentMeal.getJSONArray(KEY_ALLERGENS);
-
-                        for (int j = 0; j < arrayAllergens.length(); j++) {
-                            Pattern pattern = Pattern.compile("(^)(\\d+)");
-                            Matcher matcher = pattern.matcher(arrayAllergens.getString(j));
-                            if (matcher.find()) {
-                                allergens.add(arrayAllergens.getString(j));
-                                allergens_spelledout.add(getAdditives(arrayAllergens.getString(j)));
-
-                            } else {
-                                allergens.add(arrayAllergens.getString(j));
-                                allergens_spelledout.add(getAllergens(arrayAllergens.getString(j)));
-                            }
-                        }
-                    }
-
-                    if (currentMeal.has(KEY_BADGE) && !currentMeal.isNull(KEY_BADGE)) {
-                        JSONArray arrayBadge = currentMeal.getJSONArray(KEY_BADGE);
-                        if (arrayBadge.length() != 0) {
-                            badge = arrayBadge.getString(0);
-                        }
-                    }
-
-                    if (currentMeal.has(KEY_TARA) && !currentMeal.isNull(KEY_TARA)) {
-                        if (currentMeal.getString(KEY_TARA).equals("weighted")) {
-                            tara = true;
-                        }
-                    }
-
-                    Meal meal = new Meal();
-                    meal.setName(name);
-                    meal.setCategory(category);
-                    meal.setPriceStudents(price_students);
-                    meal.setPriceStaff(price_staff);
-                    meal.setPriceGuests(price_guests);
-                    meal.setAllergens(allergens);
-                    meal.setAllergensSpelledOut(allergens_spelledout);
-                    meal.setBadge(badge);
-                    meal.setOrderInfo(order_info);
-                    meal.setTara(tara);
-
-                    if (!name.equals(Constants.NA)) {
-                        listMeals.add(meal);
-                    }
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        mSorter.sortMealsByOrderInfo(listMeals);
-        return listMeals;
-    }
-
-    private void handleVolleyError(VolleyError error) {
-        textVolleyError.setVisibility(View.VISIBLE);
-        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-            textVolleyError.setText(R.string.error_timeout);
-        } else if (error instanceof AuthFailureError) {
-            textVolleyError.setText(R.string.error_auth_failure);
-
-        } else if (error instanceof ServerError) {
-            textVolleyError.setText(R.string.error_server);
-
-        } else if (error instanceof NetworkError) {
-            textVolleyError.setText(R.string.error_network);
-
-        } else if (error instanceof ParseError) {
-            textVolleyError.setText(R.string.error_parse);
-        }
-    }
-
     public ArrayList<Meal> setUpAndFilterMealList(ArrayList<Meal> unfilteredMealList) {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String personCategory = SP.getString("prefPersonCategory", "1");
@@ -507,14 +273,5 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
 
         }
         return filteredMealList;
-    }
-
-    public String formatCurrency(String prize) {
-        double prizeDouble = Double.valueOf(prize);
-
-        Locale german = new Locale("de", "DE");
-        NumberFormat format = NumberFormat.getCurrencyInstance(german);
-
-        return format.format(prizeDouble);
     }
 }

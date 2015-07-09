@@ -24,6 +24,7 @@ import java.util.List;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
+import de.prttstft.materialmensa.services.MyService;
 import de.prttstft.materialmensa.views.Drawer;
 import de.prttstft.materialmensa.adapters.AdapterDrawer;
 
@@ -111,6 +112,7 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
                 if (!mUserLearnedDrawer) {
                     mUserLearnedDrawer = true;
                     saveToPreferences(getActivity(), KEY_USER_LEARNED_DRAWER, mUserLearnedDrawer + "");
+
                 }
 
                 getActivity().invalidateOptionsMenu();
