@@ -26,6 +26,15 @@ public class URLBuilder {
     public static final String URL_RESTAURANT_BISTROHOTSPOT = "bistro-hotspot";
 
     public static String getRequestUrl() {
+        return URL_API +
+                URL_CHAR_AMEPERSAND +
+                URL_PARAM_DATE +
+                URL_PARAM_TODAY
+                ;
+    }
+
+    /*
+    public static String getRequestUrl() {
         if (ActivityMain.mensaID == 1) {
             return URL_API
                     + URL_CHAR_AMEPERSAND
@@ -92,4 +101,5 @@ public class URLBuilder {
                     ;
         }
     }
+    */
 }

@@ -11,5 +11,6 @@ public interface Keys {
         String KEY_GUESTS = "priceGuests";
         String KEY_ALLERGENS = "allergens";
         String KEY_BADGE = "badges";
-    }
+        String KEY_RESTAURANT = "restaurant";
+     }
 }

@@ -22,6 +22,8 @@ public class Meal implements Parcelable {
     private int order_info;
     private boolean tara;
     Integer badgeIcon;
+    boolean starred;
+    int restaurant;
 
     public Meal() {
     }
@@ -37,7 +39,9 @@ public class Meal implements Parcelable {
                 String badge,
                 int order_info,
                 boolean tara,
-                Integer badgeIcon) {
+                Integer badgeIcon,
+                boolean starred,
+                int restaurant) {
         this.name = name;
         this.category = category;
         this.price_students = price_students;
@@ -50,6 +54,8 @@ public class Meal implements Parcelable {
         this.order_info = order_info;
         this.tara = tara;
         this.badgeIcon = badgeIcon;
+        this.starred = starred;
+        this.restaurant = restaurant;
     }
 
     public String getName() {
@@ -183,6 +189,22 @@ public class Meal implements Parcelable {
         this.badgeIcon = badgeIcon;
     }
 
+    public boolean getStarred() {
+        return starred;
+    }
+
+    public void setStarred(boolean starred) {
+        this.starred = starred;
+    }
+
+    public int getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(int restaurant) {
+        this.restaurant = restaurant;
+    }
+
     @Override
     public String toString() {
         return "\nName: " + name +
@@ -194,6 +216,56 @@ public class Meal implements Parcelable {
                 "\nBadge " + badge +
                 "\n";
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.category);
+        dest.writeString(this.price_students);
+        dest.writeString(this.price_staff);
+        dest.writeString(this.price_guests);
+        dest.writeString(this.priceOutput);
+        dest.writeStringList(this.allergens);
+        dest.writeStringList(this.allergens_spelledout);
+        dest.writeString(this.badge);
+        dest.writeInt(this.order_info);
+        dest.writeByte(tara ? (byte) 1 : (byte) 0);
+        dest.writeValue(this.badgeIcon);
+        dest.writeByte(starred ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.restaurant);
+    }
+
+    protected Meal(Parcel in) {
+        this.name = in.readString();
+        this.category = in.readString();
+        this.price_students = in.readString();
+        this.price_staff = in.readString();
+        this.price_guests = in.readString();
+        this.priceOutput = in.readString();
+        this.allergens = in.createStringArrayList();
+        this.allergens_spelledout = in.createStringArrayList();
+        this.badge = in.readString();
+        this.order_info = in.readInt();
+        this.tara = in.readByte() != 0;
+        this.badgeIcon = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.starred = in.readByte() != 0;
+        this.restaurant = in.readInt();
+    }
+
+    public static final Parcelable.Creator<Meal> CREATOR = new Parcelable.Creator<Meal>() {
+        public Meal createFromParcel(Parcel source) {
+            return new Meal(source);
+        }
+
+        public Meal[] newArray(int size) {
+            return new Meal[size];
+        }
+    };
 
     public boolean containsAllergens(String[] allergens) {
         List<String> myAllergens = getAllergens();
@@ -234,50 +306,4 @@ public class Meal implements Parcelable {
     public boolean isVegan() {
         return getBadge().equals("vegan");
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.name);
-        dest.writeString(this.category);
-        dest.writeString(this.price_students);
-        dest.writeString(this.price_staff);
-        dest.writeString(this.price_guests);
-        dest.writeString(this.priceOutput);
-        dest.writeStringList(this.allergens);
-        dest.writeStringList(this.allergens_spelledout);
-        dest.writeString(this.badge);
-        dest.writeInt(this.order_info);
-        dest.writeByte(tara ? (byte) 1 : (byte) 0);
-        dest.writeValue(this.badgeIcon);
-    }
-
-    protected Meal(Parcel in) {
-        this.name = in.readString();
-        this.category = in.readString();
-        this.price_students = in.readString();
-        this.price_staff = in.readString();
-        this.price_guests = in.readString();
-        this.priceOutput = in.readString();
-        this.allergens = in.createStringArrayList();
-        this.allergens_spelledout = in.createStringArrayList();
-        this.badge = in.readString();
-        this.order_info = in.readInt();
-        this.tara = in.readByte() != 0;
-        this.badgeIcon = (Integer) in.readValue(Integer.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<Meal> CREATOR = new Parcelable.Creator<Meal>() {
-        public Meal createFromParcel(Parcel source) {
-            return new Meal(source);
-        }
-
-        public Meal[] newArray(int size) {
-            return new Meal[size];
-        }
-    };
 }

@@ -89,9 +89,6 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
             listMeals = MyApplication.getWritableDatabase().getAllMeals();
             if (listMeals.size() == 0) {
                 new MyManualTask(getActivity()).execute();
-                if (listMeals.size()==0) {
-                    L.t(getActivity(), "Hö?");
-                }
             }
         }
 

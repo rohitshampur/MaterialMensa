@@ -26,6 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.prttstft.materialmensa.R;
+import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.extras.Constants;
 import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.extras.URLBuilder;
@@ -38,6 +39,7 @@ import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_CATEGORY;
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_GUESTS;
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_NAME_DE;
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_NAME_EN;
+import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_RESTAURANT;
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_STAFF;
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_STUDENTS;
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_TARA;
@@ -54,15 +56,9 @@ public class JSONHelper {
                 (String) null, requestFuture, requestFuture);
 
         requestQueue.add(request);
-        try
-
-        {
+        try {
             response = requestFuture.get(30000, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException | ExecutionException |
-                TimeoutException e
-                )
-
-        {
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
             L.m(e + "");
         }
 
@@ -80,7 +76,7 @@ public class JSONHelper {
                 for (int i = 0; i < response.length(); i++) {
                     String name = Constants.NA;
                     String category = Constants.NA;
-                    Boolean tara = false;
+                    boolean tara = false;
                     String price_students = Constants.NA;
                     String price_staff = Constants.NA;
                     String price_guests = Constants.NA;
@@ -90,6 +86,8 @@ public class JSONHelper {
                     int order_info = 0;
                     SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
                     String ls = SP.getString("prefLifestyle", "1");
+                    boolean starred = false;
+                    int restaurant = 0;
 
                     JSONObject currentMeal = response.getJSONObject(i);
 
@@ -107,13 +105,34 @@ public class JSONHelper {
                             case "dish-default":
                                 order_info = 1;
                                 break;
+                            case "quicklunch":
+                                order_info = 1;
+                                break;
+                            case "dish":
+                                order_info = 1;
+                                break;
+                            case "classic":
+                                order_info = 1;
+                                break;
                             case "dish-pasta":
+                                order_info = 2;
+                                break;
+                            case "happydinner":
+                                order_info = 2;
+                                break;
+                            case "appetizer":
                                 order_info = 2;
                                 break;
                             case "dish-wok":
                                 order_info = 3;
                                 break;
+                            case "classics-evening":
+                                order_info = 3;
+                                break;
                             case "dish-grill":
+                                order_info = 4;
+                                break;
+                            case "snacks":
                                 order_info = 4;
                                 break;
                             case "sidedish":
@@ -122,8 +141,17 @@ public class JSONHelper {
                             case "soups":
                                 order_info = 6;
                                 break;
-                            default:
+                            case "maincourses":
                                 order_info = 7;
+                                break;
+                            case "salads":
+                                order_info = 8;
+                                break;
+                            case "dessert":
+                                order_info = 9;
+                                break;
+                            default:
+                                order_info = 99;
                                 break;
                         }
                     }
@@ -148,11 +176,11 @@ public class JSONHelper {
                             Matcher matcher = pattern.matcher(arrayAllergens.getString(j));
                             if (matcher.find()) {
                                 allergens.add(arrayAllergens.getString(j));
-                                allergens_spelledout.add(getAdditives(arrayAllergens.getString(j),context));
+                                allergens_spelledout.add(getAdditives(arrayAllergens.getString(j), context));
 
                             } else {
                                 allergens.add(arrayAllergens.getString(j));
-                                allergens_spelledout.add(getAllergens(arrayAllergens.getString(j),context));
+                                allergens_spelledout.add(getAllergens(arrayAllergens.getString(j), context));
                             }
                         }
                     }
@@ -170,6 +198,10 @@ public class JSONHelper {
                         }
                     }
 
+                    if (currentMeal.has(KEY_RESTAURANT) && !currentMeal.isNull(KEY_RESTAURANT)) {
+                        restaurant = convertRestaurantNameToInt(currentMeal.getString(KEY_RESTAURANT));
+                    }
+
                     Meal meal = new Meal();
                     meal.setName(name);
                     meal.setCategory(category);
@@ -181,6 +213,8 @@ public class JSONHelper {
                     meal.setBadge(badge);
                     meal.setOrderInfo(order_info);
                     meal.setTara(tara);
+                    meal.setStarred(starred);
+                    meal.setRestaurant(restaurant);
 
                     if (!name.equals(Constants.NA)) {
                         listMeals.add(meal);
@@ -188,7 +222,7 @@ public class JSONHelper {
                 }
 
             } catch (JSONException e) {
-                e.printStackTrace();
+                L.m(e + "");
             }
         }
         mSorter.sortMealsByOrderInfo(listMeals);
@@ -258,6 +292,8 @@ public class JSONHelper {
                         break;
                 }
             }
+
+            if (ActivityMain.mensaID != nextMeal.getRestaurant()) isCleared = false;
 
             if (nextMeal.containsAllergens(selectedAllergens)) isCleared = false;
 
@@ -351,6 +387,33 @@ public class JSONHelper {
                 return context.getResources().getString(R.string.milkprotein);
             default:
                 return "";
+        }
+    }
+
+    private int convertRestaurantNameToInt(String restaurant) {
+        switch (restaurant) {
+            case "mensa-academica-paderborn":
+                return 0;
+            case "mensa-forum-paderborn":
+                return 1;
+            case "cafete":
+                return 2;
+            case "grill-cafe":
+                return 3;
+            case "campus-doener":
+                return 4;
+            case "one-way-snack":
+                return 5;
+            case "mensula":
+                return 6;
+            case "mensa-hamm":
+                return 7;
+            case "mensa-lippstadt":
+                return 8;
+            case "bistro-hotspot1":
+                return 9;
+            default:
+                return 10;
         }
     }
 }

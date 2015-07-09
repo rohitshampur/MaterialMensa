@@ -31,7 +31,9 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
             COLUMN_BADGE = "badge",
             COLUMN_ORDER_INFO = "order_info",
             COLUMN_TARA = "tara",
-            COLUMN_BADGE_ICON = "badge_icon";
+            COLUMN_BADGE_ICON = "badge_icon",
+            COLUMN_STARRED = "starred",
+            COLUMN_RESTAURANT = "restaurant";
 
 
     public DatabaseHandlerMeals(Context context) {
@@ -53,7 +55,9 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
                 COLUMN_BADGE + " TEXT," +
                 COLUMN_ORDER_INFO + " INTEGER," +
                 COLUMN_TARA + " INTEGER," +
-                COLUMN_BADGE_ICON + " INTEGER" +
+                COLUMN_BADGE_ICON + " INTEGER," +
+                COLUMN_STARRED + " INTEGER," +
+                COLUMN_RESTAURANT + " INTEGER" +
                 ")");
     }
 
@@ -94,6 +98,8 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
         values.put(COLUMN_ORDER_INFO, meal.getOrderInfo());
         values.put(COLUMN_TARA, convertBooleanToInt(meal.getTara()));
         values.put(COLUMN_BADGE_ICON, meal.getBadgeIcon());
+        values.put(COLUMN_STARRED, convertBooleanToInt(meal.getStarred()));
+        values.put(COLUMN_RESTAURANT, meal.getRestaurant());
 
         db.insert(TABLE_TODAY, null, values);
         db.close();
@@ -102,7 +108,7 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
     public Meal getMeal(int id) {
         SQLiteDatabase db = getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_TODAY, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_CATEGORY, COLUMN_PRICE_STUDENTS, COLUMN_PRICE_STAFF, COLUMN_PRICE_GUESTS, COLUMN_PRICE_OUTPUT, COLUMN_ALLERGENS, COLUMN_ALLERGENS_FULL, COLUMN_BADGE, COLUMN_ORDER_INFO, COLUMN_TARA, String.valueOf(COLUMN_BADGE_ICON)}, COLUMN_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
+        Cursor cursor = db.query(TABLE_TODAY, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_CATEGORY, COLUMN_PRICE_STUDENTS, COLUMN_PRICE_STAFF, COLUMN_PRICE_GUESTS, COLUMN_PRICE_OUTPUT, COLUMN_ALLERGENS, COLUMN_ALLERGENS_FULL, COLUMN_BADGE, COLUMN_ORDER_INFO, COLUMN_TARA, String.valueOf(COLUMN_BADGE_ICON), COLUMN_STARRED, String.valueOf(COLUMN_RESTAURANT)}, COLUMN_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
 
 
         if (cursor != null) {
@@ -119,8 +125,10 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
                 convertStringToList(cursor.getString(8)), // allergens_full
                 cursor.getString(9), // badge
                 Integer.parseInt(cursor.getString(10)), // order_info
-                convertInToBoolean(Integer.parseInt(cursor.getString(11))), // tara
-                Integer.parseInt(cursor.getString(12))
+                convertIntToBoolean(Integer.parseInt(cursor.getString(11))), // tara
+                Integer.parseInt(cursor.getString(12)), // badge icon
+                convertIntToBoolean(Integer.parseInt(cursor.getString(13))), // starred
+                Integer.parseInt(cursor.getString(14)) // restaurant
         );
 
         db.close();
@@ -165,6 +173,8 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
         values.put(COLUMN_ORDER_INFO, meal.getOrderInfo());
         values.put(COLUMN_TARA, convertBooleanToInt(meal.getTara()));
         values.put(COLUMN_BADGE_ICON, meal.getBadgeIcon());
+        values.put(COLUMN_STARRED, convertBooleanToInt(meal.getStarred()));
+        values.put(COLUMN_RESTAURANT, meal.getRestaurant());
 
         return db.update(TABLE_TODAY, values, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
     }
@@ -187,8 +197,10 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
                         convertStringToList(cursor.getString(8)), // allergens_full
                         cursor.getString(9), // badge
                         Integer.parseInt(cursor.getString(10)), // order_info
-                        convertInToBoolean(Integer.parseInt(cursor.getString(11))), // tara
-                        Integer.parseInt(cursor.getString(12)) // badgeIcon
+                        convertIntToBoolean(Integer.parseInt(cursor.getString(11))), // tara
+                        Integer.parseInt(cursor.getString(12)), // badge icon
+                        convertIntToBoolean(Integer.parseInt(cursor.getString(13))), // starred
+                        Integer.parseInt(cursor.getString(14)) // restaurant
                 );
                 meals.add(meal);
             } while (cursor.moveToNext());
@@ -240,7 +252,7 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
     /**
      * This Method takes an int and converts it into an Boolean.
      */
-    private boolean convertInToBoolean(int input) {
+    private boolean convertIntToBoolean(int input) {
         return input == 1;
     }
 }
