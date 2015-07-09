@@ -49,9 +49,6 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
 
         holder.meal_name.setText(currentMeal.getName());
         holder.meal_typeicon.setImageResource(currentMeal.getBadgeIcon());
-        L.m("Logtag | " + "Name: " + String.valueOf(currentMeal.getName()));
-        L.m("Logtag | " + "Price Students: " + String.valueOf(currentMeal.getPriceStudents()));
-        L.m("Logtag | " + "Price Output: " + String.valueOf(currentMeal.getPriceOutput()));
         holder.meal_price.setText(currentMeal.getPriceOutput());
 
         holder.meal_item.setBackgroundResource(isSelected(position) ? R.drawable.custom_bg_selected : R.drawable.custom_bg);
