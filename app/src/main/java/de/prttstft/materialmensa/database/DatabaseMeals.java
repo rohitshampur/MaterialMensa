@@ -15,10 +15,11 @@ import java.util.List;
 
 import de.prttstft.materialmensa.pojo.Meal;
 
-public class DatabaseHandlerMeals extends SQLiteOpenHelper {
+public class DatabaseMeals extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "mealDB",
             TABLE_TODAY = "today",
+            TABLE_STARRED = "starred",
             COLUMN_ID = "_id",
             COLUMN_NAME = "name",
             COLUMN_CATEGORY = "category",
@@ -33,10 +34,11 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
             COLUMN_TARA = "tara",
             COLUMN_BADGE_ICON = "badge_icon",
             COLUMN_STARRED = "starred",
-            COLUMN_RESTAURANT = "restaurant";
+            COLUMN_RESTAURANT = "restaurant",
+            COLUMN_DATE = "meal_date";
 
 
-    public DatabaseHandlerMeals(Context context) {
+    public DatabaseMeals(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -57,21 +59,33 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
                 COLUMN_TARA + " INTEGER," +
                 COLUMN_BADGE_ICON + " INTEGER," +
                 COLUMN_STARRED + " INTEGER," +
-                COLUMN_RESTAURANT + " INTEGER" +
+                COLUMN_RESTAURANT + " INTEGER," +
+                COLUMN_DATE + " TEXT" +
+                ", UNIQUE(" +
+                COLUMN_NAME + ", " +
+                COLUMN_CATEGORY + ", " +
+                COLUMN_RESTAURANT + ", " +
+                COLUMN_DATE +
+                ") ON CONFLICT IGNORE" +
                 ")");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TODAY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_STARRED);
 
         onCreate(db);
     }
 
+    public void deleteAll() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_TODAY, null, null);
+    }
+
     public void insertMeals(ArrayList<Meal> meals, boolean clearPrevious, Context context) {
         if (clearPrevious) {
-            context.deleteDatabase("mealDB");
-            context.deleteDatabase("mealDB.db");
+            deleteAll();
         }
 
 
@@ -100,6 +114,7 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
         values.put(COLUMN_BADGE_ICON, meal.getBadgeIcon());
         values.put(COLUMN_STARRED, convertBooleanToInt(meal.getStarred()));
         values.put(COLUMN_RESTAURANT, meal.getRestaurant());
+        values.put(COLUMN_DATE, meal.getDate());
 
         db.insert(TABLE_TODAY, null, values);
         db.close();
@@ -108,7 +123,7 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
     public Meal getMeal(int id) {
         SQLiteDatabase db = getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_TODAY, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_CATEGORY, COLUMN_PRICE_STUDENTS, COLUMN_PRICE_STAFF, COLUMN_PRICE_GUESTS, COLUMN_PRICE_OUTPUT, COLUMN_ALLERGENS, COLUMN_ALLERGENS_FULL, COLUMN_BADGE, COLUMN_ORDER_INFO, COLUMN_TARA, String.valueOf(COLUMN_BADGE_ICON), COLUMN_STARRED, String.valueOf(COLUMN_RESTAURANT)}, COLUMN_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
+        Cursor cursor = db.query(TABLE_TODAY, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_CATEGORY, COLUMN_PRICE_STUDENTS, COLUMN_PRICE_STAFF, COLUMN_PRICE_GUESTS, COLUMN_PRICE_OUTPUT, COLUMN_ALLERGENS, COLUMN_ALLERGENS_FULL, COLUMN_BADGE, COLUMN_ORDER_INFO, COLUMN_TARA, String.valueOf(COLUMN_BADGE_ICON), COLUMN_STARRED, String.valueOf(COLUMN_RESTAURANT), COLUMN_DATE,}, COLUMN_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
 
 
         if (cursor != null) {
@@ -128,7 +143,8 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
                 convertIntToBoolean(Integer.parseInt(cursor.getString(11))), // tara
                 Integer.parseInt(cursor.getString(12)), // badge icon
                 convertIntToBoolean(Integer.parseInt(cursor.getString(13))), // starred
-                Integer.parseInt(cursor.getString(14)) // restaurant
+                Integer.parseInt(cursor.getString(14)), // restaurant
+                cursor.getString(15) // date
         );
 
         db.close();
@@ -175,6 +191,7 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
         values.put(COLUMN_BADGE_ICON, meal.getBadgeIcon());
         values.put(COLUMN_STARRED, convertBooleanToInt(meal.getStarred()));
         values.put(COLUMN_RESTAURANT, meal.getRestaurant());
+        values.put(COLUMN_DATE, meal.getDate());
 
         return db.update(TABLE_TODAY, values, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
     }
@@ -200,7 +217,8 @@ public class DatabaseHandlerMeals extends SQLiteOpenHelper {
                         convertIntToBoolean(Integer.parseInt(cursor.getString(11))), // tara
                         Integer.parseInt(cursor.getString(12)), // badge icon
                         convertIntToBoolean(Integer.parseInt(cursor.getString(13))), // starred
-                        Integer.parseInt(cursor.getString(14)) // restaurant
+                        Integer.parseInt(cursor.getString(14)), // restaurant
+                        cursor.getString(15) // date
                 );
                 meals.add(meal);
             } while (cursor.moveToNext());

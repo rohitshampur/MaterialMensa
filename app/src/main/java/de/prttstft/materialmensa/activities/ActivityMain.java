@@ -14,17 +14,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-import de.prttstft.materialmensa.database.DatabaseHandlerMeals;
 import de.prttstft.materialmensa.logging.L;
-import de.prttstft.materialmensa.pojo.Contact;
-import de.prttstft.materialmensa.pojo.Meal;
 import de.prttstft.materialmensa.services.MyService;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -60,7 +54,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         today = df.format(c.getTime());
-        //today = "2015-06-15";
+
 
         Calendar d = Calendar.getInstance();
         d.add(Calendar.DAY_OF_YEAR, 1);
@@ -105,7 +99,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
 
     private void constructJob() {
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, MyService.class));
-        //builder.setPeriodic(2000)
+        //builder.setPeriodic(1000)
         builder.setPeriodic(86400000)
                 //.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED);
                 .setPersisted(true);

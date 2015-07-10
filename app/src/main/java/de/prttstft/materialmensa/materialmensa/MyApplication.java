@@ -5,11 +5,11 @@ import android.content.Context;
 
 import com.squareup.otto.Bus;
 
-import de.prttstft.materialmensa.database.DatabaseHandlerMeals;
+import de.prttstft.materialmensa.database.DatabaseMeals;
 
 public class MyApplication extends Application {
     private static MyApplication sInstance;
-    private static DatabaseHandlerMeals mDatabase;
+    private static DatabaseMeals mDatabase;
     private static Bus bus;
 
     @Override
@@ -33,9 +33,9 @@ public class MyApplication extends Application {
         return sInstance.getApplicationContext();
     }
 
-    public synchronized static DatabaseHandlerMeals getWritableDatabase() {
+    public synchronized static DatabaseMeals getWritableDatabase() {
         if (mDatabase == null) {
-            mDatabase = new DatabaseHandlerMeals(getAppContext());
+            mDatabase = new DatabaseMeals(getAppContext());
         }
         return mDatabase;
     }

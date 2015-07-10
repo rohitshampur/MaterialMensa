@@ -14,8 +14,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -36,6 +39,7 @@ import de.prttstft.materialmensa.pojo.Meal;
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_ALLERGENS;
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_BADGE;
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_CATEGORY;
+import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_DATE;
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_GUESTS;
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_NAME_DE;
 import static de.prttstft.materialmensa.extras.Keys.EndpointToday.KEY_NAME_EN;
@@ -50,9 +54,8 @@ public class JSONHelper {
         JSONArray response = null;
         RequestFuture<JSONArray> requestFuture = RequestFuture.newFuture();
 
-
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
-                URLBuilder.getRequestUrl(),
+                URLBuilder.getRequestUrl(1),
                 (String) null, requestFuture, requestFuture);
 
         requestQueue.add(request);
@@ -88,6 +91,7 @@ public class JSONHelper {
                     String ls = SP.getString("prefLifestyle", "1");
                     boolean starred = false;
                     int restaurant = 0;
+                    String date = Constants.NA;
 
                     JSONObject currentMeal = response.getJSONObject(i);
 
@@ -202,6 +206,10 @@ public class JSONHelper {
                         restaurant = convertRestaurantNameToInt(currentMeal.getString(KEY_RESTAURANT));
                     }
 
+                    if (currentMeal.has(KEY_DATE) && !currentMeal.isNull(KEY_DATE)) {
+                        date = currentMeal.getString(KEY_DATE);
+                    }
+
                     Meal meal = new Meal();
                     meal.setName(name);
                     meal.setCategory(category);
@@ -215,6 +223,7 @@ public class JSONHelper {
                     meal.setTara(tara);
                     meal.setStarred(starred);
                     meal.setRestaurant(restaurant);
+                    meal.setDate(date);
 
                     if (!name.equals(Constants.NA)) {
                         listMeals.add(meal);
@@ -294,6 +303,8 @@ public class JSONHelper {
             }
 
             if (ActivityMain.mensaID != nextMeal.getRestaurant()) isCleared = false;
+
+            if (!nextMeal.getDate().equals(ActivityMain.today)) isCleared = false;
 
             if (nextMeal.containsAllergens(selectedAllergens)) isCleared = false;
 
@@ -415,5 +426,16 @@ public class JSONHelper {
             default:
                 return 10;
         }
+    }
+
+    private Date convertStringtoDate(String inputDate) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+        Date outputDate = null;
+        try {
+            outputDate = formatter.parse(inputDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return outputDate;
     }
 }

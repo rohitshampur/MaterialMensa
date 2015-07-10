@@ -17,13 +17,22 @@
         android:id="@+id/loadingPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:gravity="center" >
+        android:gravity="center"
+        android:visibility="gone">
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/emptyMealListErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/emptyMealListErrorMessage"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:visibility="gone" />
 
 </FrameLayout>

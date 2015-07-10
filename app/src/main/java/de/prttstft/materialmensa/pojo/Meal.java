@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.prttstft.materialmensa.R;
@@ -24,6 +25,7 @@ public class Meal implements Parcelable {
     Integer badgeIcon;
     boolean starred;
     int restaurant;
+    String date;
 
     public Meal() {
     }
@@ -41,7 +43,8 @@ public class Meal implements Parcelable {
                 boolean tara,
                 Integer badgeIcon,
                 boolean starred,
-                int restaurant) {
+                int restaurant,
+                String date) {
         this.name = name;
         this.category = category;
         this.price_students = price_students;
@@ -56,6 +59,7 @@ public class Meal implements Parcelable {
         this.badgeIcon = badgeIcon;
         this.starred = starred;
         this.restaurant = restaurant;
+        this.date = date;
     }
 
     public String getName() {
@@ -205,6 +209,14 @@ public class Meal implements Parcelable {
         this.restaurant = restaurant;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
     @Override
     public String toString() {
         return "\nName: " + name +
@@ -238,6 +250,7 @@ public class Meal implements Parcelable {
         dest.writeValue(this.badgeIcon);
         dest.writeByte(starred ? (byte) 1 : (byte) 0);
         dest.writeInt(this.restaurant);
+        dest.writeString(this.date);
     }
 
     protected Meal(Parcel in) {
@@ -255,9 +268,11 @@ public class Meal implements Parcelable {
         this.badgeIcon = (Integer) in.readValue(Integer.class.getClassLoader());
         this.starred = in.readByte() != 0;
         this.restaurant = in.readInt();
+        long tmpDate = in.readLong();
+        this.date = in.readString();
     }
 
-    public static final Parcelable.Creator<Meal> CREATOR = new Parcelable.Creator<Meal>() {
+    public static final Creator<Meal> CREATOR = new Creator<Meal>() {
         public Meal createFromParcel(Parcel source) {
             return new Meal(source);
         }

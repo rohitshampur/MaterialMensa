@@ -34,6 +34,7 @@ public class MyManualTask extends AsyncTask<Void, Void, ArrayList<Meal>> {
         JSONArray response = jsonHelper.sendJsonRequest(requestQueue);
         ArrayList<Meal> listMeals = jsonHelper.parseJSONResponse(response, context);
 
+        //MyApplication.getWritableDatabase().insertMeals(listMeals, false, context);
         MyApplication.getWritableDatabase().insertMeals(listMeals, false, context);
         return listMeals;
     }

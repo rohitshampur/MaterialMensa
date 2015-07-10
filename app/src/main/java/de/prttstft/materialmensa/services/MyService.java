@@ -67,6 +67,7 @@ public class MyService extends JobService {
             ArrayList<Meal> listMeals = jsonHelper.parseJSONResponse(response, getApplicationContext());
 
             MyApplication.getWritableDatabase().insertMeals(listMeals, false, getApplicationContext());
+            //MyApplication.getWritableDatabase().insertMeals(listMeals, true, getApplicationContext());
             return params[0];
         }
 

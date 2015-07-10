@@ -171,4 +171,10 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
         //ToDo: Strings!
         return "No Meals Selected";
     }
+
+    public boolean isEmpty() {
+        return this.items.size() == 0;
+    }
+
+
 }

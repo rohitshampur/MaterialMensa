@@ -1,9 +1,7 @@
 package de.prttstft.materialmensa.fragments;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -16,8 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -25,9 +23,8 @@ import java.util.ArrayList;
 
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.adapters.Adapter;
-import de.prttstft.materialmensa.database.DatabaseHandlerMeals;
+import de.prttstft.materialmensa.database.DatabaseMeals;
 import de.prttstft.materialmensa.events.MealsLoadedEvent;
-import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.json.JSONHelper;
 import de.prttstft.materialmensa.materialmensa.MyApplication;
 import de.prttstft.materialmensa.pojo.Meal;
@@ -37,12 +34,13 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     private static final String STATE_MEALS = "state_meals";
     public ArrayList<Meal> listMeals = new ArrayList<>();
     private RelativeLayout progressBar;
+    private TextView emptyMealListErrorMessage;
     private Adapter adapter;
     private ActionModeCallback actionModeCallback = new ActionModeCallback();
     private ActionMode actionMode;
     private Bus bus;
 
-    DatabaseHandlerMeals dbHandler;
+    DatabaseMeals dbHandler;
 
     public static FragmentToday newInstance() {
         return new FragmentToday();
@@ -69,6 +67,7 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         View view = inflater.inflate(R.layout.fragment_today, container, false);
 
         progressBar = (RelativeLayout) view.findViewById(R.id.loadingPanel);
+        emptyMealListErrorMessage = (TextView) view.findViewById(R.id.emptyMealListErrorMessage);
 
         JSONHelper jsonHelper = new JSONHelper();
         adapter = new Adapter(this);
@@ -79,18 +78,18 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        dbHandler = new DatabaseHandlerMeals(getActivity());
-
+        dbHandler = new DatabaseMeals(getActivity());
 
         if (savedInstanceState != null) {
             listMeals = savedInstanceState.getParcelableArrayList(STATE_MEALS);
+
         } else {
             listMeals = MyApplication.getWritableDatabase().getAllMeals();
             if (listMeals.size() == 0) {
                 new MyManualTask(getActivity()).execute();
             }
 
-            if (dbHandler.getMealsCount()>0) {
+            if (dbHandler.getMealsCount() > 0) {
                 progressBar.setVisibility(View.GONE);
             } else {
                 progressBar.setVisibility(View.VISIBLE);

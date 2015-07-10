@@ -213,6 +213,7 @@
     <string name="caffeine">Caffeine [13]</string>
     <string name="quinine">Quinine [14]</string>
     <string name="milkprotein">Milk protein [15]</string>
+    <string name="emptyMealListErrorMessage">This restaurant is closed.</string>
 
 
 </resources>
