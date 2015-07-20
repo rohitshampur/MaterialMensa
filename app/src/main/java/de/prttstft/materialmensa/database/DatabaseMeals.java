@@ -13,6 +13,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.pojo.Meal;
 
 public class DatabaseMeals extends SQLiteOpenHelper {
@@ -80,14 +81,15 @@ public class DatabaseMeals extends SQLiteOpenHelper {
 
     public void deleteAll() {
         SQLiteDatabase db = this.getWritableDatabase();
+        L.m("LOGGY: " + "BEFORE TABLE DROP: " + getAllMeals().toString());
         db.delete(TABLE_TODAY, null, null);
+        L.m("LOGGY: " + "AFTER TABLE DROP: " + getAllMeals().toString());
     }
 
     public void insertMeals(ArrayList<Meal> meals, boolean clearPrevious, Context context) {
         if (clearPrevious) {
             deleteAll();
         }
-
 
         for (int i = 0; i < meals.size(); i++) {
             createMeal(meals.get(i));
@@ -117,7 +119,8 @@ public class DatabaseMeals extends SQLiteOpenHelper {
         values.put(COLUMN_DATE, meal.getDate());
 
         db.insert(TABLE_TODAY, null, values);
-        db.close();
+        //db.close();
+        closeDB();
     }
 
     public Meal getMeal(int id) {
@@ -147,8 +150,9 @@ public class DatabaseMeals extends SQLiteOpenHelper {
                 cursor.getString(15) // date
         );
 
-        db.close();
-        cursor.close();
+        //db.close();
+        closeDB();
+        //cursor.close();
 
         return meal;
     }
@@ -158,7 +162,8 @@ public class DatabaseMeals extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         db.delete(TABLE_TODAY, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
-        db.close();
+        //db.close();
+        closeDB();
     }
 
     public int getMealsCount() {
@@ -167,8 +172,9 @@ public class DatabaseMeals extends SQLiteOpenHelper {
 
         int count = cursor.getCount();
 
-        db.close();
-        cursor.close();
+        //db.close();
+        closeDB();
+        //cursor.close();
 
         return count;
     }
@@ -224,10 +230,17 @@ public class DatabaseMeals extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        db.close();
-        cursor.close();
+        //db.close();
+        closeDB();
+        //cursor.close();
 
         return meals;
+    }
+
+    public void closeDB() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen())
+            db.close();
     }
 
     /**

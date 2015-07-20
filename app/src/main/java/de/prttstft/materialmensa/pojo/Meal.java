@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import de.prttstft.materialmensa.R;
+import de.prttstft.materialmensa.activities.ActivityMain;
 
 public class Meal implements Parcelable {
     private String name;
@@ -320,5 +321,9 @@ public class Meal implements Parcelable {
 
     public boolean isVegan() {
         return getBadge().equals("vegan");
+    }
+
+    public boolean isToday() {
+        return getDate().equals(ActivityMain.today);
     }
 }

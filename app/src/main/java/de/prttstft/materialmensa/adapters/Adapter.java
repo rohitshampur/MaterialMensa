@@ -47,9 +47,10 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Meal currentMeal = items.get(position);
 
-        holder.meal_name.setText(currentMeal.getName());
+        holder.meal_name.setText(currentMeal.getName() + "(" + currentMeal.getRestaurant() + ")");
         holder.meal_typeicon.setImageResource(currentMeal.getBadgeIcon());
-        holder.meal_price.setText(currentMeal.getPriceOutput());
+        //holder.meal_price.setText(currentMeal.getPriceOutput());
+        holder.meal_price.setText("Date: " + currentMeal.getDate() + " MensaID: " + ActivityMain.mensaID);
 
         holder.meal_item.setBackgroundResource(isSelected(position) ? R.drawable.custom_bg_selected : R.drawable.custom_bg);
 

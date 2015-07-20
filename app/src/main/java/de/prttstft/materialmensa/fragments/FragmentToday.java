@@ -25,7 +25,10 @@ import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.adapters.Adapter;
 import de.prttstft.materialmensa.database.DatabaseMeals;
 import de.prttstft.materialmensa.events.MealsLoadedEvent;
+import de.prttstft.materialmensa.extras.DateHelper;
+import de.prttstft.materialmensa.extras.URLBuilder;
 import de.prttstft.materialmensa.json.JSONHelper;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.materialmensa.MyApplication;
 import de.prttstft.materialmensa.pojo.Meal;
 import de.prttstft.materialmensa.tasks.MyManualTask;
@@ -39,14 +42,16 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     private ActionModeCallback actionModeCallback = new ActionModeCallback();
     private ActionMode actionMode;
     private Bus bus;
+    public static int currentTab = 0;
 
     DatabaseMeals dbHandler;
 
     public static FragmentToday newInstance() {
-        return new FragmentToday();
+        return new FragmentToday(0);
     }
 
-    public FragmentToday() {
+    public FragmentToday(int newTab) {
+        currentTab = newTab;
     }
 
     @Override

@@ -15,10 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-import de.prttstft.materialmensa.logging.L;
+import de.prttstft.materialmensa.extras.DateHelper;
 import de.prttstft.materialmensa.services.MyService;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -36,11 +33,23 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
     private MaterialTabHost tabHost;
     private ViewPager mPager;
     private JobScheduler mJobScheduler;
-    public static final int DAYS_TODAY = 0;
-    public static final int DAYS_TOMORROW = 1;
+    public static final int DAYS_ONE = 0;
+    public static final int DAYS_TWO = 1;
+    public static final int DAYS_THREE = 2;
+    public static final int DAYS_FOUR = 3;
+    public static final int DAYS_FIVE = 4;
+    public static final int DAYS_SIX = 5;
+    public static final int DAYS_SEVEN = 6;
+    public static final int DAYS_EIGHT = 7;
     public static int mensaID = 0;
     public static String today;
     public static String tomorrow;
+    public static String todayPlus2;
+    public static String todayPlus3;
+    public static String todayPlus4;
+    public static String todayPlus5;
+    public static String todayPlus6;
+    public static int currentTab;
     Context context;
 
     @Override
@@ -50,16 +59,11 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         mJobScheduler = JobScheduler.getInstance(this);
         constructJob();
 
-        // Calendar
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        today = df.format(c.getTime());
+        //Calendar Test
+        DateHelper dateHelper = new DateHelper();
 
-
-        Calendar d = Calendar.getInstance();
-        d.add(Calendar.DAY_OF_YEAR, 1);
-        SimpleDateFormat dfd = new SimpleDateFormat("yyyy-MM-dd");
-        tomorrow = dfd.format(d.getTime());
+        today = dateHelper.getDate();
+        tomorrow = dateHelper.getDate(1);
 
         // Adding the Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
@@ -101,7 +105,7 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, MyService.class));
         //builder.setPeriodic(1000)
         builder.setPeriodic(86400000)
-                //.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED);
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
                 .setPersisted(true);
         mJobScheduler.schedule(builder.build());
     }
@@ -192,26 +196,46 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
         }
 
         public Fragment getItem(int num) {
-            Fragment fragment = null;
+            //Fragment fragment = null;
+            //fragment = FragmentToday.newInstance();
             switch (num) {
-                case DAYS_TODAY:
-                    fragment = FragmentToday.newInstance();
-                    break;
-                case DAYS_TOMORROW:
-                    fragment = FragmentTomorrow.newInstance("", "");
-                    break;
+                default:
+                    FragmentToday fragment0 = new FragmentToday(0);
+                case DAYS_TWO:
+                    FragmentToday fragment1 = new FragmentToday(1);
+                    return fragment1;
+                case DAYS_THREE:
+                    FragmentToday fragment2 = new FragmentToday(2);
+                    return fragment2;
+                case DAYS_FOUR:
+                    FragmentToday fragment3 = new FragmentToday(3);
+                    return fragment3;
+                case DAYS_FIVE:
+                    FragmentToday fragment4 = new FragmentToday(4);
+                    return fragment4;
+                case DAYS_SIX:
+                    FragmentToday fragment5 = new FragmentToday(5);
+                    return fragment5;
+                case DAYS_SEVEN:
+                    FragmentToday fragment6 = new FragmentToday(6);
+                    return fragment6;
+                case DAYS_EIGHT:
+                    //fragment = FragmentTomorrow.newInstance("", "");
+                    FragmentToday fragment7 = new FragmentToday(7);
+                    return fragment7;
             }
-            return fragment;
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 8;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return getResources().getStringArray(R.array.tabs)[position];
+            //return getResources().getStringArray(R.array.tabs)[position];
+            DateHelper dateHelper = new DateHelper();
+            return dateHelper.getDay(position);
         }
     }
 }

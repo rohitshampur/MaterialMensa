@@ -31,8 +31,10 @@ import java.util.regex.Pattern;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.extras.Constants;
+import de.prttstft.materialmensa.extras.DateHelper;
 import de.prttstft.materialmensa.extras.MealSorter;
 import de.prttstft.materialmensa.extras.URLBuilder;
+import de.prttstft.materialmensa.fragments.FragmentToday;
 import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.pojo.Meal;
 
@@ -55,12 +57,13 @@ public class JSONHelper {
         RequestFuture<JSONArray> requestFuture = RequestFuture.newFuture();
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
-                URLBuilder.getRequestUrl(1),
+                URLBuilder.getRequestUrl(),
                 (String) null, requestFuture, requestFuture);
 
         requestQueue.add(request);
+
         try {
-            response = requestFuture.get(30000, TimeUnit.MILLISECONDS);
+            response = requestFuture.get(30, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             L.m(e + "");
         }
@@ -239,6 +242,7 @@ public class JSONHelper {
     }
 
     public ArrayList<Meal> setUpAndFilterMealList(ArrayList<Meal> unfilteredMealList, Context context) {
+        DateHelper dateHelper = new DateHelper();
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
         String personCategory = SP.getString("prefPersonCategory", "1");
         String lifeStyle = SP.getString("prefLifestyle", "1");
@@ -304,7 +308,11 @@ public class JSONHelper {
 
             if (ActivityMain.mensaID != nextMeal.getRestaurant()) isCleared = false;
 
-            if (!nextMeal.getDate().equals(ActivityMain.today)) isCleared = false;
+            //if (!nextMeal.getDate().equals(dateHelper.getDate())) isCleared = false;
+
+            if (!nextMeal.getDate().equals(dateHelper.getDate(FragmentToday.currentTab))) {
+                isCleared = false;
+            }
 
             if (nextMeal.containsAllergens(selectedAllergens)) isCleared = false;
 
@@ -421,7 +429,7 @@ public class JSONHelper {
                 return 7;
             case "mensa-lippstadt":
                 return 8;
-            case "bistro-hotspot1":
+            case "bistro-hotspot":
                 return 9;
             default:
                 return 10;
