@@ -119,8 +119,8 @@ public class DatabaseMeals extends SQLiteOpenHelper {
         values.put(COLUMN_DATE, meal.getDate());
 
         db.insert(TABLE_TODAY, null, values);
-        //db.close();
-        closeDB();
+        db.close();
+        //closeDB();
     }
 
     public Meal getMeal(int id) {
@@ -150,9 +150,9 @@ public class DatabaseMeals extends SQLiteOpenHelper {
                 cursor.getString(15) // date
         );
 
-        //db.close();
-        closeDB();
-        //cursor.close();
+        db.close();
+        //closeDB();
+        cursor.close();
 
         return meal;
     }
@@ -162,8 +162,8 @@ public class DatabaseMeals extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         db.delete(TABLE_TODAY, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
-        //db.close();
-        closeDB();
+        db.close();
+        //closeDB();
     }
 
     public int getMealsCount() {
@@ -172,9 +172,9 @@ public class DatabaseMeals extends SQLiteOpenHelper {
 
         int count = cursor.getCount();
 
-        //db.close();
-        closeDB();
-        //cursor.close();
+        db.close();
+        //closeDB();
+        cursor.close();
 
         return count;
     }
@@ -230,9 +230,9 @@ public class DatabaseMeals extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        //db.close();
-        closeDB();
-        //cursor.close();
+        db.close();
+        //closeDB();
+        cursor.close();
 
         return meals;
     }

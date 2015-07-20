@@ -19,6 +19,7 @@ import java.util.Set;
 import de.prttstft.materialmensa.R;
 import de.prttstft.materialmensa.activities.ActivityMain;
 import de.prttstft.materialmensa.adapterExtras.SelectableAdapter;
+import de.prttstft.materialmensa.fragments.FragmentToday;
 import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.pojo.Meal;
 
@@ -50,7 +51,7 @@ public class Adapter extends SelectableAdapter<Adapter.ViewHolder> {
         holder.meal_name.setText(currentMeal.getName() + "(" + currentMeal.getRestaurant() + ")");
         holder.meal_typeicon.setImageResource(currentMeal.getBadgeIcon());
         //holder.meal_price.setText(currentMeal.getPriceOutput());
-        holder.meal_price.setText("Date: " + currentMeal.getDate() + " MensaID: " + ActivityMain.mensaID);
+        holder.meal_price.setText("Date: " + currentMeal.getDate() + " MensaID: " + ActivityMain.mensaID + " currentTab: " + FragmentToday.currentTab);
 
         holder.meal_item.setBackgroundResource(isSelected(position) ? R.drawable.custom_bg_selected : R.drawable.custom_bg);
 

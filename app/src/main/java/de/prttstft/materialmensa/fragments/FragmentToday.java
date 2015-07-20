@@ -42,16 +42,15 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     private ActionModeCallback actionModeCallback = new ActionModeCallback();
     private ActionMode actionMode;
     private Bus bus;
-    public static int currentTab = 0;
+    public static int currentTab;
 
     DatabaseMeals dbHandler;
 
     public static FragmentToday newInstance() {
-        return new FragmentToday(0);
+        return new FragmentToday();
     }
 
-    public FragmentToday(int newTab) {
-        currentTab = newTab;
+    public FragmentToday() {
     }
 
     @Override
@@ -70,6 +69,9 @@ public class FragmentToday extends Fragment implements Adapter.ViewHolder.ClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today, container, false);
+        Bundle bundle = getArguments();
+        currentTab = bundle.getInt("KEY");
+        L.m("LOGGY: " + currentTab);
 
         progressBar = (RelativeLayout) view.findViewById(R.id.loadingPanel);
         emptyMealListErrorMessage = (TextView) view.findViewById(R.id.emptyMealListErrorMessage);

@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import de.prttstft.materialmensa.extras.DateHelper;
+import de.prttstft.materialmensa.logging.L;
 import de.prttstft.materialmensa.services.MyService;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -44,13 +45,6 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
     public static int mensaID = 0;
     public static String today;
     public static String tomorrow;
-    public static String todayPlus2;
-    public static String todayPlus3;
-    public static String todayPlus4;
-    public static String todayPlus5;
-    public static String todayPlus6;
-    public static int currentTab;
-    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,6 +185,14 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
 
     private class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
+        private FragmentToday createFragment(int newTab) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("KEY", newTab);
+            FragmentToday fragmentToday = new FragmentToday();
+            fragmentToday.setArguments(bundle);
+            return fragmentToday;
+        }
+
         public ViewPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
@@ -200,29 +202,25 @@ public class ActivityMain extends AppCompatActivity implements MaterialTabListen
             //fragment = FragmentToday.newInstance();
             switch (num) {
                 default:
-                    FragmentToday fragment0 = new FragmentToday(0);
+                    //FragmentToday fragment0 = new FragmentToday(0);
+                    return createFragment(0);
                 case DAYS_TWO:
-                    FragmentToday fragment1 = new FragmentToday(1);
-                    return fragment1;
+                    return createFragment(1);
                 case DAYS_THREE:
-                    FragmentToday fragment2 = new FragmentToday(2);
-                    return fragment2;
+                    //FragmentToday fragment2 = new FragmentToday(2);
+                    //return fragment2;
+                    return createFragment(2);
                 case DAYS_FOUR:
-                    FragmentToday fragment3 = new FragmentToday(3);
-                    return fragment3;
+                    return createFragment(3);
                 case DAYS_FIVE:
-                    FragmentToday fragment4 = new FragmentToday(4);
-                    return fragment4;
+                    return createFragment(4);
                 case DAYS_SIX:
-                    FragmentToday fragment5 = new FragmentToday(5);
-                    return fragment5;
+                    return createFragment(5);
                 case DAYS_SEVEN:
-                    FragmentToday fragment6 = new FragmentToday(6);
-                    return fragment6;
+                    return createFragment(6);
                 case DAYS_EIGHT:
                     //fragment = FragmentTomorrow.newInstance("", "");
-                    FragmentToday fragment7 = new FragmentToday(7);
-                    return fragment7;
+                    return createFragment(7);
             }
         }
 
